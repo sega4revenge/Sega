@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_card"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/product_list_card_height"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    cardview:cardBackgroundColor="@color/card_background"
+    cardview:cardPreventCornerOverlap="false"
+    cardview:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- product poster -->
+        <RelativeLayout
+            android:id="@+id/product_poster_holder"
+            android:layout_width="@dimen/product_list_poster_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <!-- Default image to display if poster is not found -->
+            <ImageView
+                android:id="@+id/product_poster_default"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_poster"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+
+            <!-- Poster image -->
+            <ImageView
+                android:id="@+id/product_poster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/default_image_background"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/overlaytext"
+                style="?android:textAppearanceSmallInverse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/product_poster"
+
+                android:background="@color/text_background"
+                android:gravity="center"
+                android:padding="@dimen/tiny_margin"
+                tools:text="Overlay" />
+
+        </RelativeLayout>
+
+        <!-- product title and rating -->
+        <com.sega.vimarket.widget.RobotoRegularTextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dist_medium"
+            android:layout_marginRight="@dimen/dist_medium"
+            android:layout_marginTop="@dimen/dist_medium"
+            android:layout_toEndOf="@+id/product_poster_holder"
+            android:layout_toRightOf="@+id/product_poster_holder"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_xxlarge"
+            tools:text="My Awesome product Title" />
+
+        <!-- product release year and overview -->
+        <LinearLayout
+            android:id="@+id/product_detail_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/product_rating_holder"
+            android:layout_below="@+id/product_name"
+            android:layout_marginBottom="@dimen/dist_medium"
+            android:layout_marginLeft="@dimen/dist_medium"
+            android:layout_marginRight="@dimen/dist_medium"
+            android:layout_toEndOf="@+id/product_poster_holder"
+            android:layout_toRightOf="@+id/product_poster_holder"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="2015" />
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/product_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dist_small"
+                    android:maxLines="1"
+                    android:text="8.76"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_medium"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/username"
+                    android:paddingLeft="20dp"/>
+
+                <ImageView
+                    android:id="@+id/rating_icon"
+                    android:layout_width="@dimen/product_rating_icon_size"
+                    android:layout_height="@dimen/product_rating_icon_size"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/view"
+                    tools:ignore="contentDescription"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/product_rating"/>
+            </RelativeLayout>
+
+            <com.sega.vimarket.widget.AutoResizeTextView
+                android:id="@+id/product_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dist_small"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_large"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin faucibus turpis ac sem varius pretium. Nam vitae mauris augue." />
+
+        </LinearLayout>
+
+        <!-- product Rating -->
+        <RelativeLayout
+            android:id="@+id/product_rating_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_marginLeft="@dimen/dist_medium"
+            android:layout_marginRight="@dimen/dist_medium"
+            android:layout_toEndOf="@+id/product_poster_holder">
+
+
+            <com.sega.vimarket.widget.RobotoRegularTextView
+                android:id="@+id/productdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/text_medium"
+                tools:text="2015"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/product_poster_holder"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/product_rating_holder"
+            android:layout_marginBottom="@dimen/dist_medium"
+            android:layout_toEndOf="@+id/product_image"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/area"
+
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:ellipsize="end"
+                tools:text="Area"
+                />
+
+            <TextView
+                android:id="@+id/price"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:paddingLeft="@dimen/small_margin"
+                android:paddingRight="@dimen/small_margin"
+
+                android:paddingTop="@dimen/small_margin"
+                tools:text="Price"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

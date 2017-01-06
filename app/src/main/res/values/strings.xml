@@ -1,0 +1,275 @@
+<resources>
+    <!-- App Title -->
+    <string name="app_name">FreeMarket</string>
+    <string name="sendPhoto">Photo Camera</string>
+    <string name="select_picture_title">Get Photo From</string>
+    <string name="sendPhotoGallery">Photo Gallery</string>
+    <string name="sendLocation">Send Location</string>
+
+    <!-- List For Navigation Drawer -->
+
+
+    <string-array name="filter">
+        <item>Latest</item>
+        <item>Nearest</item>
+        <item>Hottest</item>
+    </string-array>
+    <!-- Toolbar actions -->
+    <string name="action_grid">Grid View</string>
+    <string name="action_list">List View</string>
+    <string name="action_compact">Compact View</string>
+    <string name="action_search">Search</string>
+    <string name="action_share">Share</string>
+    <string name="action_share_text">Check out %1$s - %2$s</string>
+    <string name="action_share_using">Share using&#8230;</string>
+    <string name="action_about">About</string>
+
+    <!-- Loading and Error Message -->
+    <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
+    <string name="try_again">Try Again?</string>
+    <string name="loading">Loading&#8230;</string>
+
+    <!-- Search Activity -->
+
+    <!-- Movie Detail Activity -->
+    <string name="detail_header_overview">Description</string>
+    <string name="detail_header_crew">Information</string>
+    <string name="detail_header_cast">Comments</string>
+    <string name="detail_button_see_all">See all</string>
+    <string name="detail_fab_call">Call to seller</string>
+    <string name="detail_fab_sms">Send SMS to seller</string>
+    <!-- Reviews Activity -->
+
+    <!-- Videos Activity -->
+
+    <!-- Photos Activity -->
+
+    <!-- Credit Activity -->
+    <string name="cast_title">Comments</string>
+
+    <!-- Backup Activity -->
+
+    <!-- About Dialog -->
+
+    <string name="next">Next</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="start">Start</string>
+    <string name="edtphone">Phone number</string>
+    <string name="edtaddress">Address</string>
+    <string name="edtemail">Email</string>
+    <string name="edtarea">Area</string>
+    <string name="edtuser">Account name</string>
+    <string name="edtpass">Password</string>
+    <string name="btn_accept">Confirm</string>
+    <string name="btn_forgot">Forgot password ?</string>
+    <string name="notfilldata"> Unknown enough data</string>
+    <string name="slide_1_title">FreeMarket</string>
+    <string name="slide_1_desc">Utility - Secure - Fast</string>
+    <string name="slide_2_title">Utilities</string>
+    <string name="slide_2_desc">FreeMarket user-friendly, easy to use</string>
+    <string name="slide_3_title">Safe</string>
+    <string name="slide_3_desc">FreeMarket to help users avoid the risk of Internet fraud</string>
+    <string name="slide_4_title">Fast</string>
+    <string name="slide_4_desc">Quick transactions</string>
+    <string-array name="area">
+        <item>Hà Nội</item>
+        <item>TP HCM</item>
+        <item>Đà Nẵng</item>
+        <item>Hải Phòng</item>
+        <item>Cần Thơ</item>
+        <item>An Giang</item>
+        <item>Bà Rịa - Vũng Tàu</item>
+        <item>Bắc Giang</item>
+        <item>Bắc Kạn</item>
+        <item>Bạc Liêu</item>
+        <item>Bắc Ninh</item>
+        <item>Bến Tre</item>
+        <item>Bình Định</item>
+        <item>Bình Dương</item>
+        <item>Bình Phước</item>
+        <item>Bình Thuận</item>
+        <item>Cà Mau</item>
+        <item>Cao Bằng</item>
+        <item>Đắk Lắk</item>
+        <item>Đắk Nông</item>
+        <item>Điện Biên</item>
+        <item>Đồng Nai</item>
+        <item>Đồng Tháp</item>
+        <item>Gia Lai</item>
+        <item>Hà Giang</item>
+        <item>Hà Nam</item>
+        <item>Hà Tĩnh</item>
+        <item>Hải Dương</item>
+        <item>Hậu Giang</item>
+        <item>Hòa Bình</item>
+        <item>Hưng Yên</item>
+        <item>Khánh Hòa</item>
+        <item>Kiên Giang</item>
+        <item>Kon Tum</item>
+        <item>Lai Châu</item>
+        <item>Lâm Đồng</item>
+        <item>Lạng Sơn</item>
+        <item>Lào Cai</item>
+        <item>Long An</item>
+        <item>Nam Định</item>
+        <item>Nghệ An</item>
+        <item>Ninh Bình</item>
+        <item>Ninh Thuận</item>
+        <item>Phú Thọ</item>
+        <item>Quảng Bình</item>
+        <item>Quảng Nam</item>
+        <item>Quảng Ngãi</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Trị</item>
+        <item>Sóc Trăng</item>
+        <item>Sơn La</item>
+        <item>Tây Ninh</item>
+        <item>Thái Bình</item>
+        <item>Thái Nguyên</item>
+        <item>Thanh Hóa</item>
+        <item>Thừa Thiên Huế</item>
+        <item>Tiền Giang</item>
+        <item>Trà Vinh</item>
+        <item>Tuyên Quang</item>
+        <item>Vĩnh Long</item>
+        <item>Vĩnh Phúc</item>
+        <item>Yên Bái</item>
+        <item>Phú Yên</item>
+
+    </string-array>
+    <string-array name="areafilter">
+        <item>All Locations</item>
+        <item>Hà Nội</item>
+        <item>TP HCM</item>
+        <item>Đà Nẵng</item>
+        <item>Hải Phòng</item>
+        <item>Cần Thơ</item>
+        <item>An Giang</item>
+        <item>Bà Rịa - Vũng Tàu</item>
+        <item>Bắc Giang</item>
+        <item>Bắc Kạn</item>
+        <item>Bạc Liêu</item>
+        <item>Bắc Ninh</item>
+        <item>Bến Tre</item>
+        <item>Bình Định</item>
+        <item>Bình Dương</item>
+        <item>Bình Phước</item>
+        <item>Bình Thuận</item>
+        <item>Cà Mau</item>
+        <item>Cao Bằng</item>
+        <item>Đắk Lắk</item>
+        <item>Đắk Nông</item>
+        <item>Điện Biên</item>
+        <item>Đồng Nai</item>
+        <item>Đồng Tháp</item>
+        <item>Gia Lai</item>
+        <item>Hà Giang</item>
+        <item>Hà Nam</item>
+        <item>Hà Tĩnh</item>
+        <item>Hải Dương</item>
+        <item>Hậu Giang</item>
+        <item>Hòa Bình</item>
+        <item>Hưng Yên</item>
+        <item>Khánh Hòa</item>
+        <item>Kiên Giang</item>
+        <item>Kon Tum</item>
+        <item>Lai Châu</item>
+        <item>Lâm Đồng</item>
+        <item>Lạng Sơn</item>
+        <item>Lào Cai</item>
+        <item>Long An</item>
+        <item>Nam Định</item>
+        <item>Nghệ An</item>
+        <item>Ninh Bình</item>
+        <item>Ninh Thuận</item>
+        <item>Phú Thọ</item>
+        <item>Quảng Bình</item>
+        <item>Quảng Nam</item>
+        <item>Quảng Ngãi</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Trị</item>
+        <item>Sóc Trăng</item>
+        <item>Sơn La</item>
+        <item>Tây Ninh</item>
+        <item>Thái Bình</item>
+        <item>Thái Nguyên</item>
+        <item>Thanh Hóa</item>
+        <item>Thừa Thiên Huế</item>
+        <item>Tiền Giang</item>
+        <item>Trà Vinh</item>
+        <item>Tuyên Quang</item>
+        <item>Vĩnh Long</item>
+        <item>Vĩnh Phúc</item>
+        <item>Yên Bái</item>
+        <item>Phú Yên</item>
+
+    </string-array>
+    <string-array name="danhmuc">
+        <item>Vehicles</item>
+        <item>Land</item>
+        <item>Electronics</item>
+        <item>Entertainment, sport, hobby</item>
+        <item>Exterior and interior, houseware</item>
+        <item>Fashion, personal belongings</item>
+        <item>Requisite, agricultural</item>
+        <item>Job, service</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="danhmucfilter">
+        <item>All Items</item>
+        <item>Vehicles</item>
+        <item>Land</item>
+        <item>Electronics</item>
+        <item>Entertainment, sport, hobby</item>
+        <item>Exterior and interior, houseware</item>
+        <item>Fashion, personal belongings</item>
+        <item>Requisite, agricultural</item>
+        <item>Job, service</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="type">
+        <item>New</item>
+        <item>Old</item>
+    </string-array>
+
+    <string name="category">Category</string>
+    <string name="support">Support</string>
+    <string name="logout">Logout</string>
+    <string name="sellername">Seller</string>
+    <string name="selleremail">Email</string>
+    <string name="sellerphone">Phone</string>
+    <string name="address">Address</string>
+    <string name="type">Type</string>
+    <string name="confirm_delete">Confirm Delete..</string>
+    <string name="delete_detail">Are you sure you want delete this product?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="btn_edit">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="add_product_name">Product Name</string>
+    <string name="add_price">Price</string>
+    <string name="add_address">Address</string>
+    <string name="add_description">Description</string>
+    <string name="btn_sell">Sell</string>
+    <string name="editnameproduct">Name</string>
+    <string name="btneditok">OK</string>
+    <string name="btneditcancel">Cancel</string>
+    <string name="editpriceproduct">Price</string>
+    <string name="editaddressproduct">Address</string>
+    <string name="copy_right">Copyrights © %1$d</string>
+    <string name="sendcomment">Send</string>
+    <string name="edtrepassword">Re-password</string>
+    <string name="verifycode">Verification code</string>
+    <string name="verifytext">An verification code has been send to phone number </string>
+    <string name="image">Upload image </string>
+    <string name="rate">Average Rating</string>
+    <string name="personalpage">Personal Page</string>
+    <string name="productsofuser">Products</string>
+    <string name="verifytextforgot">An verification code has been send to email %1$s</string>
+    <string name="forgottext">Please input email linked your account </string>
+    <string name="addcomment">Write your comments here</string>
+    <string name="ratetext">Rate this seller:</string>
+    <string name="myaccount">Profile</string>
+    <string name="linkshare">Click here to more detail :</string>
+</resources>

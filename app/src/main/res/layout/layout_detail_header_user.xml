@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_secondary"
+
+    android:padding="15dp"
+    android:gravity="center">
+    <RelativeLayout
+        android:id="@+id/poster_image_container1"
+        android:layout_width="80dp"
+        android:layout_height="130dp">
+
+        <!-- Default Image -->
+        <ImageView
+            android:id="@+id/poster_image_default1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_poster"
+            android:visibility="gone"
+            tools:ignore="contentDescription" />
+
+        <!-- Poster Image -->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/poster_image1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_image_background"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="5dp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/poster_image_container3"
+        android:layout_width="80dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/poster_image_container2">
+
+        <!-- Default Image -->
+        <ImageView
+            android:id="@+id/poster_image_default3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_poster"
+            android:visibility="gone"
+            tools:ignore="contentDescription" />
+
+        <!-- Poster Image -->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/poster_image3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_image_background"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/poster_image_default3"
+            android:layout_marginRight="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/poster_image_container3">
+
+        <!-- Default Image -->
+        <ImageView
+            android:id="@+id/poster_image_default4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_poster"
+            android:visibility="gone"
+            tools:ignore="contentDescription" />
+
+        <!-- Poster Image -->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/poster_image4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_image_background"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/poster_image_container2"
+        android:layout_width="80dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/poster_image_container1">
+
+        <!-- Default Image -->
+        <ImageView
+            android:id="@+id/poster_image_default2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_poster"
+            android:visibility="gone"
+            tools:ignore="contentDescription" />
+
+        <!-- Poster Image -->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/poster_image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_image_background"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="5dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dist_medium"
+    android:background="@color/text_secondary"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dist_large"
+    android:paddingLeft="@dimen/dist_large"
+    android:paddingRight="@dimen/dist_large"
+    android:paddingTop="@dimen/dist_large">
+
+    <!-- Crew Header -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/MovieItemIconsStyle"
+            android:src="@drawable/icon_crew"
+            tools:ignore="ContentDescription" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <com.sega.vimarket.widget.RobotoBoldTextView
+            style="@style/MovieItemHeaderStyle"
+            android:text="@string/detail_header_crew" />
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/edit_productcrew"
+            android:background="@drawable/edit2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"/>
+</RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+                style="@style/MovieCrewItemValueStyle"
+
+                android:layout_width="100dp"
+                android:text="@string/sellername" />
+
+            <!-- Crew Value 2 -->
+            <com.sega.vimarket.widget.RobotoLightTextView
+
+                android:id="@+id/sellername"
+                style="@style/MovieCrewItemValueStyle"
+
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                tools:text="Sega" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+
+                style="@style/MovieCrewItemValueStyle"
+                android:layout_width="100dp"
+
+                android:text="@string/selleremail" />
+
+            <com.sega.vimarket.widget.RobotoLightTextView
+
+                android:id="@+id/selleremail"
+                style="@style/MovieCrewItemValueStyle"
+
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="sega4revenge@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+
+                style="@style/MovieCrewItemValueStyle"
+
+                android:layout_width="100dp"
+                android:text="@string/sellerphone" />
+
+            <com.sega.vimarket.widget.RobotoLightTextView
+
+                android:id="@+id/sellerphone"
+                style="@style/MovieCrewItemValueStyle"
+
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="0906448076" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+
+                style="@style/MovieCrewItemValueStyle"
+
+                android:layout_width="100dp"
+                android:text="@string/address" />
+
+            <com.sega.vimarket.widget.RobotoLightTextView
+                android:id="@+id/productaddress"
+                style="@style/MovieCrewItemValueStyle"
+                android:layout_width="wrap_content"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="K139 Tô Hiệu"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+                style="@style/MovieCrewItemValueStyle"
+                android:layout_width="100dp"
+
+                android:text="@string/type" />
+
+            <com.sega.vimarket.widget.RobotoLightTextView
+
+                android:id="@+id/producttype"
+                style="@style/MovieCrewItemValueStyle"
+
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="Mới" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sega.vimarket.widget.RobotoBoldTextView
+                style="@style/MovieCrewItemValueStyle"
+                android:layout_width="100dp"
+
+                android:text="@string/category" />
+
+            <com.sega.vimarket.widget.RobotoLightTextView
+
+                android:id="@+id/productcategory"
+                style="@style/MovieCrewItemValueStyle"
+
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="Xe máy" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Crew Value 1 -->
+
+    <!-- See All Button -->
+
+</LinearLayout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_secondary"
+    android:orientation="horizontal"
+    android:padding="@dimen/dist_large">
+
+    <!-- Poster Area -->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/poster_image_container"-->
+        <!--android:layout_width="@dimen/detail_poster_width"-->
+        <!--android:layout_height="@dimen/detail_poster_height">-->
+
+        <!--&lt;!&ndash; Default Image &ndash;&gt;-->
+        <!--<ImageView-->
+            <!--android:id="@+id/poster_image_default"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/default_poster"-->
+            <!--android:visibility="gone"-->
+            <!--tools:ignore="contentDescription" />-->
+
+        <!--&lt;!&ndash; Poster Image &ndash;&gt;-->
+        <!--<com.android.volley.toolbox.NetworkImageView-->
+            <!--android:id="@+id/poster_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/default_image_background"-->
+            <!--android:scaleType="centerCrop" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/overlaytext"-->
+            <!--style="?android:textAppearanceSmallInverse"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/poster_image"-->
+
+            <!--android:background="@color/text_background"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="@dimen/tiny_margin"-->
+            <!--tools:text="Overlay" />-->
+    <!--</RelativeLayout>-->
+
+    <!-- Text Area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dist_large"
+        android:layout_marginStart="@dimen/dist_large"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <!-- Title -->
+        <com.sega.vimarket.widget.RobotoBoldTextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_xxlarge"
+            tools:text="My Awesome Movie Title"
+            android:layout_toStartOf="@+id/edit_productname"
+            android:gravity="center" />
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/edit_productname"
+                android:background="@drawable/edit2"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+        <!-- Release date and runtime -->
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp">-->
+
+                <!--<com.sega.vimarket.widget.RobotoLightTextView-->
+                    <!--android:id="@+id/username"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginTop="@dimen/progress_circle_small_stroke"-->
+                    <!--android:foregroundGravity="center"-->
+                    <!--android:textColor="@color/text_primary"-->
+                    <!--android:textSize="16sp"-->
+                    <!--tools:text="01 January 2016"-->
+                    <!--/>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/product_rating_holder"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<com.sega.vimarket.widget.RobotoBoldTextView-->
+                        <!--android:id="@+id/product_sharecount"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@drawable/background_rating"-->
+                        <!--android:text="8.6"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textStyle="bold" />-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/background_rating"-->
+                        <!--android:src="@drawable/action_share" />-->
+                    <!--&lt;!&ndash; Average Rating &ndash;&gt;-->
+
+                    <!--&lt;!&ndash; Vote Count &ndash;&gt;-->
+
+                <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+
+                    <!--android:layout_marginTop="10dp">-->
+
+                    <!--<com.sega.vimarket.widget.RobotoLightTextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+
+                        <!--android:layout_marginRight="20dp"-->
+                        <!--android:text="@string/productdate"-->
+                        <!--android:textColor="@color/text_primary"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<com.sega.vimarket.widget.RobotoLightTextView-->
+                        <!--android:id="@+id/productdate"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:textColor="@color/text_primary"-->
+                        <!--android:textSize="16sp"-->
+                        <!--tools:text="01 January 2016" />-->
+                <!--</RelativeLayout>-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp">
+
+
+                    <com.sega.vimarket.widget.RobotoLightTextView
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        tools:text="01 January 2016"
+
+                        android:layout_alignParentStart="false"
+                        android:gravity="center" />
+
+                </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+
+        <!-- Rating Area -->
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- Error Icon -->
+    <ImageView
+        android:layout_width="@dimen/error_icon_width"
+        android:layout_height="@dimen/error_icon_height"
+        android:src="@drawable/server_unreachable"
+        tools:ignore="ContentDescription" />
+
+    <!-- Unable to connect -->
+    <com.sega.vimarket.widget.RobotoLightTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/error_message_marginTop"
+        android:gravity="center_horizontal"
+        android:text="@string/server_unreachable"
+        android:textSize="@dimen/text_large" />
+
+    <!-- Try again -->
+    <com.sega.vimarket.widget.RobotoBoldTextView
+        android:id="@+id/try_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/error_try_again_padding"
+        android:text="@string/try_again"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/text_xxlarge" />
+
+</LinearLayout>

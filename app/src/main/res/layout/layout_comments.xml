@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comment_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_secondary"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dist_medium">
+
+        <com.sega.vimarket.widget.CircleImageView
+            android:id="@+id/commentpic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/product_compact_text_margin"
+            android:layout_marginStart="@dimen/product_compact_text_margin"
+            android:layout_toEndOf="@+id/commentpic"
+            android:layout_toRightOf="@+id/commentpic"
+            android:orientation="vertical">
+
+            <com.sega.vimarket.widget.RobotoRegularTextView
+                android:id="@+id/commentname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_large"
+                tools:text="My Awesome product Title" />
+
+            <com.sega.vimarket.widget.RobotoRegularTextView
+                android:id="@+id/commentdata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium"
+                tools:text="2016" />
+
+            <RelativeLayout
+                android:id="@+id/product_rating_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/cardview_default_elevation"
+                android:orientation="horizontal">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/commentrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="8.76"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_medium" />
+
+                <ImageView
+                    android:id="@+id/rating_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/commentrate"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@+id/commentrate"
+                    android:src="@drawable/icon_votes"
+                    tools:ignore="contentDescription" />
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/commentdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="@dimen/dist_small"
+                    android:layout_marginRight="@dimen/dist_small"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:text="June 22 2016"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_medium" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

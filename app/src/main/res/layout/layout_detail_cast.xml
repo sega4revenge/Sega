@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comments_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dist_medium"
+    android:background="@color/text_secondary"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dist_small"
+    android:paddingLeft="@dimen/dist_large"
+    android:paddingRight="@dimen/dist_large"
+    android:paddingTop="@dimen/dist_large">
+
+    <!-- Cast Header -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/MovieItemIconsStyle"
+            android:src="@drawable/icon_cast"
+            tools:ignore="ContentDescription" />
+
+        <com.sega.vimarket.widget.RobotoBoldTextView
+            style="@style/MovieItemHeaderStyle"
+            android:text="@string/detail_header_cast" />
+
+    </LinearLayout>
+
+    <!-- Cast Item 1 -->
+    <LinearLayout
+        android:id="@+id/movie_cast_item1"
+        style="@style/MovieCastHolderStyle">
+        <!-- Image -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dist_medium">
+
+            <com.sega.vimarket.widget.CircleImageView
+                android:id="@+id/userimage1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/product_compact_text_margin"
+                android:layout_marginStart="@dimen/product_compact_text_margin"
+                android:layout_toEndOf="@+id/userimage1"
+                android:layout_toRightOf="@+id/userimage1"
+                android:orientation="vertical">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/usercomments1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_large"
+                    tools:text="My Awesome product Title" />
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/comments1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="2016" />
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/cardview_default_elevation"
+                    android:orientation="horizontal">
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/user_rating1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="8.76"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/user_rating1"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/user_rating1"
+                        android:src="@drawable/icon_votes"
+                        tools:ignore="contentDescription" />
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/datecomment1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_marginEnd="@dimen/dist_small"
+                        android:layout_marginRight="@dimen/dist_small"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="June 22 2016"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Cast Item 2 -->
+    <LinearLayout
+        android:id="@+id/movie_cast_item2"
+        style="@style/MovieCastHolderStyle">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dist_medium">
+
+            <com.sega.vimarket.widget.CircleImageView
+                android:id="@+id/userimage2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/product_compact_text_margin"
+                android:layout_marginStart="@dimen/product_compact_text_margin"
+                android:layout_toEndOf="@+id/userimage2"
+                android:layout_toRightOf="@+id/userimage2"
+                android:orientation="vertical">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/usercomments2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_large"
+                    tools:text="My Awesome product Title" />
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/comments2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="2016" />
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/cardview_default_elevation"
+                    android:orientation="horizontal">
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/user_rating2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="8.76"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/user_rating2"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/user_rating2"
+                        android:src="@drawable/icon_votes"
+                        tools:ignore="contentDescription" />
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/datecomment2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_marginEnd="@dimen/dist_small"
+                        android:layout_marginRight="@dimen/dist_small"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="June 22 2016"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Cast Item 3 -->
+    <LinearLayout
+        android:id="@+id/movie_cast_item3"
+        style="@style/MovieCastHolderStyle">
+        <!-- Image -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dist_medium">
+
+            <com.sega.vimarket.widget.CircleImageView
+                android:id="@+id/userimage3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/product_compact_text_margin"
+                android:layout_marginStart="@dimen/product_compact_text_margin"
+                android:layout_toEndOf="@+id/userimage3"
+                android:layout_toRightOf="@+id/userimage3"
+                android:orientation="vertical">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/usercomments3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_large"
+                    tools:text="My Awesome product Title" />
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/comments3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="2016" />
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/cardview_default_elevation"
+                    android:orientation="horizontal">
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/user_rating3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="8.76"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/user_rating3"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/user_rating3"
+                        android:src="@drawable/icon_votes"
+                        tools:ignore="contentDescription" />
+
+                    <com.sega.vimarket.widget.RobotoRegularTextView
+                        android:id="@+id/datecomment3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_marginEnd="@dimen/dist_small"
+                        android:layout_marginRight="@dimen/dist_small"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="June 22 2016"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- See All Button -->
+    <include
+        android:id="@+id/comments_see_all"
+        layout="@layout/layout_detail_see_all" />
+
+</LinearLayout>

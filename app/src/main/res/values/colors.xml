@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryText">#212121</color>
+    <color name="secondary">#FF4081</color>
+
+    <!-- Theme Colors -->
+    <color name="primary">#ED1C24</color>
+    <color name="primary_dark">#D21822</color>
+    <color name="accent">#4CAF50</color>
+    <color name="accent_dark">#388E3C</color>
+    <color name="background">#eeeeee</color>
+    <color name="foreground">#616161</color>
+    <color name="black">#000000</color>
+    <!-- Text Colors -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#FFFFFF</color>
+    <!-- FAB Colors -->
+    <color name="fab_yellow">#eeaf4b</color>
+    <color name="fab_yellow_dark">#d68f1d</color>
+    <color name="fab_blue">#55acee</color>
+    <color name="fab_blue_dark">#4791c9</color>
+
+    <!-- Other Colors -->
+    <color name="default_image_background">#d8d8d8</color>
+    <color name="card_background">#fafafa</color>
+    <color name="backgroundlayout">#ECECEC</color>
+    <color name="bg_screen1">#ff6c70</color>
+    <color name="bg_screen2">#20d2bb</color>
+    <color name="bg_screen3">#3395ff</color>
+    <color name="bg_screen4">#c873f4</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+    </array>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_dark_screen4">#a854d4</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+    <color name="dot_light_screen4">#e4b5fc</color>
+    <color name="golden_stars">#FFC619</color>
+    <color name="text_background">#90000000</color>
+</resources>

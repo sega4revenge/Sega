@@ -1,0 +1,266 @@
+<resources>
+    <!-- App Title -->
+    <string name="app_name">FreeMarket</string>
+
+    <!-- List For Navigation Drawer -->
+
+    <string-array name="filter">
+        <item>Latest</item>
+        <item>Nearest</item>
+        <item>Hottest</item>
+    </string-array>
+    <!-- Toolbar actions -->
+    <string name="action_grid">Grid View</string>
+    <string name="action_list">List View</string>
+    <string name="action_compact">Danh sách</string>
+    <string name="action_search">검색</string>
+    <string name="action_share">공유</string>
+    <string name="action_share_text">Check out %1$s - %2$s</string>
+    <string name="action_share_using">로 공유한다…</string>
+    <string name="action_about">소개</string>
+
+    <!-- Loading and Error Message -->
+    <string name="server_unreachable">에러 생깁니다. 인터넷연결 상태  재확인바랍니다</string>
+    <string name="try_again">다시</string>
+    <string name="loading">로딩 중…</string>
+
+    <!-- Search Activity -->
+
+    <!-- Movie Detail Activity -->
+    <string name="detail_header_overview">설명서</string>
+    <string name="detail_header_crew">정보</string>
+    <string name="detail_header_cast">댓글</string>
+    <string name="detail_button_see_all">모두보기</string>
+    <string name="detail_fab_call">판매인 전화</string>
+    <string name="detail_fab_sms">판매인 문자보내기</string>
+
+    <!-- Reviews Activity -->
+
+    <!-- Videos Activity -->
+
+    <!-- Photos Activity -->
+
+    <!-- Credit Activity -->
+    <string name="cast_title">댓글</string>
+
+    <!-- Backup Activity -->
+
+    <!-- About Dialog -->
+
+    <string name="next">계속</string>
+    <string name="login">로그인</string>
+    <string name="register">등록</string>
+    <string name="start">시작</string>
+    <string name="edtphone">전화번호</string>
+    <string name="edtaddress">주소</string>
+    <string name="edtemail">이메일</string>
+    <string name="edtarea">지역</string>
+    <string name="edtuser">계정이름</string>
+    <string name="edtpass">비밀번호</string>
+    <string name="btn_accept">확인</string>
+    <string name="notfilldata">정보입력  부족합니다</string>
+    <string name="slide_1_title">FreeMarket</string>
+    <string name="slide_1_desc">편하기 - 안전하기 - 빠르기</string>
+    <string name="slide_2_title">편의</string>
+    <string name="slide_2_desc">FreeMarket 사용자가 사용하기가 쉬운 앱입니다</string>
+    <string name="slide_3_title">안전</string>
+    <string name="slide_3_desc">FreeMarket 온라인 사기 막힐 수 있다</string>
+    <string name="slide_4_title">빠른 속도로 </string>
+    <string name="slide_4_desc">빠른 속도로 거래</string>
+    <string-array name="area">
+        <item>Hà Nội</item>
+        <item>TP HCM</item>
+        <item>Đà Nẵng</item>
+        <item>Hải Phòng</item>
+        <item>Cần Thơ</item>
+        <item>An Giang</item>
+        <item>Bà Rịa - Vũng Tàu</item>
+        <item>Bắc Giang</item>
+        <item>Bắc Kạn</item>
+        <item>Bạc Liêu</item>
+        <item>Bắc Ninh</item>
+        <item>Bến Tre</item>
+        <item>Bình Định</item>
+        <item>Bình Dương</item>
+        <item>Bình Phước</item>
+        <item>Bình Thuận</item>
+        <item>Cà Mau</item>
+        <item>Cao Bằng</item>
+        <item>Đắk Lắk</item>
+        <item>Đắk Nông</item>
+        <item>Điện Biên</item>
+        <item>Đồng Nai</item>
+        <item>Đồng Tháp</item>
+        <item>Gia Lai</item>
+        <item>Hà Giang</item>
+        <item>Hà Nam</item>
+        <item>Hà Tĩnh</item>
+        <item>Hải Dương</item>
+        <item>Hậu Giang</item>
+        <item>Hòa Bình</item>
+        <item>Hưng Yên</item>
+        <item>Khánh Hòa</item>
+        <item>Kiên Giang</item>
+        <item>Kon Tum</item>
+        <item>Lai Châu</item>
+        <item>Lâm Đồng</item>
+        <item>Lạng Sơn</item>
+        <item>Lào Cai</item>
+        <item>Long An</item>
+        <item>Nam Định</item>
+        <item>Nghệ An</item>
+        <item>Ninh Bình</item>
+        <item>Ninh Thuận</item>
+        <item>Phú Thọ</item>
+        <item>Quảng Bình</item>
+        <item>Quảng Nam</item>
+        <item>Quảng Ngãi</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Trị</item>
+        <item>Sóc Trăng</item>
+        <item>Sơn La</item>
+        <item>Tây Ninh</item>
+        <item>Thái Bình</item>
+        <item>Thái Nguyên</item>
+        <item>Thanh Hóa</item>
+        <item>Thừa Thiên Huế</item>
+        <item>Tiền Giang</item>
+        <item>Trà Vinh</item>
+        <item>Tuyên Quang</item>
+        <item>Vĩnh Long</item>
+        <item>Vĩnh Phúc</item>
+        <item>Yên Bái</item>
+        <item>Phú Yên</item>
+    </string-array>
+    <string-array name="areafilter">
+        <item>All Location</item>
+        <item>Hà Nội</item>
+        <item>TP HCM</item>
+        <item>Đà Nẵng</item>
+        <item>Hải Phòng</item>
+        <item>Cần Thơ</item>
+        <item>An Giang</item>
+        <item>Bà Rịa - Vũng Tàu</item>
+        <item>Bắc Giang</item>
+        <item>Bắc Kạn</item>
+        <item>Bạc Liêu</item>
+        <item>Bắc Ninh</item>
+        <item>Bến Tre</item>
+        <item>Bình Định</item>
+        <item>Bình Dương</item>
+        <item>Bình Phước</item>
+        <item>Bình Thuận</item>
+        <item>Cà Mau</item>
+        <item>Cao Bằng</item>
+        <item>Đắk Lắk</item>
+        <item>Đắk Nông</item>
+        <item>Điện Biên</item>
+        <item>Đồng Nai</item>
+        <item>Đồng Tháp</item>
+        <item>Gia Lai</item>
+        <item>Hà Giang</item>
+        <item>Hà Nam</item>
+        <item>Hà Tĩnh</item>
+        <item>Hải Dương</item>
+        <item>Hậu Giang</item>
+        <item>Hòa Bình</item>
+        <item>Hưng Yên</item>
+        <item>Khánh Hòa</item>
+        <item>Kiên Giang</item>
+        <item>Kon Tum</item>
+        <item>Lai Châu</item>
+        <item>Lâm Đồng</item>
+        <item>Lạng Sơn</item>
+        <item>Lào Cai</item>
+        <item>Long An</item>
+        <item>Nam Định</item>
+        <item>Nghệ An</item>
+        <item>Ninh Bình</item>
+        <item>Ninh Thuận</item>
+        <item>Phú Thọ</item>
+        <item>Quảng Bình</item>
+        <item>Quảng Nam</item>
+        <item>Quảng Ngãi</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Trị</item>
+        <item>Sóc Trăng</item>
+        <item>Sơn La</item>
+        <item>Tây Ninh</item>
+        <item>Thái Bình</item>
+        <item>Thái Nguyên</item>
+        <item>Thanh Hóa</item>
+        <item>Thừa Thiên Huế</item>
+        <item>Tiền Giang</item>
+        <item>Trà Vinh</item>
+        <item>Tuyên Quang</item>
+        <item>Vĩnh Long</item>
+        <item>Vĩnh Phúc</item>
+        <item>Yên Bái</item>
+        <item>Phú Yên</item>
+    </string-array>
+    <string-array name="danhmuc">
+        <item>Vehicles</item>
+        <item>Land</item>
+        <item>Electronics</item>
+        <item>Entertainment, sport, hobby</item>
+        <item>Exterior and interior, houseware</item>
+        <item>Fashion, personal belongings</item>
+        <item>Requisite, agricultural</item>
+        <item>Job, service</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="danhmucfilter">
+        <item>All Items</item>
+        <item>Vehicles</item>
+        <item>Land</item>
+        <item>Electronics</item>
+        <item>Entertainment, sport, hobby</item>
+        <item>Exterior and interior, houseware</item>
+        <item>Fashion, personal belongings</item>
+        <item>Requisite, agricultural</item>
+        <item>Job, service</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="type">
+        <item>Mới</item>
+        <item>Cũ</item>
+    </string-array>
+
+    <string name="category">종류</string>
+    <string name="logout">로그 아웃</string>
+    <string name="support">지원</string>
+    <string name="address">주소</string>
+    <string name="selleremail">이메일</string>
+    <string name="sellername">판매인 이름</string>
+    <string name="sellerphone">전화번호</string>
+
+    <string name="type">품목</string>
+    <string name="btn_forgot">비밀번호 잊기</string>
+    <string name="confirm_delete">삭제 확인..</string>
+    <string name="delete_detail">이 상품 삭제하고싶으세요?</string>
+    <string name="btn_yes">동의</string>
+    <string name="btn_no">아니오</string>
+    <string name="btn_edit">저장</string>
+    <string name="btn_delete">삭체</string>
+    <string name="add_product_name">상품명</string>
+    <string name="add_price">상품단가</string>
+    <string name="add_address">주소</string>
+    <string name="add_description">설명서</string>
+    <string name="btn_sell">출판</string>
+    <string name="editnameproduct">신규명</string>
+    <string name="btneditok">확인</string>
+    <string name="btneditcancel">취소</string>
+    <string name="editpriceproduct">신규 단가</string>
+    <string name="editaddressproduct">신규 주소</string>
+    <string name="copy_right">Copyrights © %1$d</string>
+    <string name="sendcomment">Send</string>
+    <string name="rate">Average Rating</string>
+    <string name="personalpage">Personal Page</string>
+    <string name="productsofuser">Products</string>
+    <string name="addcomment">Write your comments here</string>
+    <string name="select_picture_title"/>
+    <string name="ratetext">Rate this seller:</string>
+    <string name="myaccount">Profile</string>
+    <string name="linkshare">Click here to more detail :</string>
+
+</resources>

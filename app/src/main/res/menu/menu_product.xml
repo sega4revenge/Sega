@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_search"
+          android:title="@string/action_search"
+          android:icon="@drawable/action_search"
+          app:showAsAction="always"
+          tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/action_list"
+          android:title="@string/action_list"
+          android:icon="@drawable/action_list"
+          app:showAsAction="always"
+          tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/action_grid"
+          android:title="@string/action_grid"
+          android:icon="@drawable/action_grid"
+          app:showAsAction="always"
+          tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/action_compact"
+          android:title="@string/action_compact"
+          android:icon="@drawable/action_compact"
+          app:showAsAction="always"
+          tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/myaccount"
+          android:title="@string/myaccount"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/actionabout"
+          android:title="@string/action_about"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/support"
+          android:title="@string/support"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/logout"
+          android:title="@string/logout"
+          app:showAsAction="never" />
+
+</menu>

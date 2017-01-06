@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    cardview:cardBackgroundColor="@color/card_background"
+    cardview:cardPreventCornerOverlap="false"
+    cardview:cardUseCompatPadding="true">
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dist_medium">
+
+        <ImageView
+            android:id="@+id/product_poster_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_thumbnail"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <!-- Poster image -->
+
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="@dimen/product_compact_image_size"
+            android:layout_height="@dimen/product_compact_image_size"
+            android:background="@color/default_image_background"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/overlaytext"
+            style="?android:textAppearanceSmallInverse"
+            android:layout_width="@dimen/product_compact_image_size"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/product_image"
+
+            android:background="@color/text_background"
+            android:gravity="center"
+            android:padding="@dimen/tiny_margin"
+            tools:text="Overlay" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/product_compact_text_margin"
+            android:layout_marginStart="@dimen/product_compact_text_margin"
+            android:layout_toEndOf="@+id/product_image"
+            android:layout_toRightOf="@+id/product_image"
+            android:orientation="vertical">
+
+            <com.sega.vimarket.widget.RobotoRegularTextView
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_large"
+                tools:text="My Awesome product Title" />
+
+            <com.sega.vimarket.widget.RobotoRegularTextView
+                android:id="@+id/product_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/text_medium"
+                tools:text="2016" />
+
+
+            <LinearLayout
+                android:id="@+id/product_rating_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/cardview_default_elevation"
+                android:orientation="horizontal">
+
+                <com.sega.vimarket.widget.RobotoRegularTextView
+                    android:id="@+id/product_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dist_small"
+                    android:layout_marginRight="@dimen/dist_small"
+                    android:maxLines="1"
+                    android:text="8.76"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_medium" />
+
+                <ImageView
+                    android:id="@+id/rating_icon"
+                    android:layout_width="@dimen/product_compact_rating_icon_size"
+                    android:layout_height="@dimen/product_compact_rating_icon_size"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/view"
+                    tools:ignore="contentDescription" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/product_image"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/product_image"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/area"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/product_compact_text_margin"
+                android:layout_marginStart="@dimen/product_compact_text_margin"
+
+                android:ellipsize="end"
+                android:gravity="left|bottom"
+                tools:text="Area" />
+
+            <TextView
+                android:id="@+id/price"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="bottom|right"
+
+                android:paddingLeft="@dimen/small_margin"
+                android:paddingRight="@dimen/small_margin"
+
+                android:paddingTop="@dimen/small_margin"
+                tools:text="Price"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

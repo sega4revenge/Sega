@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.sega.vimarket">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <!-- Set screen size support -->
+    <supports-screens
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
+
+    <application
+        android:name=".util.VolleySingleton"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCjLILHYAXTF_KKMOMOCvDdzSpqe_B48cM"/>
+
+        <activity
+            android:name=".activity.ProductActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.PersonalPage"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".addproduct.AddProduct"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ManagementUser"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ProductDetailActivityUser"
+            android:theme="@style/AppDetail">
+        </activity>
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:theme="@style/AppDetail">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="freemarkets.ga"
+                    android:pathPrefix="/link.php/"
+                    android:scheme="http"/>
+                <data
+                    android:host="freemarkets.ga"
+                    android:pathPrefix="/link.php"
+                    android:scheme="http"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Content Provider -->
+        <!--
+            <provider
+                    android:name=".database.generated.productProvider"
+            android:authorities="com.ronakmanglani.watchlist.database.productProvider"
+            android:exported="false" />
+        -->
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.analytics.globalConfigResource"
+            android:resource="@xml/analytics_global_config"/>
+        <meta-data
+            android:name="com.sega.vimarket.config.GlideConfiguration"
+            android:value="GlideModule"/>
+
+        <activity
+            android:name=".activity.CommentActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".activity.IntroActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <service android:name=".service.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".addproduct.GeocodeAddressIntentService"
+            android:exported="false"/>
+        <service android:name=".service.FirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activity.Fullscreen"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
+        <activity
+            android:name=".activity.ForgotActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.MessengerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activity.ChatActivity">
+        </activity>
+        <activity
+            android:name=".view.FullScreenImageActivity"
+            android:theme="@style/AppThemeFullScreenImage">
+        </activity>
+        <activity android:name=".activity.MainActivity">
+        </activity>
+    </application>
+
+</manifest>

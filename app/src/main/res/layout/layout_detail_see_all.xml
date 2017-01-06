@@ -1,0 +1,12 @@
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+              style="@style/MovieSeeAllHolderStyle"
+    foregroundGravity="top"
+    gravity="right|center_vertical">
+
+    <com.sega.vimarket.widget.RobotoBoldTextView
+        style="@style/MovieSeeAllTextStyle" />
+
+    <ImageView
+        style="@style/MovieSeeAllArrowStyle"
+        tools:ignore="contentDescription"/>
+</LinearLayout>

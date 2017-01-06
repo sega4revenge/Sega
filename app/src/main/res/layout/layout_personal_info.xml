@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE">
+
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        diagonal:diagonal_angle="10"
+        android:paddingBottom="16dp"
+        diagonal:diagonal_gravity="left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background" />
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hugh Jackman"
+            android:textColor="@android:color/white"
+            android:layout_gravity="top|left"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="70dp"
+            android:textSize="25sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:orientation="vertical"
+            android:layout_marginTop="105dp"
+            >
+
+            <TextView
+                android:id="@+id/productdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ACTOR"
+                android:textColor="@android:color/white"
+                android:layout_gravity="top|left"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRODUCER"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_gravity="top|left"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:layout_marginTop="210dp"
+        >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate"
+                android:textColor="#3E3E3E"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5K"
+                android:textStyle="bold"
+                android:textColor="#3E3E3E"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Following"-->
+            <!--android:textColor="#3E3E3E"-->
+            <!--android:fontFamily="sans-serif-condensed"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textSize="14sp"/>-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="1.9K"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="#3E3E3E"-->
+            <!--android:fontFamily="sans-serif-condensed"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textSize="14sp"/>-->
+            <com.like.LikeButton
+                android:id="@+id/thumb_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:circle_end_color="@android:color/holo_blue_dark"
+                app:circle_start_color="@android:color/holo_blue_bright"
+                app:dots_primary_color="@android:color/holo_blue_light"
+                app:dots_secondary_color="@android:color/holo_blue_dark"
+                app:icon_size="30dp"
+                app:like_drawable="@drawable/thumb_on"
+                app:unlike_drawable="@drawable/thumb_off"
+                android:paddingBottom="10dp"/>
+            <!--<include layout="@layout/layout_detail_rating"/>-->
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="320dp"-->
+    <!--android:layout_marginLeft="30dp"-->
+    <!--android:layout_marginRight="30dp"-->
+    <!--android:textColor="#717171"-->
+    <!--android:text="@string/description"-->
+    <!--android:id="@+id/textView2" />-->
+
+
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:visibility="visible"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--/>-->
+
+    <com.sega.vimarket.widget.CircleImageView
+        android:id="@+id/poster_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/hughjackman"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="168dp" />
+    <!--android:elevation="10dp"-->
+
+</RelativeLayout>
