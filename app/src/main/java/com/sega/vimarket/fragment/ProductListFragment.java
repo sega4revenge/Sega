@@ -39,7 +39,6 @@ import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.widget.ItemPaddingDecoration;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -50,10 +49,7 @@ import java.util.Comparator;
 import java.util.Currency;
 import java.util.Locale;
 
-import butterknife.BindBool;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -65,7 +61,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     public Currency cur;
     public String category, area, fitter, search;
     Double rate;
-    private Unbinder unbinder;
     private ProductAdapter adapter;
     private GridLayoutManager layoutManager;
     private int pageToDownload;
@@ -73,9 +68,8 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     private int viewType;
     private boolean isLoading;
     private boolean isLoadingLocked;
-    @BindBool(R.bool.is_tablet)
-    boolean isTablet;
 
+    boolean isTablet;
     View errorMessage;
     View progressCircle;
     View loadingMore;
@@ -94,7 +88,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_product_list, container, false);
-        unbinder = ButterKnife.bind(this, v);
+        isTablet =  getResources().getBoolean(R.bool.is_tablet);
         session = new SessionManager(getActivity());
         errorMessage = v.findViewById(R.id.error_message);
         progressCircle = v.findViewById(R.id.progress_circle);
@@ -155,21 +149,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 startActivity(i);
             }
         });
-
-        //        recyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
-        //            @Override
-        //            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        //                if (oldScrollY < scrollY) {
-        //                    System.out.println("A");
-        //                    floatingActionsMenu.hideMenuButton(true);
-        //                } else {
-        //                    System.out.println("B");
-        //                    floatingActionsMenu.showMenuButton(true);
-        //                }
-        //            }
-        //        });
-        // Setup swipe refresh
-        //Toast.makeText(getActivity(),ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
         swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -256,7 +235,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     public void onDestroyView() {
         super.onDestroyView();
         VolleySingleton.getInstance(context).requestQueue.cancelAll(this.getClass().getName());
-        unbinder.unbind();
+
     }
 
     // JSON parsing and display
@@ -287,6 +266,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 .add("category", category)
                 .add("area", area)
                 .add("fitter", fitter)
+                .add("currency", cur.getCurrencyCode())
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -296,13 +276,15 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
 
         try {
             String responsestring = client.newCall(request).execute().body().string();
+            System.out.println(responsestring);
             try {
-
-
+                JSONObject jObj = new JSONObject(responsestring);
+                Double usdrate = jObj.getDouble("rate");
+                session.setCurrency(usdrate);
 
                     rate = session.getCurrency();
 
-                JSONObject jObj = new JSONObject(responsestring);
+
                 JSONArray feedArray = jObj.getJSONArray("feed");
                 for (int i = 0; i < feedArray.length(); i++) {
                     final JSONObject feedObj = (JSONObject) feedArray.get(i);
@@ -345,6 +327,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                                      }
                     );
                 }
+
                 // Load detail fragment if in tablet mode
 
                 pageToDownload++;
@@ -360,47 +343,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         }
 
         //Toast.makeText(getActivity(),pageToDownload + " " +ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
-    }
-
-    private void downloadCurrency() {
-        if (!ProductDrawerFragment.money) {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder()
-                    .add("currency",cur.getCurrencyCode() )
-                    .build();
-            System.out.println(cur.getCurrencyCode());
-
-            okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url(AppConfig.API_URL)
-                    .post(body)
-                    .build();
-
-            try {
-                String responsestring = client.newCall(request).execute().body().string();
-                try {
-                    JSONObject response = new JSONObject(responsestring);
-                    System.out.println(response);
-                    ProductDrawerFragment.money = true;
-                    Double usdrate = response.getDouble("rate");
-
-                    session.setCurrency(usdrate);
-                    downloadproductsList();
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-        else if (ProductDrawerFragment.money) {
-            downloadproductsList();
-        }
-
-
     }
 
     private void onDownloadSuccessful() {
@@ -538,7 +480,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
 
         @Override
         protected String doInBackground(Void... params) {
-            downloadCurrency();
+            downloadproductsList();
             return "ok";
         }
 

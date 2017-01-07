@@ -71,7 +71,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindBool;
@@ -731,14 +730,9 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
             public void onResponse(String response) {
                 try {
 
-                    curr = Currency.getInstance(Locale.getDefault());
-                    if (curr.getCurrencyCode().equals("VND")) {
-                        rate = 1.0;
-                    }
 
-                    else {
-                        rate = currency.get("USD");
-                    }
+                        rate = session.getCurrency();
+
                     JSONObject jObj = new JSONObject(response);
                     JSONArray feedArray = jObj.getJSONArray("feed");
                     for (int i = 0; i < feedArray.length(); i++) {
