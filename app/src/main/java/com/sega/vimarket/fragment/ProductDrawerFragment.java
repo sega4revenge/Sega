@@ -206,7 +206,6 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         }
         else {
             fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ViMarket.TAG_GRID_FRAGMENT);
-
             toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override

@@ -6,7 +6,7 @@ package com.sega.vimarket.config;
 public class AppConfig {
     // Server user login url
     public static String URL_LOGIN = "http://freemarkets.ga/login.php";
-    public static String API_URL = "http://openexchangerates.org/api/latest.json?app_id=d0a5f9818c7f4e70bc0ff2cdbb3315c8";
+    public static String API_URL = "http://freemarkets.ga/getcurrency.php";
     // Server user register urldfsd
     public static String URL_REGISTER = "http://freemarkets.ga/register.php";
     public static String URL_COMMENTS = "http://freemarkets.ga/allcomment.php";

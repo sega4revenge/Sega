@@ -126,7 +126,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new ItemPaddingDecoration(context));
         recyclerView.setAdapter(adapter);
-
+        cur = Currency.getInstance(Locale.getDefault());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -298,14 +298,10 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             String responsestring = client.newCall(request).execute().body().string();
             try {
 
-                cur = Currency.getInstance(Locale.getDefault());
-                if (cur.getCurrencyCode().equals("VND")) {
-                    rate = 1.0;
-                }
 
-                else {
+
                     rate = session.getCurrency();
-                }
+
                 JSONObject jObj = new JSONObject(responsestring);
                 JSONArray feedArray = jObj.getJSONArray("feed");
                 for (int i = 0; i < feedArray.length(); i++) {
@@ -369,21 +365,23 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     private void downloadCurrency() {
         if (!ProductDrawerFragment.money) {
             OkHttpClient client = new OkHttpClient();
-
+            RequestBody body = new FormBody.Builder()
+                    .add("currency",cur.getCurrencyCode() )
+                    .build();
+            System.out.println(cur.getCurrencyCode());
 
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url(AppConfig.API_URL)
-                    .get()
+                    .post(body)
                     .build();
 
             try {
                 String responsestring = client.newCall(request).execute().body().string();
                 try {
                     JSONObject response = new JSONObject(responsestring);
-                    JSONObject ratesObject = response
-                            .getJSONObject("rates");
+                    System.out.println(response);
                     ProductDrawerFragment.money = true;
-                    Double usdrate = ratesObject.getDouble("VND");
+                    Double usdrate = response.getDouble("rate");
 
                     session.setCurrency(usdrate);
                     downloadproductsList();
