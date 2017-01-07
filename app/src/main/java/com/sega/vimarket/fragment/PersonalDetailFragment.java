@@ -133,7 +133,6 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
 
     @BindView(R.id.progress_circle)
     View progressCircle;
-    @BindView(R.id.error_message)
     View errorMessage;
     @BindView(R.id.product_detail_holder)
     NestedScrollView productHolder;
@@ -174,7 +173,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
         session = new SessionManager(getActivity());
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
-
+       errorMessage = v.findViewById(R.id.error_message);
         unbinder = ButterKnife.bind(this, v);
 
         toolbar.setOnMenuItemClickListener(this);
@@ -784,9 +783,9 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
                         );
                     }
                     // Load detail fragment if in tablet mode
-                    if (isTablet && pageToDownload == 1 && adapter.productList.size() > 0) {
-                        ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "");
-                    }
+                  /*  if (isTablet && pageToDownload == 1 && adapter.productList.size() > 0) {
+                        ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "",String.valueOf(adapter.productList.get(0).userid));
+                    }*/
                     pageToDownload++;
                     onDownloadSuccessful();
                 } catch (Exception ex) {
@@ -896,7 +895,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
         if (isTablet) {
             //                Toast.makeText(getActivity(),"3",Toast.LENGTH_LONG).show();
 
-            ((ProductActivity) getActivity()).loadDetailFragmentWith(String.valueOf(adapter.productList.get(position).productid));
+            ((ProductActivity) getActivity()).loadDetailFragmentWith(String.valueOf(adapter.productList.get(position).productid),String.valueOf(adapter.productList.get(position).userid));
         }
         else {
             //                Toast.makeText(getActivity(),"4",Toast.LENGTH_LONG).show();

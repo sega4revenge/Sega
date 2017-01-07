@@ -1,9 +1,7 @@
 package com.sega.vimarket.activity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sega.vimarket.R;
@@ -31,24 +29,26 @@ public class ProductActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         if (isTablet && savedInstanceState == null) {
-            loadDetailFragmentWith("null");
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            loadDetailFragmentWith("null","null");
         }
 
 
     }
 
-    public void loadDetailFragmentWith(String productId) {
+    public void loadDetailFragmentWith(String productId,String productUserId) {
         ProductDetailFragment fragment = new ProductDetailFragment();
         Bundle args = new Bundle();
         args.putString(ViMarket.product_ID, productId);
+        args.putString(ViMarket.user_ID, productUserId);
         fragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, fragment).commit();
     }
-    public void loadDetailFragmentUser(String productId) {
+    public void loadDetailFragmentUser(String productId,String productUserId) {
         ProductDetailFragmentUser fragment = new ProductDetailFragmentUser();
         Bundle args = new Bundle();
         args.putString(ViMarket.product_ID, productId);
+        args.putString(ViMarket.user_ID, productUserId);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, fragment).commit();
     }

@@ -39,7 +39,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 productId = getIntent().getStringExtra(ViMarket.product_ID);
                 userId = getIntent().getStringExtra(ViMarket.user_ID);
                 rate = getIntent().getDoubleExtra(ViMarket.currency_RATE,1.0);
-                loadproductDetailsOf(productId);
+                loadproductDetailsOf(productId,userId);
             } else {
                 // Loading from deep link
                 String[] parts = data.toString().split("/");
@@ -63,7 +63,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             productId = abc[0].substring(abc[0].lastIndexOf("=") + 1);
                             userId = abc[1].substring(abc[1].lastIndexOf("=") + 1);
                             System.out.println(userId + " " + productId);
-                            loadproductDetailsOf(productId);
+                            loadproductDetailsOf(productId,userId);
                         }
                         else{
 
@@ -75,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void loadproductDetailsOf(String productId) {
+    private void loadproductDetailsOf(String productId,String userId) {
         ProductDetailFragment fragment = new ProductDetailFragment();
         Bundle args = new Bundle();
 

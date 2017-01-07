@@ -188,12 +188,10 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         });
         // Get the products list
         if (savedInstanceState == null || !savedInstanceState.containsKey(ViMarket.product_LIST)) {
-            System.out.println("kotot");
             asyncTask = new CustomerAsyncTask().execute();
 
         }
         else {
-            System.out.println("tot");
             adapter.productList = savedInstanceState.getParcelableArrayList(ViMarket.product_LIST);
             pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
             isLoadingLocked = savedInstanceState.getBoolean(ViMarket.IS_LOCKED);
@@ -249,6 +247,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             outState.putBoolean(ViMarket.IS_LOCKED, isLoadingLocked);
             outState.putInt(ViMarket.PAGE_TO_DOWNLOAD, pageToDownload);
             outState.putParcelableArrayList(ViMarket.product_LIST, adapter.productList);
+            System.out.println("1231242151");
         }
         super.onSaveInstanceState(outState);
     }
@@ -280,12 +279,10 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     private void downloadproductsList() {
 
 
-
-
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("page", pageToDownload + "")
-                .add("userid", ProductDrawerFragment.userobj.userid + "")
+                .add("userid", session.getLoginId() + "")
                 .add("search", search)
                 .add("category", category)
                 .add("area", area)
@@ -353,9 +350,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                     );
                 }
                 // Load detail fragment if in tablet mode
-                if (isTablet && pageToDownload == 1 && adapter.productList.size() > 0) {
-                    ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "");
-                }
+
                 pageToDownload++;
                 error = false;
             } catch (Exception ex) {
@@ -372,9 +367,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     }
 
     private void downloadCurrency() {
-        System.out.println(ProductDrawerFragment.money + "");
         if (!ProductDrawerFragment.money) {
-            System.out.println("12345");
             OkHttpClient client = new OkHttpClient();
 
 
@@ -403,29 +396,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 e.printStackTrace();
             }
 
-      /*  JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
-                                                          AppConfig.API_URL, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), error + "", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // Adding request to volley request queue
-        jsonReq.setTag(this.getClass().getName());
-
-            VolleySingleton.getInstance(getActivity()).requestQueue.add(jsonReq);*/
-
 
         }
         else if (ProductDrawerFragment.money) {
@@ -436,6 +406,9 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     }
 
     private void onDownloadSuccessful() {
+        if (isTablet && adapter.productList.size() > 0) {
+            ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "", String.valueOf(adapter.productList.get(0).userid));
+        }
         isLoading = false;
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.GONE);
@@ -445,6 +418,8 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(true);
         adapter.notifyDataSetChanged();
+
+
     }
 
     private void onDownloadFailed() {
@@ -525,7 +500,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         if (viewType == ViMarket.VIEW_TYPE_TO_SEE) {
             if (isTablet) {
                 //                Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
-                ((ProductActivity) getActivity()).loadDetailFragmentUser(String.valueOf(adapter.productList.get(position).productid));
+                ((ProductActivity) getActivity()).loadDetailFragmentUser(String.valueOf(adapter.productList.get(position).productid), String.valueOf(adapter.productList.get(position).userid));
 
             }
             else {
@@ -542,7 +517,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             if (isTablet) {
                 //                Toast.makeText(getActivity(),"3",Toast.LENGTH_LONG).show();
 
-                ((ProductActivity) getActivity()).loadDetailFragmentWith(String.valueOf(adapter.productList.get(position).productid));
+                ((ProductActivity) getActivity()).loadDetailFragmentWith(String.valueOf(adapter.productList.get(position).productid), String.valueOf(adapter.productList.get(position).userid));
             }
             else {
                 //                Toast.makeText(getActivity(),"4",Toast.LENGTH_LONG).show();
@@ -577,6 +552,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 onDownloadFailed();
             }
             else {
+                System.out.println("23ok");
                 onDownloadSuccessful();
             }
         }

@@ -209,6 +209,6 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(appendChatScreenMsgReceiver);
-        unbinder.unbind();
+
     }
 }

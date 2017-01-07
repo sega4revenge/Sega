@@ -53,13 +53,13 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     private SessionManager session;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.catefilter)
+
     Spinner catefilter;
     @BindView(R.id.areafilter)
     Spinner areafilter;
     @BindView(R.id.filter)
     Spinner filter;
-//    private SpaceNavigationView spaceNavigationView;
+    int areaposition;
     public String category="0",area="",fitter="0",search = "";
 
     protected SearchView mSearchView = null;
@@ -67,10 +67,10 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
 
 
     public static boolean money=false;
-    // Fragment lifecycle
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             @Nullable final Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_product_drawer, container, false);
         unbinder = ButterKnife.bind(this, v);
         preferences = getContext().getSharedPreferences(ViMarket.TABLE_USER, Context.MODE_PRIVATE);
@@ -81,7 +81,9 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         onRefreshToolbarMenu();
         session = new SessionManager(getActivity());
         int id = session.getLoginId();
-
+        catefilter = (Spinner)v.findViewById(R.id.catefilter);
+        areafilter = (Spinner)v.findViewById(R.id.areafilter);
+        filter = (Spinner)v.findViewById(R.id.filter);
         mSearchView = (SearchView) v.findViewById(R.id.searchView);
         setSearchView();
 
@@ -90,8 +92,8 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
 
         HashMap<String, String> usermap = db.getUserDetails(id);
 
-        userobj = new User(Integer.parseInt(usermap.get("userid")), usermap.get("username"), usermap.get("email"), usermap.get("phonenumber")
-                , usermap.get("address"), usermap.get("area"), usermap.get("userpic"), usermap.get("datecreate"), usermap.get("rate"), usermap.get("count"));
+/*        userobj = new User(Integer.parseInt(usermap.get("userid")), usermap.get("username"), usermap.get("email"), usermap.get("phonenumber")
+                , usermap.get("address"), usermap.get("area"), usermap.get("userpic"), usermap.get("datecreate"), usermap.get("rate"), usermap.get("count"));*/
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(),
                                                                               R.array.danhmucfilter, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -112,41 +114,20 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         adapter3.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         // Apply the adapter to the spinner
         filter.setAdapter(adapter3);
-        catefilter.setSelection(0);
+
+        if(savedInstanceState!=null) {
+            category = savedInstanceState.getInt("category")+"";
+            catefilter.setSelection(savedInstanceState.getInt("category"), false);
+        }
+        else catefilter.setSelection(0,false);
 
         // Post to avoid initial invocation
-        catefilter.post(new Runnable() {
-            @Override public void run() {
+
                 catefilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         // Only called when the user changes the selection
                         category = position+"";
-                        setSelectedDrawerItem();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            }
-        });
-        areafilter.setSelection(0);
-
-        // Post to avoid initial invocation
-        areafilter.post(new Runnable() {
-            @Override public void run() {
-                areafilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // Only called when the user changes the selection
-                        if(position == 0){
-                            area = "";
-                        }
-                        else {
-                            area = parent.getItemAtPosition(position)+"";
-
-                        }
 
                             setSelectedDrawerItem();
 
@@ -157,14 +138,47 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
-            }
-        });
+        if(savedInstanceState!=null) {
+            areaposition = savedInstanceState.getInt("area");
+            areafilter.setSelection(areaposition, false);
+        }
+        else areafilter.setSelection(0,false);
+        // Post to avoid initial invocation
 
-        filter.setSelection(0);
+                areafilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        // Only called when the user changes the selection
+                        if(position == 0){
+                            area = "";
+                            areaposition = 0;
+                        }
+                        else {
+                            areaposition=position;
+                            area = parent.getItemAtPosition(position)+"";
+
+                        }
+
+                            setSelectedDrawerItem();
+
+
+
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+        if(savedInstanceState!=null)
+        {   fitter = savedInstanceState.getInt("filter")+"";
+            filter.setSelection( savedInstanceState.getInt("filter"),false);
+        }
+
+        else filter.setSelection(0,false);
 
         // Post to avoid initial invocation
-        filter.post(new Runnable() {
-            @Override public void run() {
                 filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,8 +197,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
-            }
-        });
+
 
 
 
@@ -193,9 +206,17 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         }
         else {
             fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ViMarket.TAG_GRID_FRAGMENT);
-            if (savedInstanceState.containsKey(ViMarket.TOOLBAR_TITLE)) {
-                toolbar.setTitle(savedInstanceState.getString(ViMarket.TOOLBAR_TITLE));
-            }
+
+            toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toolbar.setTitle("");
+                    toolbar.setNavigationIcon(null);
+                    setSelectedDrawerItem();
+                }
+            });
+
 
         }
 
@@ -207,6 +228,10 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        System.out.println(areaposition);
+        outState.putInt("category", Integer.parseInt(category));
+        outState.putInt("area", areaposition);
+        outState.putInt("filter", Integer.parseInt(fitter));
         super.onSaveInstanceState(outState);
 
     }

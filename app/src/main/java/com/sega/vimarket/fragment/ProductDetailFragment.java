@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -23,10 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -66,13 +63,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindBool;
 import butterknife.BindView;
@@ -80,11 +76,14 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class ProductDetailFragment extends Fragment implements OnMenuItemClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1234;
 
-
+    boolean error;
     ArrayList<Comments> commentslist = new ArrayList<>();
     SessionManager session;
     private Unbinder unbinder;
@@ -170,7 +169,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     int height, width;
 
     private SliderLayout mDemoSlider;
-
+    AsyncTask<Void, Void, String> asyncTask;
     String point;
     Rate ratee;
     @BindView(R.id.chart)
@@ -182,7 +181,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_product_detail, container, false);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -190,7 +189,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
         final Uri data = getActivity().getIntent().getData();
-
+        sellername = (RobotoLightTextView)v.findViewById(R.id.sellername);
         mDemoSlider = (SliderLayout) v.findViewById(R.id.slider);
         unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
@@ -228,15 +227,18 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             id = getArguments().getString(ViMarket.product_ID);
             userid = getArguments().getString(ViMarket.user_ID);
             rate = session.getCurrency();
+
             if (TextUtils.isNullOrEmpty(id)) {
                 progressCircle.setVisibility(View.GONE);
                 toolbarTextHolder.setVisibility(View.GONE);
                 toolbar.setTitle("");
             } else {
-                downloadproductDetails(id);
-                downloadRate();
+
+                asyncTask = new CustomerAsyncTask().execute();
             }
+
         } else {
+
             id = savedInstanceState.getString(ViMarket.product_ID);
             product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
             seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
@@ -266,46 +268,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                                 startActivity(intent);
             }
         });
-        //        ratingBar.setStepSize(1);
-        //        ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
-        //            @Override
-        //            public void onRatingChanged(SimpleRatingBar simpleRatingBar, final float rating, boolean fromUser) {
-        //
-        //                requestQueue = Volley.newRequestQueue(getContext());
-        //
-        //                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_RATE, new Response.Listener<String>() {
-        //                    @Override
-        //                    public void onResponse(String response) {
-        ////                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
-        //                        System.out.println(response.toString());
-        //                    }
-        //                }, new Response.ErrorListener() {
-        //                    @Override
-        //                    public void onErrorResponse(VolleyError error) {
-        //                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-        //                    }
-        //                }) {
-        //                    @Override
-        //                    protected Map<String, String> getParams() throws AuthFailureError {
-        //                        Map<String, String> param = new HashMap<String, String>();
-        //                        param.put("userrated", String.valueOf(ProductDrawerFragment.userobj.userid));
-        //                        param.put("userrating", String.valueOf(seller.userid));
-        //                        param.put("point", String.valueOf(rating));
-        //
-        //                        return param;
-        //
-        //                    }
-        //
-        //                };
-        //
-        //                requestQueue.add(request);
-        ////                Toast.makeText(getActivity(),String.valueOf(rating),Toast.LENGTH_SHORT).show();
-        //            }
-        //        });
-
-        //        Toast.makeText(getActivity(),ProductDrawerFragment.userobj.userid + " " + userid,Toast.LENGTH_LONG).show();
-
-        // Load Analytics Tracker
 
 
         return v;
@@ -355,11 +317,9 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
 
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
-        mDemoSlider.stopAutoCycle();
-        mDemoSlider.removeAllSliders();
-        VolleySingleton.getInstance(getActivity()).requestQueue.cancelAll(this.getClass().getName());
-        unbinder.unbind();
+
     }
 
     // Toolbar menu click
@@ -397,64 +357,64 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
 
     // JSON parsing and display
     private void downloadRate() {
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                                                 AppConfig.URL_RATEDETAIL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
 
-                    JSONObject jObj = new JSONObject(response);
-                    JSONArray feedArray = jObj.getJSONArray("rate");
-                    ratee = new Rate();
-                    for (int i = 0; i < feedArray.length(); i++) {
-                        final JSONObject feedObj = (JSONObject) feedArray.get(i);
-                        //add product to list product
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("userid", userid+"")
+                .build();
 
-                        switch (feedObj.getInt("point")) {
-                            case 1:
-                                ratee.onestar = Integer.parseInt(feedObj.getString("count"));
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(AppConfig.URL_RATEDETAIL)
+                .post(body)
+                .build();
 
-                                break;
-                            case 2:
-                                ratee.twostar = Integer.parseInt(feedObj.getString("count"));
+        try {
+            String responsestring = client.newCall(request).execute().body().string();
+            Log.d("ok", "Login Response: " + responsestring);
+            try {
 
-                                break;
-                            case 3:
-                                ratee.threestar = Integer.parseInt(feedObj.getString("count"));
+                JSONObject jObj = new JSONObject(responsestring);
+                JSONArray feedArray = jObj.getJSONArray("rate");
+                ratee = new Rate();
+                for (int i = 0; i < feedArray.length(); i++) {
+                    final JSONObject feedObj = (JSONObject) feedArray.get(i);
+                    //add product to list product
 
-                                break;
-                            case 4:
-                                ratee.fourstar = Integer.parseInt(feedObj.getString("count"));
+                    switch (feedObj.getInt("point")) {
+                        case 1:
+                            ratee.onestar = Integer.parseInt(feedObj.getString("count"));
 
-                                break;
-                            case 5:
-                                ratee.fivestar = Integer.parseInt(feedObj.getString("count"));
+                            break;
+                        case 2:
+                            ratee.twostar = Integer.parseInt(feedObj.getString("count"));
 
-                                break;
-                        }
+                            break;
+                        case 3:
+                            ratee.threestar = Integer.parseInt(feedObj.getString("count"));
+
+                            break;
+                        case 4:
+                            ratee.fourstar = Integer.parseInt(feedObj.getString("count"));
+
+                            break;
+                        case 5:
+                            ratee.fivestar = Integer.parseInt(feedObj.getString("count"));
+
+                            break;
                     }
-                    onDownloadRateSuccessful();
-                } catch (Exception ex) {
-                    // JSON parsing error
-                    ex.printStackTrace();
                 }
+                error=false;
+            } catch (Exception ex) {
+                // JSON parsing error
+                ex.printStackTrace();
+                error=true;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<>();
-                params.put("userid", userid + "");
-                return params;
-            }
-        };
-        strReq.setTag(this.getClass().getName());
-        VolleySingleton.getInstance(getActivity()).requestQueue.add(strReq);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            error=true;
+        }
+
     }
 
     public void onDownloadRateSuccessful() {
@@ -508,87 +468,79 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     }
 
     private void downloadproductDetails(final String id) {
-        String urlToDownload = AppConfig.URL_PRODUCTDETAIL;
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                                                 urlToDownload, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("ok", "Login Response: " + response);
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    JSONObject feedObj = jObj.getJSONObject("product");
-                    ArrayList<String> productimg = new ArrayList<>(Arrays.asList(feedObj.getString("productimage").split(",")));
-                    //add product to list products
-                    product = new Product(feedObj.getInt("productid"),
-                                          feedObj.getString("productname"),
-                                          feedObj.getLong("price") / rate,
-                                          feedObj.getInt("userid"),
-                                          feedObj.getString("username"),
-                                          feedObj.getString("categoryname"),
-                                          feedObj.getString("productaddress"),
-                                          feedObj.getString("areaproduct"),
-                                          feedObj.getString("producttype"),
-                                          feedObj.getString("productstatus"),
-                                          productimg,
-                                          feedObj.getString("productdate"),
-                                          feedObj.getString("description"),
-                                          feedObj.getString("sharecount"),
-                                          Double.parseDouble(feedObj.getString("lat")),
-                                          Double.parseDouble(feedObj.getString("lot"))
-                    );
-                    seller = new User();
-                    seller.userid = Integer.parseInt(feedObj.getString("userid"));
-                    seller.setEmail(feedObj.getString("email"));
-                    seller.setPhone(feedObj.getString("phone"));
-                    seller.count = feedObj.getString("count");
-                    seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
-                    JSONArray feedArray = feedObj.getJSONArray("comments");
-                    commentslist.clear();
 
-                    point = feedObj.getString("point");
-                    for (int i = 0; i < feedArray.length(); i++) {
-                        final JSONObject feedComment = (JSONObject) feedArray.get(i);
-                        //add product to list products
-                        Comments comment = new Comments(feedComment.getString("userid"), feedComment.getString("username"), feedComment.getString("productid"), feedComment.getString("time"),
-                                                        feedComment.getString("contentcomment"), feedComment.getString("userpic"), feedComment.getString("rate"));
-                        commentslist.add(comment);
-                        //add product to sqlite
-                    }
-                    onDownloadSuccessful();
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                    onDownloadFailed();
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("productid", id)
+                .add("userrated", AppConfig.USERID_ID)
+                .add("userrating", userid)
+                .build();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(AppConfig.URL_PRODUCTDETAIL)
+                .post(body)
+                .build();
+
+        try {
+            String responsestring = client.newCall(request).execute().body().string();
+            Log.d("ok", "Login Response: " + responsestring);
+            try {
+                JSONObject jObj = new JSONObject(responsestring);
+                JSONObject feedObj = jObj.getJSONObject("product");
+                ArrayList<String> productimg = new ArrayList<>(Arrays.asList(feedObj.getString("productimage").split(",")));
+                //add product to list products
+                product = new Product(feedObj.getInt("productid"),
+                                      feedObj.getString("productname"),
+                                      feedObj.getLong("price") / rate,
+                                      feedObj.getInt("userid"),
+                                      feedObj.getString("username"),
+                                      feedObj.getString("categoryname"),
+                                      feedObj.getString("productaddress"),
+                                      feedObj.getString("areaproduct"),
+                                      feedObj.getString("producttype"),
+                                      feedObj.getString("productstatus"),
+                                      productimg,
+                                      feedObj.getString("productdate"),
+                                      feedObj.getString("description"),
+                                      feedObj.getString("sharecount"),
+                                      Double.parseDouble(feedObj.getString("lat")),
+                                      Double.parseDouble(feedObj.getString("lot"))
+                );
+                seller = new User();
+                seller.userid = Integer.parseInt(feedObj.getString("userid"));
+                seller.setEmail(feedObj.getString("email"));
+                seller.setPhone(feedObj.getString("phone"));
+                seller.count = feedObj.getString("count");
+                seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
+                JSONArray feedArray = feedObj.getJSONArray("comments");
+                commentslist.clear();
+
+                point = feedObj.getString("point");
+                for (int i = 0; i < feedArray.length(); i++) {
+                    final JSONObject feedComment = (JSONObject) feedArray.get(i);
+                    //add product to list products
+                    Comments comment = new Comments(feedComment.getString("userid"), feedComment.getString("username"), feedComment.getString("productid"), feedComment.getString("time"),
+                                                    feedComment.getString("contentcomment"), feedComment.getString("userpic"), feedComment.getString("rate"));
+                    commentslist.add(comment);
+                    //add product to sqlite
                 }
+                error=false;
+            } catch (JSONException e) {
+                // JSON error
+                e.printStackTrace();
+                error=true;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                onDownloadFailed();
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<>();
-                params.put("productid", id);
-                params.put("userrated", AppConfig.USERID_ID);
-                params.put("userrating", userid);
-                return params;
-            }
-        };
-        strReq.setTag(this.getClass().getName());
-        VolleySingleton.getInstance(getActivity()).requestQueue.add(strReq);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            error=true;
+        }
+
+
     }
 
     private void onDownloadSuccessful() {
-        //        Toast.makeText(getActivity(),point,Toast.LENGTH_LONG).show();
-        //        if (point.equalsIgnoreCase("null")) {
-        //            ratingBar.setRating(0);
-        //        } else {
-        //            ratingBar.setRating(Float.parseFloat(point));
-        //        }
         sellername.setSelected(true);
         sellerphone.setSelected(true);
         selleremail.setSelected(true);
@@ -610,14 +562,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             toolbarTitle.setText(product.productname);
             toolbarSubtitle.setText(product.username);
         }
-        // Add share button to toolbar
-    /*    backdropImage.setImageUrl(product.productimage,
-                                  VolleySingleton.getInstance(getActivity()).imageLoader);*/
-//        posterImageDefault.setVisibility(View.GONE);
-
-//        posterImage.setImageUrl(product.productimage.get(0).toString(),
-//                                VolleySingleton.getInstance(getActivity()).imageLoader);
-//        posterImage.setErrorImageResId(R.drawable.empty_photo);
         productTitle.setText(product.productname);
 
         tvprice.setText(format.format(product.price));
@@ -653,7 +597,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 } else if (commentslist.size() == 1) {
                     movieCastItems.get(0).setVisibility(View.VISIBLE);
                     // 0
-                    Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
                     usercommentname.get(0).setText(commentslist.get(0).username);
                     usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
                     usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -670,7 +614,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                     movieCastItems.get(0).setVisibility(View.VISIBLE);
                     movieCastItems.get(1).setVisibility(View.VISIBLE);
                     // 1
-                    Glide.with(getContext()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+                    Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
                     usercommentname.get(1).setText(commentslist.get(1).username);
                     usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
                     usercommentrate.get(1).setText(commentslist.get(1).rate);
@@ -678,7 +622,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                             Long.parseLong(commentslist.get(1).time),
                             System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
                     // 0
-                    Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
                     usercommentname.get(0).setText(commentslist.get(0).username);
                     usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
                     usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -738,21 +682,21 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     // Click events
    /* @OnClick(R.id.button_photos)
     public void onPhotosButtonClicked() {
-        Intent intent = new Intent(getContext(), PhotoActivity.class);
+        Intent intent = new Intent(getActivity(), PhotoActivity.class);
         intent.putExtra(ViMarket.product_ID, product.id);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);
     }
     @OnClick(R.id.button_reviews)
     public void onReviewsButtonClicked() {
-        Intent intent = new Intent(getContext(), ReviewActivity.class);
+        Intent intent = new Intent(getActivity(), ReviewActivity.class);
         intent.putExtra(ViMarket.product_ID, product.imdbId);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);
     }
     @OnClick(R.id.button_videos)
     public void onVideosButtonClicked() {
-        Intent intent = new Intent(getContext(), VideoActivity.class);
+        Intent intent = new Intent(getActivity(), VideoActivity.class);
         intent.putExtra(ViMarket.product_ID, product.id);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);*/
@@ -765,7 +709,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
 
         @OnClick(R.id.comments_see_all)
         public void onComment() {
-            Intent intent = new Intent(getContext(), CommentActivity.class);
+            Intent intent = new Intent(getActivity(), CommentActivity.class);
 
             intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
             intent.putExtra(ViMarket.product_NAME, product.productname);
@@ -817,12 +761,12 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     }
     @OnClick(R.id.fab_messenger)
     public void onToMessengerButtonClicked() {
-        Intent intent = new Intent(getContext(), ChatActivity.class);
-        intent.putExtra(ViMarket.user_ID, ProductDrawerFragment.userobj.userid);
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra(ViMarket.user_ID, session.getLoginId());
         intent.putExtra(ViMarket.seller_ID, product.userid);
-        intent.putExtra(ViMarket.user_name, ProductDrawerFragment.userobj.username);
+        intent.putExtra(ViMarket.user_name, session.getLoginName());
         intent.putExtra(ViMarket.seller_name, product.username);
-        startActivityForResult(intent,1);
+        startActivity(intent);
         mDemoSlider.stopAutoCycle();
 
 
@@ -848,7 +792,12 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(asyncTask!= null && asyncTask.getStatus() == AsyncTask.Status.RUNNING)
+            asyncTask.cancel(true);
         mDemoSlider.stopAutoCycle();
+        mDemoSlider.removeAllSliders();
+        VolleySingleton.getInstance(getActivity()).requestQueue.cancelAll(this.getClass().getName());
+
 
     }
 
@@ -899,6 +848,34 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+    public class CustomerAsyncTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+           downloadproductDetails(id);
+            downloadRate();
+            return "ok";
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (error) {
+                onDownloadFailed();
+            }
+            else {
+                onDownloadSuccessful();
+                onDownloadRateSuccessful();
+            }
+        }
     }
 
 }
