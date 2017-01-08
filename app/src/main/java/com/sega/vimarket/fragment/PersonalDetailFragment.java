@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -28,7 +29,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -154,8 +154,8 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     @BindView(R.id.thumb_button)
     LikeButton thumbButton;
     int height, width;
-
-
+    @BindView(R.id.toolbar2)
+CollapsingToolbarLayout  toolbar2;
     RequestQueue requestQueue;
     String point, favorite;
     @BindView(R.id.chart)
@@ -165,6 +165,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         View v = inflater.inflate(R.layout.fragment_personal_detail, container, false);
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -186,6 +187,10 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
                 }
             });
         }
+
+       int color= getArguments().getInt("theme");
+        System.out.println(color);
+        toolbar2.setContentScrimColor(color);
         // Download product details if new instance, else restore from saved instance
         if (savedInstanceState == null || !(savedInstanceState.containsKey(ViMarket.product_ID)
                 && savedInstanceState.containsKey(ViMarket.product_OBJECT) && savedInstanceState.containsKey(ViMarket.seller_DETAIL))) {
@@ -314,7 +319,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
         // Get the products list
         if (savedInstanceState == null || !savedInstanceState.containsKey(ViMarket.product_LIST)) {
 
-            downloadCurrency();
+            downloadproductsList();
 
         }
         else {
@@ -337,7 +342,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                 }
 
-                downloadCurrency();
+                downloadproductsList();
 
             }
             else {
@@ -678,44 +683,6 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
         layoutManager.onRestoreInstanceState(state);
     }
 
-    private void downloadCurrency() {
-
-        JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
-                                                          AppConfig.API_URL, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-
-                if (response != null) {
-                    try {
-
-                        JSONObject ratesObject = response
-                                .getJSONObject("rates");
-
-                        Double usdrate = ratesObject.getDouble("VND");
-                        currency.put("USD", usdrate);
-                        downloadproductsList();
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-
-            }
-        });
-
-        // Adding request to volley request queue
-        jsonReq.setTag(this.getClass().getName());
-        VolleySingleton.getInstance(getActivity()).requestQueue.add(jsonReq);
-    }
 
     private void downloadproductsList() {
         if (adapter == null) {

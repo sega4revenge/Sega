@@ -27,9 +27,9 @@ import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
-import com.sega.vimarket.activity.IntroActivity;
 import com.sega.vimarket.activity.LoginActivity;
 import com.sega.vimarket.activity.ManagementUser;
+import com.sega.vimarket.activity.PreferenceActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.User;
@@ -86,7 +86,12 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         filter = (Spinner)v.findViewById(R.id.filter);
         mSearchView = (SearchView) v.findViewById(R.id.searchView);
         setSearchView();
+      /*  final TransitionDrawable transition = new TransitionDrawable(new ColorDrawable[]{
+                new ColorDrawable(Color.WHITE), new ColorDrawable(Color.BLUE)
+        });
 
+        toolbar.setBackground(transition);
+        transition.startTransition(300);*/
         customSearchView();
         db = new SQLiteHandler(getActivity());
 
@@ -275,13 +280,9 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 Intent backupIntent = new Intent(getContext(), ManagementUser.class);
                 startActivity(backupIntent);
                 return true;
-            case R.id.actionabout:
-                Intent rateIntent = new Intent(getActivity(), IntroActivity.class);
+            case R.id.setting:
+                Intent rateIntent = new Intent(getActivity(), PreferenceActivity.class);
                 startActivity(rateIntent);
-                return true;
-            case R.id.support:
-                //                Intent supportIntent = new Intent();
-                //                startActivity(supportIntent);
                 return true;
             case R.id.logout:
                 session.deleteLogin();

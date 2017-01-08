@@ -13,6 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="441dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"

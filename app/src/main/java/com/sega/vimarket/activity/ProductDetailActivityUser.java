@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.fragment.ProductDetailFragmentUser;
 
-public class ProductDetailActivityUser extends AppCompatActivity {
+public class ProductDetailActivityUser extends CActivity {
     String cur;
     Double rate;
     String userId;

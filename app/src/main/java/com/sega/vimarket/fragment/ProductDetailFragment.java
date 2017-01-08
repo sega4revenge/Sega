@@ -202,6 +202,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         // Setup toolbar
         toolbar.setTitle(R.string.loading);
         toolbar.setOnMenuItemClickListener(this);
+
         if (!isTablet) {
             toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

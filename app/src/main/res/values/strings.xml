@@ -5,10 +5,14 @@
     <string name="select_picture_title">Get Photo From</string>
     <string name="sendPhotoGallery">Photo Gallery</string>
     <string name="sendLocation">Send Location</string>
-
+    <string name="select_color">Select Color</string>
+    <string name="changetheme">Change Theme</string>
+    <string name="setting">Setting</string>
+    <string name="theme">Theme</string>
     <!-- List For Navigation Drawer -->
 
-
+    <string name="welcome_theme_title">Pick a color</string>
+    <string name="welcome_theme_description">Any color.</string>
     <string-array name="filter">
         <item>Latest</item>
         <item>Nearest</item>
@@ -23,7 +27,7 @@
     <string name="action_share_text">Check out %1$s - %2$s</string>
     <string name="action_share_using">Share using&#8230;</string>
     <string name="action_about">About</string>
-
+    <string name="action_aboutsum">About our application</string>
     <!-- Loading and Error Message -->
     <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
     <string name="try_again">Try Again?</string>
@@ -235,6 +239,7 @@
 
     <string name="category">Category</string>
     <string name="support">Support</string>
+    <string name="supportsum">You can contact with us for support</string>
     <string name="logout">Logout</string>
     <string name="sellername">Seller</string>
     <string name="selleremail">Email</string>

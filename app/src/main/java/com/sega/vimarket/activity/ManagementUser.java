@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +39,7 @@ import com.kosalgeek.genasync12.AsyncResponse;
 import com.kosalgeek.genasync12.EachExceptionsHandler;
 import com.kosalgeek.genasync12.PostResponseAsyncTask;
 import com.sega.vimarket.R;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.fragment.ProductDrawerFragment;
 import com.sega.vimarket.widget.CircleImageView;
@@ -62,7 +62,7 @@ import butterknife.OnClick;
 /**a
  * Created by HOHOANGLINH on 9/1/2016.
  */
-public class ManagementUser extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClickListener,BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     CircleImageView userpic;

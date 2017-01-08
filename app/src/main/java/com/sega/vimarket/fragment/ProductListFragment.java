@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.location.LocationResult;
@@ -35,12 +36,14 @@ import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.Product;
 import com.sega.vimarket.service.GPSTracker;
+import com.sega.vimarket.util.NetworkUtils;
 import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.widget.ItemPaddingDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,11 +51,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
-import butterknife.OnClick;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.FormBody;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ProductListFragment extends Fragment implements ProductAdapter.OnproductClickListener {
     public boolean start = false;
@@ -78,6 +86,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     FloatingActionButton floatingActionsMenu;
     AsyncTask<Void, Void, String> asyncTask;
     boolean error = false;
+    TextView tryagain ;
 
     //    @BindView(R.id.fab_menu)
     //    FloatingActionMenu floatingActionsMenu;
@@ -88,6 +97,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_product_list, container, false);
+        tryagain = (TextView)v.findViewById(R.id.try_again);
         isTablet =  getResources().getBoolean(R.bool.is_tablet);
         session = new SessionManager(getActivity());
         errorMessage = v.findViewById(R.id.error_message);
@@ -149,6 +159,22 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 startActivity(i);
             }
         });
+        tryagain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Hide all views
+                errorMessage.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setVisibility(View.GONE);
+                // Show progress circle
+                progressCircle.setVisibility(View.VISIBLE);
+                // Try to download the data again
+                pageToDownload = 1;
+                adapter = null;
+                asyncTask = new CustomerAsyncTask().execute();
+            }
+        });
         swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -197,7 +223,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 onDownloadSuccessful();
             }
         }
-
 
         return v;
     }
@@ -254,97 +279,83 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             }
         }
     };
+    Interceptor provideCacheInterceptor () {
+        return new Interceptor() {
+            @Override
+            public Response intercept (Chain chain) throws IOException {
+                Request request = chain.request();
 
-    private void downloadproductsList() {
-
-
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = new FormBody.Builder()
-                .add("page", pageToDownload + "")
-                .add("userid", session.getLoginId() + "")
-                .add("search", search)
-                .add("category", category)
-                .add("area", area)
-                .add("fitter", fitter)
-                .add("currency", cur.getCurrencyCode())
-                .build();
-
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(AppConfig.URL_LOCATIONPRODUCT)
-                .post(body)
-                .build();
-
-        try {
-            String responsestring = client.newCall(request).execute().body().string();
-            System.out.println(responsestring);
-            try {
-                JSONObject jObj = new JSONObject(responsestring);
-                Double usdrate = jObj.getDouble("rate");
-                session.setCurrency(usdrate);
-
-                    rate = session.getCurrency();
-
-
-                JSONArray feedArray = jObj.getJSONArray("feed");
-                for (int i = 0; i < feedArray.length(); i++) {
-                    final JSONObject feedObj = (JSONObject) feedArray.get(i);
-                    //add product to list products
-                    ArrayList<String> productimg = new ArrayList<>(Arrays.asList(feedObj.getString("productimage").split(",")));
-
-                    adapter.productList.add(new Product(feedObj.getInt("productid"),
-                                                        feedObj.getString("productname"),
-                                                        feedObj.getLong("price") / rate,
-                                                        feedObj.getInt("userid"),
-                                                        feedObj.getString("username"),
-                                                        feedObj.getString("categoryname"),
-                                                        feedObj.getString("productaddress"),
-                                                        feedObj.getString("areaproduct"),
-                                                        feedObj.getString("producttype"),
-                                                        feedObj.getString("productstatus"),
-                                                        productimg,
-                                                        feedObj.getString("productdate"),
-                                                        feedObj.getString("description"),
-                                                        feedObj.getString("sharecount"),
-                                                        Double.parseDouble(feedObj.getString("lat")),
-                                                        Double.parseDouble(feedObj.getString("lot"))
-
-                    ));
-
-                    //add product to sqlite
-                }
-
-                if (viewType == ViMarket.VIEW_TYPE_NEAR) {
-                    Collections.sort(adapter.productList,
-                                     new Comparator<Product>() {
-                                         @Override
-                                         public int compare(Product lhs, Product rhs) {
-                                             double lhsDistance = SphericalUtil.computeDistanceBetween(
-                                                     lhs.location, GPSTracker.mLastestLocation);
-                                             double rhsDistance = SphericalUtil.computeDistanceBetween(
-                                                     rhs.location, GPSTracker.mLastestLocation);
-                                             return (int) (lhsDistance - rhsDistance);
-                                         }
-                                     }
-                    );
-                }
-
-                // Load detail fragment if in tablet mode
-
-                pageToDownload++;
-                error = false;
-            } catch (Exception ex) {
-                // JSON parsing error
-                error = true;
-                ex.printStackTrace();
+                Response originalResponse = chain.proceed(request);
+                return originalResponse.newBuilder()
+                        .header("Cache-Control", (NetworkUtils.isConnected(context)) ?
+                                "public, max-age=60" :  "public, max-stale=604800")
+                        .build();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Toast.makeText(getActivity(),pageToDownload + " " +ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
+        };
     }
 
+    public void getData(String string){
+        try {
+            JSONObject jObj = new JSONObject(string);
+            Double usdrate = jObj.getDouble("rate");
+            session.setCurrency(usdrate);
+
+            rate = session.getCurrency();
+
+
+            JSONArray feedArray = jObj.getJSONArray("feed");
+            for (int i = 0; i < feedArray.length(); i++) {
+                final JSONObject feedObj = (JSONObject) feedArray.get(i);
+                //add product to list products
+                ArrayList<String> productimg = new ArrayList<>(Arrays.asList(feedObj.getString("productimage").split(",")));
+
+                adapter.productList.add(new Product(feedObj.getInt("productid"),
+                                                    feedObj.getString("productname"),
+                                                    feedObj.getLong("price") / rate,
+                                                    feedObj.getInt("userid"),
+                                                    feedObj.getString("username"),
+                                                    feedObj.getString("categoryname"),
+                                                    feedObj.getString("productaddress"),
+                                                    feedObj.getString("areaproduct"),
+                                                    feedObj.getString("producttype"),
+                                                    feedObj.getString("productstatus"),
+                                                    productimg,
+                                                    feedObj.getString("productdate"),
+                                                    feedObj.getString("description"),
+                                                    feedObj.getString("sharecount"),
+                                                    Double.parseDouble(feedObj.getString("lat")),
+                                                    Double.parseDouble(feedObj.getString("lot"))
+
+                ));
+
+                //add product to sqlite
+            }
+
+            if (viewType == ViMarket.VIEW_TYPE_NEAR) {
+                Collections.sort(adapter.productList,
+                                 new Comparator<Product>() {
+                                     @Override
+                                     public int compare(Product lhs, Product rhs) {
+                                         double lhsDistance = SphericalUtil.computeDistanceBetween(
+                                                 lhs.location, GPSTracker.mLastestLocation);
+                                         double rhsDistance = SphericalUtil.computeDistanceBetween(
+                                                 rhs.location, GPSTracker.mLastestLocation);
+                                         return (int) (lhsDistance - rhsDistance);
+                                     }
+                                 }
+                );
+            }
+
+            // Load detail fragment if in tablet mode
+
+            pageToDownload++;
+            error = false;
+        } catch (Exception ex) {
+            // JSON parsing error
+            error = true;
+            ex.printStackTrace();
+        }
+    }
     private void onDownloadSuccessful() {
         if (isTablet && adapter.productList.size() > 0) {
             ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "", String.valueOf(adapter.productList.get(0).userid));
@@ -420,20 +431,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     }
 
     // Click events
-    @OnClick(R.id.try_again)
-    public void onTryAgainClicked() {
-        // Hide all views
-        errorMessage.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setVisibility(View.GONE);
-        // Show progress circle
-        progressCircle.setVisibility(View.VISIBLE);
-        // Try to download the data again
-        pageToDownload = 1;
-        adapter = null;
-        downloadproductsList();
-    }
+
 
     @Override
     public void onproductClicked(int position) {
@@ -475,12 +473,57 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             super.onPreExecute();
             isLoading = true;
             clearadapter();
-
+            System.out.println("dm");
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            downloadproductsList();
+            int cacheSize = 10 * 1024 * 1024; // 10 MiB
+            System.out.println(getActivity().getApplication().getCacheDir().toString());
+            Cache cache = new Cache(new File(getActivity().getApplication().getCacheDir(), "okdata"), cacheSize);
+            CacheControl cacheControl = new CacheControl.Builder().maxAge(2, TimeUnit.HOURS).build();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(provideCacheInterceptor())
+                    .cache(cache)
+                    .build();
+            RequestBody body = new FormBody.Builder()
+                    .add("page", pageToDownload + "")
+                    .add("userid", session.getLoginId() + "")
+                    .add("search", search)
+                    .add("category", category)
+                    .add("area", area)
+                    .add("fitter", fitter)
+                    .add("currency", cur.getCurrencyCode())
+                    .build();
+
+            okhttp3.Request request = new okhttp3.Request.Builder()
+                    .url(AppConfig.URL_LOCATIONPRODUCT)
+                    .cacheControl(cacheControl)
+                    .post(body)
+                    .build();
+            Response forceCacheResponse = null;
+            try {
+                forceCacheResponse = client.newCall(request).execute();
+                System.out.println(forceCacheResponse.code());
+                String responsestring = forceCacheResponse.body().string();
+                if(forceCacheResponse.isSuccessful()){
+                    getData(responsestring);
+
+                }
+
+                else{
+                    onDownloadFailed();
+
+                }
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                error=true;
+
+            }
+
             return "ok";
         }
 

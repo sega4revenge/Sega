@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.fragment.CommentFragment;
 
 import butterknife.BindBool;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 /**a
  * Created by Sega on 8/4/2016.
  */
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends CActivity {
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
 

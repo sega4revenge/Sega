@@ -31,12 +31,8 @@
           android:title="@string/myaccount"
           app:showAsAction="never" />
 
-    <item android:id="@+id/actionabout"
-          android:title="@string/action_about"
-          app:showAsAction="never" />
-
-    <item android:id="@+id/support"
-          android:title="@string/support"
+    <item android:id="@+id/setting"
+          android:title="@string/setting"
           app:showAsAction="never" />
 
     <item android:id="@+id/logout"

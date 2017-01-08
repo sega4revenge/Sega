@@ -220,9 +220,6 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("email", email);
                 params.put("password", password);
                 params.put("firebaseid", uniqueId);
-                System.out.println(email);
-                System.out.println(password);
-                System.out.println(uniqueId);
                 return params;
             }
         };

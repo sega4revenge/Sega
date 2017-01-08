@@ -1,21 +1,20 @@
 package com.sega.vimarket.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.fragment.ProductDetailFragment;
 import com.sega.vimarket.fragment.ProductDetailFragmentUser;
 
 import butterknife.BindBool;
 import butterknife.ButterKnife;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends CActivity {
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

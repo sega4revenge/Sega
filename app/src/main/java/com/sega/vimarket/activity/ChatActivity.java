@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -37,6 +36,7 @@ import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.adapter.ChatFirebaseAdapter;
 import com.sega.vimarket.adapter.ClickListenerChatFirebase;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.FileModel;
@@ -54,7 +54,7 @@ import java.util.Map;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
-public class ChatActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ClickListenerChatFirebase {
+public class ChatActivity extends CActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ClickListenerChatFirebase {
 
     private static final int IMAGE_GALLERY_REQUEST = 1;
     private static final int IMAGE_CAMERA_REQUEST = 2;

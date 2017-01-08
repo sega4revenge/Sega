@@ -34,7 +34,7 @@
         <activity
             android:name=".activity.ProductActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+           />
         <activity
             android:name=".activity.PersonalPage"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -105,7 +105,6 @@
         <activity
             android:name=".activity.CommentActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-
         <activity
             android:name=".activity.IntroActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -132,9 +131,12 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activity.MessengerActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activity.PreferenceActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/setting">
         </activity>
+
+
         <activity android:name=".activity.ChatActivity">
         </activity>
         <activity

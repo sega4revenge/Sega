@@ -3,12 +3,14 @@ package com.sega.vimarket.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.fragment.PersonalDetailFragment;
 
 import butterknife.BindBool;
@@ -16,15 +18,21 @@ import butterknife.BindBool;
 /**a
  * Created by HOHOANGLINH on 16-Nov-16.
  */
-public class PersonalPage extends AppCompatActivity {
+public class PersonalPage extends CActivity {
     String cur;
     Double rate;
     String userId;
+    int color ;
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        color = typedValue.data;
         setContentView(R.layout.activity_product_detail);
         if (savedInstanceState == null) {
             String productId ;
@@ -71,7 +79,7 @@ public class PersonalPage extends AppCompatActivity {
     private void loadPersonalDetailsOf(String productId) {
         PersonalDetailFragment fragment = new PersonalDetailFragment();
         Bundle args = new Bundle();
-
+        args.putInt("theme", color);
         args.putString(ViMarket.product_ID, productId);
         args.putString(ViMarket.user_ID,userId);
         args.putString(ViMarket.currency_ID, cur);

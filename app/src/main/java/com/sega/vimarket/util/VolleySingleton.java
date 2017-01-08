@@ -5,18 +5,33 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.sega.vimarket.color.Colorful;
 
 public class VolleySingleton extends Application {
+
     public static final String TAG = VolleySingleton.class.getSimpleName();
     // Singleton Instance
     private static VolleySingleton instance;
     public VolleySingleton(){
 
     }
-    public static VolleySingleton getInstance(Context context) {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        System.out.println("vao ung dung");
+        Colorful.defaults()
+                .primaryColor(Colorful.ThemeColor.CYAN)
+                .accentColor(Colorful.ThemeColor.DEEP_PURPLE)
+                .translucent(false)
+        ;
+
+        Colorful.init(this);
+    }
+    public static synchronized  VolleySingleton getInstance(Context context) {
         if (instance == null) {
             instance = new VolleySingleton(context);
         }
@@ -26,13 +41,15 @@ public class VolleySingleton extends Application {
     // Member objects
     public RequestQueue requestQueue;
     public ImageLoader imageLoader;
-    public RequestQueue getRequestQueue() {
+    public  RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
         return requestQueue;
     }
-
+    public <T> void addToRequestQueue(Request<T> req) {
+        getRequestQueue().add(req);
+    }
     // Constructor
     private VolleySingleton(Context context) {
         requestQueue = Volley.newRequestQueue(context);

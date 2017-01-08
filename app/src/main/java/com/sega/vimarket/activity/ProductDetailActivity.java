@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.fragment.ProductDetailFragment;
 import com.sega.vimarket.service.GPSTracker;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends CActivity {
     Double rate;
     String userId;
     SessionManager session;

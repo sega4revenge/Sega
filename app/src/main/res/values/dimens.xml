@@ -86,4 +86,9 @@
     <dimen name="size_avatar_toolbar">40dp</dimen>
     <dimen name="spacing_double">16dp</dimen>
     <dimen name="elevation_header">4dp</dimen>
+
+    <dimen name="color_swatch_large">64dp</dimen>
+    <dimen name="color_swatch_small">48dp</dimen>
+    <dimen name="color_swatch_margins_large">8dp</dimen>
+    <dimen name="color_swatch_margins_small">4dp</dimen>
 </resources>

@@ -6,19 +6,19 @@ package com.sega.vimarket.activity;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.sega.vimarket.R;
+import com.sega.vimarket.color.CActivity;
 
 import java.util.Calendar;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends CActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
