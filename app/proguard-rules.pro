@@ -15,7 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
+-dontobfuscate
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 
@@ -64,3 +64,30 @@
 #-keepclassmembers class * implements android.os.Parcelable {
 #    static ** CREATOR;
 #}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+    @com.kosalgeek.* <methods>;
+    @com.squareup.* <methods>;
+    @org.codehaus.* <methods>;
+    @java.nio.* <methods>;
+}
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okio.**
+
+-keep class com.kosalgeek.android.photoutil.** { *; }
+-dontwarn com.kosalgeek.android.**
+-keep class com.kosalgeek.genasync12.** { *; }
+-dontwarn com.kosalgeek.genasync12.**
