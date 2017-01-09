@@ -24,8 +24,8 @@ public class VolleySingleton extends Application {
         super.onCreate();
         System.out.println("vao ung dung");
         Colorful.defaults()
-                .primaryColor(Colorful.ThemeColor.CYAN)
-                .accentColor(Colorful.ThemeColor.DEEP_PURPLE)
+                .primaryColor(Colorful.ThemeColor.RED)
+                .accentColor(Colorful.ThemeColor.DEEP_ORANGE)
                 .translucent(false)
         ;
 

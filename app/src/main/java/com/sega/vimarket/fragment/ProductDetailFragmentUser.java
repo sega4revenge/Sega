@@ -10,7 +10,7 @@ import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
@@ -81,7 +81,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
     String newproductprice;
     String newproductdesc;
     String newproductaddress;
-    String newproducttype;
     String newproductcategory;
     String newproductcategory2;
     String categoryid;
@@ -351,7 +350,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                             feedObj.getString("categoryname"),
                             feedObj.getString("productaddress"),
                             feedObj.getString("areaproduct"),
-                            feedObj.getString("producttype"),
                             feedObj.getString("productstatus"),
                             productimg,
                             feedObj.getString("productdate"),
@@ -464,7 +462,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
         selleremail.setText(seller.getEmail());
         sellerphone.setText(seller.getPhone());
         productaddress.setText(product.productaddress + " " + product.areaproduct);
-        producttype.setText(product.producttype);
         productcategory.setText(product.categoryname);
 
 
@@ -506,7 +503,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
         newproductprice = String.valueOf(product.price);
         newproductdesc = product.description;
         newproductaddress = product.productaddress;
-        newproducttype = product.producttype;
         latitude = product.location.latitude;
         longitude = product.location.longitude;
         newproductcategory = product.categoryname;
@@ -518,7 +514,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //        else if (commentslist.size() == 1) {
 //            movieCastItems.get(0).setVisibility(View.VISIBLE);
 //            // 0
-//            Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+//            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
 //            usercommentname.get(0).setText(commentslist.get(0).username);
 //            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
 //            usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -536,7 +532,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //            movieCastItems.get(0).setVisibility(View.VISIBLE);
 //            movieCastItems.get(1).setVisibility(View.VISIBLE);
 //            // 1
-//            Glide.with(getContext()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+//            Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
 //            usercommentname.get(1).setText(commentslist.get(1).username);
 //            usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
 //            usercommentrate.get(1).setText(commentslist.get(1).rate);
@@ -544,7 +540,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //                    Long.parseLong(commentslist.get(1).time),
 //                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
 //            // 0
-//            Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+//            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
 //            usercommentname.get(0).setText(commentslist.get(0).username);
 //            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
 //            usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -562,7 +558,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //            movieCastItems.get(1).setVisibility(View.VISIBLE);
 //            movieCastItems.get(2).setVisibility(View.VISIBLE);
 //            // 2
-//            Glide.with(getContext()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
+//            Glide.with(getActivity()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
 //            usercommentname.get(2).setText(commentslist.get(2).username);
 //            usercommentcontent.get(2).setText(commentslist.get(2).contentcomment);
 //            usercommentrate.get(2).setText(commentslist.get(2).rate);
@@ -570,7 +566,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //                    Long.parseLong(commentslist.get(2).time),
 //                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
 //            // 1
-//            Glide.with(getContext()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+//            Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
 //            usercommentname.get(1).setText(commentslist.get(1).username);
 //            usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
 //            usercommentrate.get(1).setText(commentslist.get(1).rate);
@@ -578,7 +574,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //                    Long.parseLong(commentslist.get(1).time),
 //                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
 //            // 0
-//            Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+//            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
 //            usercommentname.get(0).setText(commentslist.get(0).username);
 //            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
 //            usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -605,21 +601,21 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
     // Click events
    /* @OnClick(R.id.button_photos)
     public void onPhotosButtonClicked() {
-        Intent intent = new Intent(getContext(), PhotoActivity.class);
+        Intent intent = new Intent(getActivity(), PhotoActivity.class);
         intent.putExtra(ViMarket.product_ID, product.id);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);
     }
     @OnClick(R.id.button_reviews)
     public void onReviewsButtonClicked() {
-        Intent intent = new Intent(getContext(), ReviewActivity.class);
+        Intent intent = new Intent(getActivity(), ReviewActivity.class);
         intent.putExtra(ViMarket.product_ID, product.imdbId);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);
     }
     @OnClick(R.id.button_videos)
     public void onVideosButtonClicked() {
-        Intent intent = new Intent(getContext(), VideoActivity.class);
+        Intent intent = new Intent(getActivity(), VideoActivity.class);
         intent.putExtra(ViMarket.product_ID, product.id);
         intent.putExtra(ViMarket.product_NAME, product.title);
         startActivity(intent);*/
@@ -632,25 +628,25 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 
     @OnClick(R.id.poster_image1)
     public void onPoster1() {
-        galleryPhoto = new GalleryPhoto(getContext());
+        galleryPhoto = new GalleryPhoto(getActivity());
         startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
     }
 
     @OnClick(R.id.poster_image2)
     public void onPoster2() {
-        galleryPhoto = new GalleryPhoto(getContext());
+        galleryPhoto = new GalleryPhoto(getActivity());
         startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST2);
     }
 
     @OnClick(R.id.poster_image3)
     public void onPoster3() {
-        galleryPhoto = new GalleryPhoto(getContext());
+        galleryPhoto = new GalleryPhoto(getActivity());
         startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST3);
     }
 
     @OnClick(R.id.poster_image4)
     public void onPoster4() {
-        galleryPhoto = new GalleryPhoto(getContext());
+        galleryPhoto = new GalleryPhoto(getActivity());
         startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST4);
     }
 
@@ -783,14 +779,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 //        spn2.setSelection(5);
         //edt.setInputType(InputType.TYPE_CLASS_NUMBER);
         edt1.setText(product.productaddress);
-        switch (product.producttype) {
-            case "Mới":
-                spn1.setSelection(0);
-                break;
-            case "Cũ":
-                spn1.setSelection(1);
-                break;
-        }
         switch (product.categoryname) {
             case "Xe cộ":
                 spn2.setSelection(0);
@@ -825,7 +813,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                     public void onClick(DialogInterface dialog, int which) {
 //                         Write your code here to execute after dialog
                         newproductaddress = String.valueOf(edt1.getText());
-                        newproducttype = spn1.getSelectedItem().toString();
                         newproductcategory = spn2.getSelectedItem().toString();
                         newproductcategory2 = String.valueOf(spn2.getSelectedItemPosition());
                         switch (newproductcategory2) {
@@ -925,7 +912,6 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                 param.put("categoryid", categoryid);
                 param.put("productaddress", newproductaddress);
                 // param.put("areaproduct", areaproduct);
-                param.put("producttype", newproducttype);
                 //param.put("productstatus",productstatus);
                 //param.put("productimage",productimage[1]+","+productimage[3]);
                 param.put("description", newproductdesc);
@@ -1041,7 +1027,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 
 //    @OnClick(R.id.comments_see_all)
 //    public void onComment() {
-//        Intent intent = new Intent(getContext(), CommentActivity.class);
+//        Intent intent = new Intent(getActivity(), CommentActivity.class);
 //
 //        intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
 //        intent.putExtra(ViMarket.product_NAME, product.productname);
@@ -1052,7 +1038,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 
     /*   @OnClick(R.id.product_crew_see_all)
        public void onSeeAllCrewClicked() {
-           Intent intent = new Intent(getContext(), CreditActivity.class);
+           Intent intent = new Intent(getActivity(), CreditActivity.class);
            intent.putExtra(ViMarket.CREDIT_TYPE, ViMarket.CREDIT_TYPE_CREW);
            intent.putExtra(ViMarket.product_NAME, product.title);
            intent.putExtra(ViMarket.CREDIT_LIST, product.crew);
@@ -1060,7 +1046,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
        }
        @OnClick(R.id.product_cast_see_all)
        public void onSeeAllCastClicked() {
-           Intent intent = new Intent(getContext(), CreditActivity.class);
+           Intent intent = new Intent(getActivity(), CreditActivity.class);
            intent.putExtra(ViMarket.CREDIT_TYPE, ViMarket.CREDIT_TYPE_CAST);
            intent.putExtra(ViMarket.product_NAME, product.title);
            intent.putExtra(ViMarket.CREDIT_LIST, product.cast);
@@ -1133,7 +1119,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
                     posterImage1.setImageBitmap(getRotatedBitmap(bitmap));
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity(),
                             "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == GALLERY_REQUEST2) {
@@ -1146,7 +1132,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                     Bitmap bitmap2 = ImageLoader.init().from(photoPath2).requestSize(512, 512).getBitmap();
                     posterImage2.setImageBitmap(getRotatedBitmap(bitmap2));
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity(),
                             "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == GALLERY_REQUEST3) {
@@ -1159,7 +1145,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                     Bitmap bitmap3 = ImageLoader.init().from(photoPath3).requestSize(512, 512).getBitmap();
                     posterImage3.setImageBitmap(getRotatedBitmap(bitmap3));
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity(),
                             "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == GALLERY_REQUEST4) {
@@ -1172,7 +1158,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                     Bitmap bitmap3 = ImageLoader.init().from(photoPath4).requestSize(512, 512).getBitmap();
                     posterImage4.setImageBitmap(getRotatedBitmap(bitmap3));
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity(),
                             "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
                 }
             }

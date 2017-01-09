@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,13 +16,14 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.sega.vimarket.R;
 import com.sega.vimarket.adapter.CircleTransform;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.widget.TouchImageView;
 
 /**
  * Created by Sega on 04/01/2017.
  */
 
-public class FullScreenImageActivity extends AppCompatActivity {
+public class FullScreenImageActivity extends CActivity {
 
     private TouchImageView mImageView;
     private ImageView ivUser;

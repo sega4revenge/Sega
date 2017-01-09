@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
@@ -136,8 +136,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     RobotoLightTextView sellerphone;
     @BindView(R.id.productaddress)
     RobotoLightTextView productaddress;
-    @BindView(R.id.producttype)
-    RobotoLightTextView producttype;
     @BindView(R.id.productcategory)
     RobotoLightTextView productcategory;
         @BindView(R.id.comments_holder)
@@ -193,6 +191,16 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         mDemoSlider = (SliderLayout) v.findViewById(R.id.slider);
         unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
+        if(session.getColor()==-1)
+        {
+            floatingActionsMenu.setMenuButtonColorNormal(getResources().getColor(R.color.primary));
+            floatingActionsMenu.setMenuButtonColorPressed(getResources().getColor(R.color.primary_dark));
+        }
+        else
+        {
+            floatingActionsMenu.setMenuButtonColorNormal(session.getColor());
+            floatingActionsMenu.setMenuButtonColorPressed(session.getColor2());
+        }
         Locale current = getActivity().getResources().getConfiguration().locale;
         if (current.getCountry().equals("VN"))
             format = NumberFormat.getCurrencyInstance();
@@ -239,12 +247,12 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             }
 
         } else {
-
+            ratee = savedInstanceState.getParcelable("rate");
             id = savedInstanceState.getString(ViMarket.product_ID);
             product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
             seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
             onDownloadSuccessful();
-            //onDownloadRateSuccessful();
+            onDownloadRateSuccessful();
 
         }
         // Setup FAB
@@ -311,6 +319,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         super.onSaveInstanceState(outState);
         if (product != null && id != null) {
             outState.putString(ViMarket.product_ID, id);
+            outState.putParcelable("rate", ratee);
             outState.putParcelable(ViMarket.product_OBJECT, product);
             outState.putParcelable(ViMarket.seller_DETAIL, seller);
         }
@@ -499,7 +508,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                                       feedObj.getString("categoryname"),
                                       feedObj.getString("productaddress"),
                                       feedObj.getString("areaproduct"),
-                                      feedObj.getString("producttype"),
                                       feedObj.getString("productstatus"),
                                       productimg,
                                       feedObj.getString("productdate"),
@@ -513,6 +521,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 seller.setEmail(feedObj.getString("email"));
                 seller.setPhone(feedObj.getString("phone"));
                 seller.count = feedObj.getString("count");
+                seller.userpic = feedObj.getString("userpic");
                 seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
                 JSONArray feedArray = feedObj.getJSONArray("comments");
                 commentslist.clear();
@@ -546,13 +555,13 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         sellerphone.setSelected(true);
         selleremail.setSelected(true);
         productcategory.setSelected(true);
-        producttype.setSelected(true);
         productaddress.setSelected(true);
         // Toggle visibility
         progressCircle.setVisibility(View.GONE);
         errorMessage.setVisibility(View.GONE);
         productHolder.setVisibility(View.VISIBLE);
         floatingActionsMenu.setVisibility(View.VISIBLE);
+
         // Set title and tagline
         if (TextUtils.isNullOrEmpty(product.productname)) {
             toolbar.setTitle(product.productname);
@@ -589,7 +598,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         txtratecount.setText(seller.count);
         ratingDetail.setRating(Float.parseFloat(seller.rate));
         productaddress.setText(product.productaddress + ", " + product.areaproduct);
-        producttype.setText(product.producttype);
         productcategory.setText(product.categoryname);
                 if (commentslist.size() == 0) {
                     movieCastItems.get(0).setVisibility(View.GONE);
@@ -640,7 +648,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                     movieCastItems.get(1).setVisibility(View.VISIBLE);
                     movieCastItems.get(2).setVisibility(View.VISIBLE);
                     // 2
-                    Glide.with(getContext()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
+                    Glide.with(getActivity()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
                     usercommentname.get(2).setText(commentslist.get(2).username);
                     usercommentcontent.get(2).setText(commentslist.get(2).contentcomment);
                     usercommentrate.get(2).setText(commentslist.get(2).rate);
@@ -648,7 +656,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                             Long.parseLong(commentslist.get(2).time),
                             System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
                     // 1
-                    Glide.with(getContext()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+                    Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
                     usercommentname.get(1).setText(commentslist.get(1).username);
                     usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
                     usercommentrate.get(1).setText(commentslist.get(1).rate);
@@ -656,7 +664,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                             Long.parseLong(commentslist.get(1).time),
                             System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
                     // 0
-                    Glide.with(getContext()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
                     usercommentname.get(0).setText(commentslist.get(0).username);
                     usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
                     usercommentrate.get(0).setText(commentslist.get(0).rate);
@@ -767,6 +775,8 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         intent.putExtra(ViMarket.seller_ID, product.userid);
         intent.putExtra(ViMarket.user_name, session.getLoginName());
         intent.putExtra(ViMarket.seller_name, product.username);
+        intent.putExtra("sellerpic", seller.userpic);
+        System.out.println(seller.userpic+" asdsb");
         startActivity(intent);
         mDemoSlider.stopAutoCycle();
 

@@ -3,10 +3,8 @@ package com.sega.vimarket.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.TypedValue;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
@@ -29,10 +27,7 @@ public class PersonalPage extends CActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = this.getTheme();
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        color = typedValue.data;
+
         setContentView(R.layout.activity_product_detail);
         if (savedInstanceState == null) {
             String productId ;

@@ -2,7 +2,6 @@ package com.sega.vimarket.color;
 
 import android.content.Context;
 import android.support.annotation.StyleRes;
-import android.util.Log;
 
 public class ThemeDelegate {
     private Colorful.ThemeColor primaryColor;
@@ -23,7 +22,7 @@ public class ThemeDelegate {
                 "T" +
                 accentColor.ordinal(),
                 "style", context.getPackageName());
-        Log.d(Util.LOG_TAG, "ThemeDelegate fetched theme in " + (System.currentTimeMillis()-curTime) + " milliseconds");
+
     }
 
     public @StyleRes

@@ -27,11 +27,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.activity.AddProduct;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivity;
 import com.sega.vimarket.activity.ProductDetailActivityUser;
 import com.sega.vimarket.adapter.ProductAdapter;
-import com.sega.vimarket.addproduct.AddProduct;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.Product;
@@ -106,6 +106,16 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);
         floatingActionsMenu = (FloatingActionButton) v.findViewById(R.id.fab_menu_main);
+        if(session.getColor()==-1)
+        {
+            floatingActionsMenu.setColorNormal(getResources().getColor(R.color.primary));
+        floatingActionsMenu.setColorPressed(getResources().getColor(R.color.primary_dark));
+    }
+        else
+        {
+            floatingActionsMenu.setColorNormal(session.getColor());
+            floatingActionsMenu.setColorPressed(session.getColor2());
+        }
 
         context = getContext();
 
@@ -259,6 +269,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        progressCircle.setVisibility(View.GONE);
         VolleySingleton.getInstance(context).requestQueue.cancelAll(this.getClass().getName());
 
     }
@@ -317,7 +328,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                                                     feedObj.getString("categoryname"),
                                                     feedObj.getString("productaddress"),
                                                     feedObj.getString("areaproduct"),
-                                                    feedObj.getString("producttype"),
                                                     feedObj.getString("productstatus"),
                                                     productimg,
                                                     feedObj.getString("productdate"),
@@ -357,7 +367,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         }
     }
     private void onDownloadSuccessful() {
-        if (isTablet && adapter.productList.size() > 0) {
+        if (isTablet && adapter.productList.size() > 0&&!session.getLastpage().equals("setting")) {
             ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "", String.valueOf(adapter.productList.get(0).userid));
         }
         isLoading = false;
@@ -439,6 +449,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             if (isTablet) {
                 //                Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
                 ((ProductActivity) getActivity()).loadDetailFragmentUser(String.valueOf(adapter.productList.get(position).productid), String.valueOf(adapter.productList.get(position).userid));
+                session.setDefaultPage();
 
             }
             else {
@@ -454,7 +465,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         else {
             if (isTablet) {
                 //                Toast.makeText(getActivity(),"3",Toast.LENGTH_LONG).show();
-
+                session.setDefaultPage();
                 ((ProductActivity) getActivity()).loadDetailFragmentWith(String.valueOf(adapter.productList.get(position).productid), String.valueOf(adapter.productList.get(position).userid));
             }
             else {
@@ -506,6 +517,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 forceCacheResponse = client.newCall(request).execute();
                 System.out.println(forceCacheResponse.code());
                 String responsestring = forceCacheResponse.body().string();
+                System.out.println(responsestring);
                 if(forceCacheResponse.isSuccessful()){
                     getData(responsestring);
 

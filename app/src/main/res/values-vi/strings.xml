@@ -270,4 +270,6 @@
     <string name="ratetext">Đánh giá người bán này:</string>
     <string name="myaccount">Hồ sơ của tôi</string>
     <string name="linkshare">"Bấm vào đây để xem chi tiết : "</string>
+    <string name="supportsum">Bạn có thể liên hệ với chúng tôi khi cần hỗ trợ</string>
+    <string name="action_aboutsum">Giới thiệu về ứng dụng của chúng tôi</string>
 </resources>

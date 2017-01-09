@@ -8,13 +8,16 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -35,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.adapter.ChatFirebaseAdapter;
+import com.sega.vimarket.adapter.CircleTransform;
 import com.sega.vimarket.adapter.ClickListenerChatFirebase;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.SessionManager;
@@ -42,7 +46,7 @@ import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.FileModel;
 import com.sega.vimarket.model.MapModel;
 import com.sega.vimarket.model.UserModel;
-import com.sega.vimarket.util.Util;
+import com.sega.vimarket.model.Utils;
 import com.sega.vimarket.view.FullScreenImageActivity;
 
 import java.io.File;
@@ -71,7 +75,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     ChatFirebaseAdapter firebaseAdapter;
     //CLass Model
     private UserModel userModel;
-
+    String urlPhotoUser,nameUser;
     //Views UI
     private RecyclerView rvListMessage;
     private LinearLayoutManager mLinearLayoutManager;
@@ -79,20 +83,33 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     //File
     private File filePathImageCamera;
+    Toolbar toolbar;
     String room;
+    private ImageView ivUser;
+    private TextView tvUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         session = new SessionManager(this);
-        if (!Util.verificaConexao(this)){
-            Util.initToast(this,"Você não tem conexão com internet");
+        if (!Utils.verificaConexao(this)){
+            Utils.initToast(this,"Você não tem conexão com internet");
             finish();
         }else{
             bindViews();
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ivUser = (ImageView)toolbar.findViewById(R.id.avatar);
+            tvUser = (TextView)toolbar.findViewById(R.id.title);
             int userid =  getIntent().getIntExtra(ViMarket.user_ID,-1);
             int sellerid =  getIntent().getIntExtra(ViMarket.seller_ID,-1);
+            urlPhotoUser = getIntent().getStringExtra("sellerpic");
+            System.out.println(urlPhotoUser);
+            nameUser = getIntent().getStringExtra(ViMarket.seller_name);
             if(userid<sellerid)
                 room = userid+"-"+sellerid;
             else
@@ -126,7 +143,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        StorageReference storageRef = storage.getReferenceFromUrl(Util.URL_STORAGE_REFERENCE).child(Util.FOLDER_STORAGE_IMG);
+        StorageReference storageRef = storage.getReferenceFromUrl(Utils.URL_STORAGE_REFERENCE).child(Utils.FOLDER_STORAGE_IMG);
 
         if (requestCode == IMAGE_GALLERY_REQUEST){
             if (resultCode == RESULT_OK){
@@ -154,6 +171,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
             }
         }
 
+
     }
 
     @Override
@@ -166,6 +184,9 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.sendPhoto:
                 photoCameraIntent();
                 break;
@@ -183,7 +204,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Util.initToast(this,"Google Play Services error.");
+        Utils.initToast(this,"Google Play Services error.");
     }
 
 
@@ -195,6 +216,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
                 break;
         }
     }
+
 
     @Override
     public void clickImageChat(View view, int position,String nameUser,String urlPhotoUser,String urlPhotoClick) {
@@ -335,6 +357,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
         });
         rvListMessage.setLayoutManager(mLinearLayoutManager);
         rvListMessage.setAdapter(firebaseAdapter);
+        setValues();
     }
 
     /**
@@ -361,11 +384,19 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
         rvListMessage = (RecyclerView)findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
+
     }
 
     /**
      * Sign Out no login
      */
+    private void setValues(){
 
+        Log.i("TAG", "imagem recebida "+urlPhotoUser);
+        tvUser.setText(nameUser); // Name
+        Glide.with(this).load(urlPhotoUser).centerCrop().transform(new CircleTransform(this)).override(40, 40).into(ivUser);
+
+
+    }
 
 }

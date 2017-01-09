@@ -157,7 +157,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     @BindView(R.id.toolbar2)
 CollapsingToolbarLayout  toolbar2;
     RequestQueue requestQueue;
-    String point, favorite;
+    String point="", favorite="";
     @BindView(R.id.chart)
     HorizontalBarChart chart;
     Rate ratee;
@@ -168,6 +168,7 @@ CollapsingToolbarLayout  toolbar2;
 
 
         View v = inflater.inflate(R.layout.fragment_personal_detail, container, false);
+        setRetainInstance(true);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         session = new SessionManager(getActivity());
@@ -187,33 +188,18 @@ CollapsingToolbarLayout  toolbar2;
                 }
             });
         }
+        if(session.getColor()==-1)
+        {
+            toolbar2.setContentScrimColor(getResources().getColor(R.color.primary));
+        }
+        else
+        {
+            toolbar2.setContentScrimColor((session.getColor()));
+        }
 
-       int color= getArguments().getInt("theme");
-        System.out.println(color);
-        toolbar2.setContentScrimColor(color);
+
         // Download product details if new instance, else restore from saved instance
-        if (savedInstanceState == null || !(savedInstanceState.containsKey(ViMarket.product_ID)
-                && savedInstanceState.containsKey(ViMarket.product_OBJECT) && savedInstanceState.containsKey(ViMarket.seller_DETAIL))) {
-            id = getArguments().getString(ViMarket.product_ID);
-            sellerid = getArguments().getString(ViMarket.user_ID);
 
-            rate = getArguments().getDouble(ViMarket.currency_RATE);
-            if (TextUtils.isNullOrEmpty(id)) {
-                progressCircle.setVisibility(View.GONE);
-                toolbarTextHolder.setVisibility(View.GONE);
-                toolbar.setTitle("");
-            }
-            else {
-                downloadproductDetails(id);
-                downloadRate();
-            }
-        }
-        else {
-            id = savedInstanceState.getString(ViMarket.product_ID);
-            product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
-            seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
-            onDownloadSuccessful();
-        }
         // Setup FAB
         thumbButton.setOnLikeListener(this);
         ratingBar.setStepSize();
@@ -228,7 +214,7 @@ CollapsingToolbarLayout  toolbar2;
                     @Override
                     public void onResponse(String response) {
                         //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
-                        System.out.println(response);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -317,6 +303,33 @@ CollapsingToolbarLayout  toolbar2;
             }
         });
         // Get the products list
+        if (savedInstanceState == null || !(savedInstanceState.containsKey(ViMarket.product_ID)
+                && savedInstanceState.containsKey(ViMarket.product_OBJECT) && savedInstanceState.containsKey(ViMarket.seller_DETAIL))) {
+            id = getArguments().getString(ViMarket.product_ID);
+            sellerid = getArguments().getString(ViMarket.user_ID);
+
+            rate = getArguments().getDouble(ViMarket.currency_RATE);
+            if (TextUtils.isNullOrEmpty(id)) {
+                progressCircle.setVisibility(View.GONE);
+                toolbarTextHolder.setVisibility(View.GONE);
+                toolbar.setTitle("");
+            }
+            else {
+                downloadproductDetails(id);
+                downloadRate();
+            }
+        }
+        else {
+            id = savedInstanceState.getString(ViMarket.product_ID);
+            product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
+            seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
+            point = savedInstanceState.getString("point");
+            favorite = savedInstanceState.getString("favorite");
+            ratee = savedInstanceState.getParcelable("rate");
+
+                    onDownloadSuccessful();
+                    onDownloadRateSuccessful();
+        }
         if (savedInstanceState == null || !savedInstanceState.containsKey(ViMarket.product_LIST)) {
 
             downloadproductsList();
@@ -327,6 +340,7 @@ CollapsingToolbarLayout  toolbar2;
             pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
             isLoadingLocked = savedInstanceState.getBoolean(ViMarket.IS_LOCKED);
             isLoading = savedInstanceState.getBoolean(ViMarket.IS_LOADING);
+
             // Download again if stopped, else show list
             if (isLoading) {
                 if (pageToDownload == 1) {
@@ -364,6 +378,9 @@ CollapsingToolbarLayout  toolbar2;
         super.onSaveInstanceState(outState);
         if (product != null && id != null) {
             outState.putString(ViMarket.product_ID, id);
+            outState.putParcelable("rate", ratee);
+            outState.putString("point", point);
+            outState.putString("favorite", favorite);
             outState.putParcelable(ViMarket.product_OBJECT, product);
             outState.putParcelable(ViMarket.seller_DETAIL, seller);
         }
@@ -372,7 +389,7 @@ CollapsingToolbarLayout  toolbar2;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        requestQueue.cancelAll(this.getClass().getName());
         unbinder.unbind();
         Runtime.getRuntime().gc();
     }
@@ -413,23 +430,23 @@ CollapsingToolbarLayout  toolbar2;
                         switch (feedObj.getInt("point")) {
                             case 1:
                                 ratee.onestar = Integer.parseInt(feedObj.getString("count"));
-                                System.out.println(ratee.onestar);
+
                                 break;
                             case 2:
                                 ratee.twostar = Integer.parseInt(feedObj.getString("count"));
-                                System.out.println(ratee.twostar);
+
                                 break;
                             case 3:
                                 ratee.threestar = Integer.parseInt(feedObj.getString("count"));
-                                System.out.println(ratee.threestar);
+
                                 break;
                             case 4:
                                 ratee.fourstar = Integer.parseInt(feedObj.getString("count"));
-                                System.out.println(ratee.fourstar);
+
                                 break;
                             case 5:
                                 ratee.fivestar = Integer.parseInt(feedObj.getString("count"));
-                                System.out.println(ratee.fivestar);
+
                                 break;
                         }
                     }
@@ -528,7 +545,6 @@ CollapsingToolbarLayout  toolbar2;
                                           feedObj.getString("categoryname"),
                                           feedObj.getString("productaddress"),
                                           feedObj.getString("areaproduct"),
-                                          feedObj.getString("producttype"),
                                           feedObj.getString("productstatus"),
                                           productimg,
                                           feedObj.getString("productdate"),
@@ -715,7 +731,6 @@ CollapsingToolbarLayout  toolbar2;
                                                             feedObj.getString("categoryname"),
                                                             feedObj.getString("productaddress"),
                                                             feedObj.getString("areaproduct"),
-                                                            feedObj.getString("producttype"),
                                                             feedObj.getString("productstatus"),
                                                             productimg,
                                                             feedObj.getString("productdate"),

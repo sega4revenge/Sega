@@ -6,6 +6,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.sega.vimarket.R;
+import com.sega.vimarket.model.Utils;
 
 public class Colorful {
     private static ThemeDelegate delegate;
@@ -16,8 +17,8 @@ public class Colorful {
     private static String themeString;
 
     public static void init(Context context) {
-        Log.d(Util.LOG_TAG, "Attatching to " + context.getPackageName());
-        themeString= PreferenceManager.getDefaultSharedPreferences(context).getString(Util.PREFERENCE_KEY, null);
+        Log.d(Utils.LOG_TAG, "Attatching to " + context.getPackageName());
+        themeString= PreferenceManager.getDefaultSharedPreferences(context).getString(Utils.PREFERENCE_KEY, null);
         if (themeString==null) {
             primaryColor= Defaults.primaryColor;
             accentColor= Defaults.accentColor;
@@ -30,7 +31,7 @@ public class Colorful {
     }
 
     private static void writeValues(Context context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(Util.PREFERENCE_KEY, generateThemeString()).apply();
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(Utils.PREFERENCE_KEY, generateThemeString()).apply();
     }
 
     private static void initValues() {
@@ -47,7 +48,7 @@ public class Colorful {
 
     public static ThemeDelegate getThemeDelegate() {
         if (delegate==null) {
-            Log.e(Util.LOG_TAG, "getThemeDelegate() called before init(Context). Call Colorful.init(Context) in your application class");
+            Log.e(Utils.LOG_TAG, "getThemeDelegate() called before init(Context). Call Colorful.init(Context) in your application class");
         }
         return delegate;
     }
@@ -57,7 +58,7 @@ public class Colorful {
     }
 
     public enum ThemeColor {
-        RED(R.color.md_red_500, R.color.md_red_700),
+        RED(R.color.md_red_A400, R.color.md_red_700),
         PINK(R.color.md_pink_500, R.color.md_pink_700),
         PURPLE(R.color.md_purple_500, R.color.md_purple_700),
         DEEP_PURPLE(R.color.md_deep_purple_500, R.color.md_deep_purple_700),

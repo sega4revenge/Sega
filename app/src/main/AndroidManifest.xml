@@ -3,6 +3,7 @@
           package="com.sega.vimarket">
 
     <!-- Permissions -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -11,7 +12,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.REORDER_TASKS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
 
@@ -55,7 +55,7 @@
             android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".addproduct.AddProduct"
+            android:name=".activity.AddProduct"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.ManagementUser"
@@ -137,7 +137,8 @@
         </activity>
 
 
-        <activity android:name=".activity.ChatActivity">
+        <activity android:name=".activity.ChatActivity"
+                  android:theme="@style/AppThemeFullScreenImage">
         </activity>
         <activity
             android:name=".view.FullScreenImageActivity"

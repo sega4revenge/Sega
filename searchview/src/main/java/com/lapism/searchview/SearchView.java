@@ -986,6 +986,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
                 close(true);
             }
         } else if (v == mVoiceImageView) {
+
             onVoiceClicked();
         } else if (v == mEmptyImageView) {
             if (mEditText.length() > 0) {

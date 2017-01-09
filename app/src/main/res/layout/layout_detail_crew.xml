@@ -151,31 +151,6 @@
                 style="@style/MovieCrewItemValueStyle"
                 android:layout_width="100dp"
 
-                android:text="@string/type" />
-
-            <com.sega.vimarket.widget.RobotoLightTextView
-
-                android:id="@+id/producttype"
-                style="@style/MovieCrewItemValueStyle"
-
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="Mới" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.sega.vimarket.widget.RobotoBoldTextView
-                style="@style/MovieCrewItemValueStyle"
-                android:layout_width="100dp"
-
                 android:text="@string/category" />
 
             <com.sega.vimarket.widget.RobotoLightTextView

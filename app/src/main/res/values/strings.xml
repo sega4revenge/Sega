@@ -1,18 +1,18 @@
 <resources>
     <!-- App Title -->
     <string name="app_name">FreeMarket</string>
-    <string name="sendPhoto">Photo Camera</string>
-    <string name="select_picture_title">Get Photo From</string>
-    <string name="sendPhotoGallery">Photo Gallery</string>
-    <string name="sendLocation">Send Location</string>
-    <string name="select_color">Select Color</string>
-    <string name="changetheme">Change Theme</string>
-    <string name="setting">Setting</string>
-    <string name="theme">Theme</string>
+    <string name="sendPhoto" translatable="false">Photo Camera</string>
+    <string name="select_picture_title" translatable="false">Get Photo From</string>
+    <string name="sendPhotoGallery" translatable="false">Photo Gallery</string>
+    <string name="sendLocation" translatable="false">Send Location</string>
+    <string name="select_color" translatable="false">Select Color</string>
+    <string name="changetheme" translatable="false">Change Theme</string>
+    <string name="setting" translatable="false">Setting</string>
+    <string name="theme" translatable="false">Theme</string>
     <!-- List For Navigation Drawer -->
 
-    <string name="welcome_theme_title">Pick a color</string>
-    <string name="welcome_theme_description">Any color.</string>
+    <string name="welcome_theme_title" translatable="false">Pick a color</string>
+    <string name="welcome_theme_description" translatable="false">Any color.</string>
     <string-array name="filter">
         <item>Latest</item>
         <item>Nearest</item>
@@ -27,7 +27,7 @@
     <string name="action_share_text">Check out %1$s - %2$s</string>
     <string name="action_share_using">Share using&#8230;</string>
     <string name="action_about">About</string>
-    <string name="action_aboutsum">About our application</string>
+    <string name="action_aboutsum" translatable="false">About our application</string>
     <!-- Loading and Error Message -->
     <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
     <string name="try_again">Try Again?</string>

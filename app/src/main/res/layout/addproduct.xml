@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sega.vimarket.addproduct.AddProduct">
+   >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="55dp">
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -353,33 +353,7 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:paddingBottom="10dp"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
-                    <EditText
-                        android:background="@android:color/transparent"
-                        android:id="@+id/producttype"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/type"
-                        android:drawablePadding="15dp"
-                        android:ems="10"
-                        android:hint="@string/type"
-                        android:padding="5dp"
-                        android:focusable="false"
-                        android:cursorVisible="true"
-
-                        android:textColor="@color/material_black"
-                        android:textColorHighlight="@color/bg_screen1"/>
-
-
-                </android.support.design.widget.TextInputLayout>
                  <!--   <com.sega.vimarket.widget.RobotoLightTextView
 
                         android:id="@+id/selleremail"

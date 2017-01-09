@@ -1,12 +1,4 @@
-/*
- * Copyright (c) 2016. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
-package com.sega.vimarket.addproduct;
+package com.sega.vimarket.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -53,6 +44,9 @@ import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
 import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
 import com.nguyenhoanglam.imagepicker.model.Image;
 import com.sega.vimarket.R;
+import com.sega.vimarket.addproduct.Constants;
+import com.sega.vimarket.addproduct.GeocodeAddressIntentService;
+import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.fragment.ProductDrawerFragment;
 
@@ -68,13 +62,17 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**a
- * Created by Sega on 15/08/2016.
- */
-public class AddProduct extends AppCompatActivity {
+import static com.sega.vimarket.R.id.producttype;
 
-    ImageView  ivImage,ivImage2,ivImage3,ivImage4;
-LinearLayout ivGallery;
+/**
+ * Created by Sega on 09/01/2017.
+ */
+
+
+public class AddProduct extends CActivity {
+
+    ImageView ivImage,ivImage2,ivImage3,ivImage4;
+    LinearLayout ivGallery;
 
     GalleryPhoto galleryPhoto;
 
@@ -103,7 +101,6 @@ LinearLayout ivGallery;
     String categoryid;
     String productaddress ;
     String areaproduct;
-    String producttype;
     String productstatus ;
     String description;
     String[] productimage;
@@ -134,9 +131,9 @@ LinearLayout ivGallery;
         ivImage4 = (ImageView)findViewById(R.id.ivImage4);
 
         ivGallery = (LinearLayout)findViewById(R.id.ivGallery);
-//        ivGallery2 = (ImageView)findViewById(R.id.ivGallery2);
-//        ivGallery3 = (ImageView)findViewById(R.id.ivGallery3);
-//        ivGallery4 = (ImageView)findViewById(R.id.ivGallery4);
+        //        ivGallery2 = (ImageView)findViewById(R.id.ivGallery2);
+        //        ivGallery3 = (ImageView)findViewById(R.id.ivGallery3);
+        //        ivGallery4 = (ImageView)findViewById(R.id.ivGallery4);
         ten = (EditText) findViewById(R.id.productname);
         gia = (EditText) findViewById(R.id.price);
         //        user = (EditText) findViewById(R.id.userid);
@@ -177,11 +174,11 @@ LinearLayout ivGallery;
                 .origin(images) // original selected images, used in multi mode
                 .start(REQUEST_CODE_PICKER); // start image picker activity with request code
     }
-   
+
     public void init(){
         galleryPhoto = new GalleryPhoto(this);
 
-    
+
 
 
 
@@ -189,12 +186,12 @@ LinearLayout ivGallery;
         ivGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               start();
+                start();
             }
         });
         ////////////////////////////////////////////////////////////////////////////
 
-      
+
 
 
         final CharSequence[] itemscategory = getResources().getStringArray(R.array.danhmuc);
@@ -234,7 +231,7 @@ LinearLayout ivGallery;
                                 break;
 
                         }
-                    CategoryDialog.dismiss();
+                        CategoryDialog.dismiss();
 
                     }
                 });
@@ -253,18 +250,17 @@ LinearLayout ivGallery;
                 });
         AreaDialog = Areabuilder.create();
         final CharSequence[] itemstype = getResources().getStringArray(R.array.type);
-       Typebuilder = new AlertDialog.Builder(AddProduct.this);
+        Typebuilder = new AlertDialog.Builder(AddProduct.this);
         Typebuilder.setTitle(getResources().getString(R.string.type))
                 .setSingleChoiceItems(itemstype, 1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int item) {
                         Toast.makeText(getApplicationContext(), itemstype[item], Toast.LENGTH_SHORT).show();
                         edttype.setText(itemstype[item]);
-                        producttype = itemstype[item].toString();
                         TypeDialog.dismiss();
 
                     }
                 });
-       TypeDialog = Typebuilder.create();
+        TypeDialog = Typebuilder.create();
         edtcategory.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -298,7 +294,7 @@ LinearLayout ivGallery;
                 return true; // consume touch even
             }
         });
-        edttype = (EditText) findViewById(R.id.producttype);
+        edttype = (EditText) findViewById(producttype);
         edttype.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -351,7 +347,7 @@ LinearLayout ivGallery;
         }
 
 
-        Bitmap bitmap = getReducedBitmap(selectedPhoto,1024,600000);
+        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
         Bitmap bitmap2 = getReducedBitmap(selectedPhoto2,1024,600000);
         Bitmap bitmap3 = getReducedBitmap(selectedPhoto3,1024,600000);
         Bitmap bitmap4 = getReducedBitmap(selectedPhoto4,1024,600000);
@@ -380,12 +376,12 @@ LinearLayout ivGallery;
 
             @Override
             public void processFinish(String s) {
-                Log.e("Image",s);
+                Log.e("Image", s);
                 //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
                 //                    Log.e(TAG,s.substring(1,60));
-//                  productimage = s.substring(1, s.length() - 1);
+                //                  productimage = s.substring(1, s.length() - 1);
                 productimage = s.split(String.valueOf('"'));
-//                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
+                //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
                 productname = ten.getText().toString();
                 price = gia.getText().toString();
                 userid = ProductDrawerFragment.userobj.userid + "";
@@ -396,11 +392,7 @@ LinearLayout ivGallery;
                 productstatus = "Đang bán";
                 description = des.getText().toString();
                 final String latlot = productaddress + " " + areaproduct;
-
-
                 requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-
                 Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
                 intent.putExtra(Constants.RECEIVER, mResultReceiver);
                 intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
@@ -410,8 +402,8 @@ LinearLayout ivGallery;
 
                 Log.e(TAG, "Starting Service");
                 startService(intent);
-//                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
-//                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
+                //                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
+                //                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
 
 
@@ -424,25 +416,25 @@ LinearLayout ivGallery;
             @Override
             public void handleIOException(IOException e) {
                 Toast.makeText(getApplicationContext(), "Cannot Connect to Server.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleMalformedURLException(MalformedURLException e) {
                 Toast.makeText(getApplicationContext(), "URL Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleProtocolException(ProtocolException e) {
                 Toast.makeText(getApplicationContext(), "Protocol Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
                 Toast.makeText(getApplicationContext(), "Encoding Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -453,123 +445,123 @@ LinearLayout ivGallery;
 
 
     }
-   /* public static Bitmap getReducedBitmap(String imagePath)
-    {
-         final float maxHeight = 1280.0f;
-          final float maxWidth = 1280.0f;
-       *//* // MaxWidth = maximum image width
-        // MaxFileSize = maximum image file size
-        File file = new File(imgPath);
-        long length = file.length();
-        if (length == 0)
-            return null ;
-        try
+       /* public static Bitmap getReducedBitmap(String imagePath)
         {
+             final float maxHeight = 1280.0f;
+              final float maxWidth = 1280.0f;
+           *//* // MaxWidth = maximum image width
+            // MaxFileSize = maximum image file size
+            File file = new File(imgPath);
+            long length = file.length();
+            if (length == 0)
+                return null ;
+            try
+            {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                // read image file
+                BitmapFactory.decodeFile(imgPath, options);
+                int srcWidth = options.outWidth;
+                int srcHeight = options.outHeight;
+                int scale = 1;
+                int width = MaxWidth ;
+                while ((srcWidth > width) || (length > MaxFileSize))
+                {
+                    srcWidth /= 2;
+                    srcHeight /= 2;
+                    scale *= 2;
+                    length = length / 2 ;
+                }
+                options.inJustDecodeBounds = false;
+                options.inDither = false;
+                options.inSampleSize = scale;
+                options.inScaled = false;
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                // read again image file with new constraints
+                return(BitmapFactory.decodeFile(imgPath, options)) ;
+            }
+            catch (Exception e)
+            {
+                return null ;
+            }*//*
+            Bitmap scaledBitmap = null;
+
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            // read image file
-            BitmapFactory.decodeFile(imgPath, options);
-            int srcWidth = options.outWidth;
-            int srcHeight = options.outHeight;
-            int scale = 1;
-            int width = MaxWidth ;
-            while ((srcWidth > width) || (length > MaxFileSize))
-            {
-                srcWidth /= 2;
-                srcHeight /= 2;
-                scale *= 2;
-                length = length / 2 ;
+            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
+
+            int actualHeight = options.outHeight;
+            int actualWidth = options.outWidth;
+            float imgRatio = (float) actualWidth / (float) actualHeight;
+            float maxRatio = maxWidth / maxHeight;
+
+            if (actualHeight > maxHeight || actualWidth > maxWidth) {
+                if (imgRatio < maxRatio) {
+                    imgRatio = maxHeight / actualHeight;
+                    actualWidth = (int) (imgRatio * actualWidth);
+                    actualHeight = (int) maxHeight;
+                } else if (imgRatio > maxRatio) {
+                    imgRatio = maxWidth / actualWidth;
+                    actualHeight = (int) (imgRatio * actualHeight);
+                    actualWidth = (int) maxWidth;
+                } else {
+                    actualHeight = (int) maxHeight;
+                    actualWidth = (int) maxWidth;
+
+                }
             }
+
+            options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
             options.inJustDecodeBounds = false;
             options.inDither = false;
-            options.inSampleSize = scale;
-            options.inScaled = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            // read again image file with new constraints
-            return(BitmapFactory.decodeFile(imgPath, options)) ;
-        }
-        catch (Exception e)
-        {
-            return null ;
-        }*//*
-        Bitmap scaledBitmap = null;
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inTempStorage = new byte[16 * 1024];
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-
-        int actualHeight = options.outHeight;
-        int actualWidth = options.outWidth;
-        float imgRatio = (float) actualWidth / (float) actualHeight;
-        float maxRatio = maxWidth / maxHeight;
-
-        if (actualHeight > maxHeight || actualWidth > maxWidth) {
-            if (imgRatio < maxRatio) {
-                imgRatio = maxHeight / actualHeight;
-                actualWidth = (int) (imgRatio * actualWidth);
-                actualHeight = (int) maxHeight;
-            } else if (imgRatio > maxRatio) {
-                imgRatio = maxWidth / actualWidth;
-                actualHeight = (int) (imgRatio * actualHeight);
-                actualWidth = (int) maxWidth;
-            } else {
-                actualHeight = (int) maxHeight;
-                actualWidth = (int) maxWidth;
+            try {
+                bmp = BitmapFactory.decodeFile(imagePath, options);
+            } catch (OutOfMemoryError exception) {
+                exception.printStackTrace();
 
             }
-        }
-
-        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-        options.inJustDecodeBounds = false;
-        options.inDither = false;
-        options.inPurgeable = true;
-        options.inInputShareable = true;
-        options.inTempStorage = new byte[16 * 1024];
-
-        try {
-            bmp = BitmapFactory.decodeFile(imagePath, options);
-        } catch (OutOfMemoryError exception) {
-            exception.printStackTrace();
-
-        }
-        try {
-            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
-        } catch (OutOfMemoryError exception) {
-            exception.printStackTrace();
-        }
-
-        float ratioX = actualWidth / (float) options.outWidth;
-        float ratioY = actualHeight / (float) options.outHeight;
-        float middleX = actualWidth / 2.0f;
-        float middleY = actualHeight / 2.0f;
-
-        Matrix scaleMatrix = new Matrix();
-        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-        Canvas canvas = new Canvas(scaledBitmap);
-        canvas.setMatrix(scaleMatrix);
-        canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-        ExifInterface exif;
-        try {
-            exif = new ExifInterface(imagePath);
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
-            Matrix matrix = new Matrix();
-            if (orientation == 6) {
-                matrix.postRotate(90);
-            } else if (orientation == 3) {
-                matrix.postRotate(180);
-            } else if (orientation == 8) {
-                matrix.postRotate(270);
+            try {
+                scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
+            } catch (OutOfMemoryError exception) {
+                exception.printStackTrace();
             }
-            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
-        return BitmapFactory.decodeByteArray(out.toByteArray(), 0, out.toByteArray().length);
-    }*/
+
+            float ratioX = actualWidth / (float) options.outWidth;
+            float ratioY = actualHeight / (float) options.outHeight;
+            float middleX = actualWidth / 2.0f;
+            float middleY = actualHeight / 2.0f;
+
+            Matrix scaleMatrix = new Matrix();
+            scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
+
+            Canvas canvas = new Canvas(scaledBitmap);
+            canvas.setMatrix(scaleMatrix);
+            canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2, new Paint(Paint.FILTER_BITMAP_FLAG));
+
+            ExifInterface exif;
+            try {
+                exif = new ExifInterface(imagePath);
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
+                Matrix matrix = new Matrix();
+                if (orientation == 6) {
+                    matrix.postRotate(90);
+                } else if (orientation == 3) {
+                    matrix.postRotate(180);
+                } else if (orientation == 8) {
+                    matrix.postRotate(270);
+                }
+                scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
+            return BitmapFactory.decodeByteArray(out.toByteArray(), 0, out.toByteArray().length);
+        }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -691,7 +683,6 @@ LinearLayout ivGallery;
                                 param.put("categoryid", categoryid);
                                 param.put("productaddress", productaddress);
                                 param.put("areaproduct", areaproduct);
-                                param.put("producttype", producttype);
                                 param.put("productstatus",productstatus);
                                 param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
                                 param.put("description",description);

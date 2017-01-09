@@ -1,63 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/contentRoot"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+<android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/messageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/telephone" />
-    </FrameLayout>
-
-    <RelativeLayout
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp">
         <ImageView
-            android:id="@+id/buttonEmoji"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="4dp"
-            android:src="@drawable/smiley"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignBottom="@+id/editTextMessage"
-            />
-        <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/size_avatar_toolbar"
+            android:layout_height="@dimen/size_avatar_toolbar"
+            android:layout_marginEnd="@dimen/spacing_double"
+            android:layout_marginRight="@dimen/spacing_double"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="PrivateResource"
+            style="@style/FullScreen.TextAppearance.Title.Inverse"
+            android:layout_gravity="center_vertical|start"/>
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>
+
+<!--<include-->
+<!--layout="@layout/layout_detail_fab"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_gravity="end|bottom"-->
+<!--android:layout_marginBottom="@dimen/dist_medium"-->
+<!--android:layout_marginEnd="@dimen/dist_medium"-->
+<!--android:layout_marginRight="@dimen/dist_medium" />-->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/contentRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/messageRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+          <!--  <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/telephone" />-->
+        </FrameLayout>
+
+        <RelativeLayout
+            android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextMessage"
-            android:layout_toStartOf="@+id/buttonMessage"
-            android:layout_toRightOf="@+id/buttonEmoji"
-            android:layout_toEndOf="@+id/buttonEmoji"
-            emojicon:emojiconSize="28sp"/>
-        <ImageView
-            android:id="@+id/buttonMessage"
-            android:src="@android:drawable/ic_menu_send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="4dp"
-            android:layout_alignBottom="@+id/editTextMessage"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            />
-    </RelativeLayout>
-</LinearLayout>
+            android:padding="2dp">
+            <ImageView
+                android:id="@+id/buttonEmoji"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:src="@drawable/smiley"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/editTextMessage"
+                />
+            <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextMessage"
+                android:layout_toStartOf="@+id/buttonMessage"
+                android:layout_toRightOf="@+id/buttonEmoji"
+                android:layout_toEndOf="@+id/buttonEmoji"
+                emojicon:emojiconSize="28sp"/>
+            <ImageView
+                android:id="@+id/buttonMessage"
+                android:src="@android:drawable/ic_menu_send"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:layout_alignBottom="@+id/editTextMessage"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

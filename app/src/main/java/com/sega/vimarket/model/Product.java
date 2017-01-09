@@ -33,12 +33,11 @@ public class Product implements Parcelable {
     public String categoryname;
     public String productaddress;
     public String areaproduct;
-    public String producttype;
     private String productstatus;
     public String productdate;
     public String description;
     public  String sharecount;
-    public ArrayList productimage = new ArrayList<>();
+    public ArrayList productimage = new ArrayList<String>();
     public double price;
     public LatLng location;
 
@@ -51,7 +50,6 @@ public class Product implements Parcelable {
         categoryname = in.readString();
         productaddress=in.readString();
         areaproduct = in.readString();
-        producttype = in.readString();
         productstatus = in.readString();
         productdate = in.readString();
         productimage = in.readArrayList(ArrayList.class.getClassLoader());
@@ -76,7 +74,7 @@ public class Product implements Parcelable {
 
 
     public Product(int productid, String productname, double price, int userid, String username,
-                   String categoryname, String productaddress, String areaproduct, String producttype, String productstatus, ArrayList<String> productimage, String productdate, String description, String sharecount, double lat, double lot) {
+                   String categoryname, String productaddress, String areaproduct, String productstatus, ArrayList<String> productimage, String productdate, String description, String sharecount, double lat, double lot) {
 
         this.productid = productid;
         this.productname = productname;
@@ -86,7 +84,6 @@ public class Product implements Parcelable {
         this.categoryname = categoryname;
         this.productaddress = productaddress;
         this.areaproduct = areaproduct;
-        this.producttype = producttype;
         this.productstatus = productstatus;
         this.productimage = productimage;
         this.productdate = productdate;
@@ -108,7 +105,6 @@ public class Product implements Parcelable {
         parcel.writeString(categoryname);
         parcel.writeString(productaddress);
         parcel.writeString(areaproduct);
-        parcel.writeString(producttype);
         parcel.writeString(productstatus);
         parcel.writeString(productdate);
         parcel.writeList(productimage);

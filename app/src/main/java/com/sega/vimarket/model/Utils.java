@@ -16,9 +16,15 @@
 
 package com.sega.vimarket.model;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 
 /**
@@ -26,7 +32,8 @@ import java.text.NumberFormat;
  * wearable apps can use.
  */
 public class Utils {
-
+    public static final String LOG_TAG="Colorful";
+    public static final String PREFERENCE_KEY="COLORFUL_PREF_KEY";
     private static final String DISTANCE_KM_POSTFIX = "km";
     private static final String DISTANCE_M_POSTFIX = "m";
 
@@ -41,6 +48,23 @@ public class Utils {
      * display. As this is a sample, it only statically supports metric units.
      * A production app should check locale and support the correct units.
      */
+
+    public static void CopyStream(InputStream is, OutputStream os)
+    {
+        final int buffer_size=1024;
+        try
+        {
+            byte[] bytes=new byte[buffer_size];
+            for(;;)
+            {
+                int count=is.read(bytes, 0, buffer_size);
+                if(count==-1)
+                    break;
+                os.write(bytes, 0, count);
+            }
+        }
+        catch(Exception ignored){}
+    }
     public static String formatDistanceBetween(LatLng point1, LatLng point2) {
         if (point1 == null || point2 == null) {
             return null;
@@ -66,6 +90,27 @@ public class Utils {
         }
         return numberFormat.format(distance) + DISTANCE_M_POSTFIX;
     }
+
+    public static final String URL_STORAGE_REFERENCE = "gs://vimarket-1359.appspot.com";
+    public static final String FOLDER_STORAGE_IMG = "images";
+
+    public static void initToast(Context c, String message){
+        Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public  static boolean verificaConexao(Context context) {
+        boolean conectado;
+        ConnectivityManager conectivtyManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        conectado = conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected();
+        return conectado;
+    }
+
+    public static String local(String latitudeFinal,String longitudeFinal){
+        return "https://maps.googleapis.com/maps/api/staticmap?center="+latitudeFinal+","+longitudeFinal+"&zoom=18&size=280x280&markers=color:red|"+latitudeFinal+","+longitudeFinal;
+    }
+
 
     /**
      * Store the location in the app preferences.

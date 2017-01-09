@@ -262,5 +262,6 @@
     <string name="ratetext">Rate this seller:</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
+    <string name="theme"></string>
 
 </resources>

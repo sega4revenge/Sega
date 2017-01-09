@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.sega.vimarket.model.Utils;
+
 public abstract class CActivity extends AppCompatActivity {
     private String themeString;
 
@@ -32,7 +34,7 @@ public abstract class CActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!Colorful.getThemeString().equals(themeString)) {
-            Log.d(Util.LOG_TAG, "Theme change detected, restarting activity");
+            Log.d(Utils.LOG_TAG, "Theme change detected, restarting activity");
             recreate();
         }
     }

@@ -71,7 +71,7 @@ public class ProductDetailActivityUser extends CActivity {
         args.putString(ViMarket.currency_ID, cur);
         args.putDouble(ViMarket.currency_RATE, rate);
         fragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction().replace(R.id.product_detail_container, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.product_detail_container, fragment).commit();
     }
 
     @SuppressLint("CommitPrefEdits")

@@ -13,7 +13,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.sega.vimarket.R;
 import com.sega.vimarket.model.ChatModel;
-import com.sega.vimarket.util.Util;
+import com.sega.vimarket.model.Utils;
 
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
@@ -90,7 +90,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
             viewHolder.tvIsLocation(View.GONE);
             viewHolder.setIvChatPhoto(model.getFile().getUrl_file());
         }else if(model.getMapModel() != null){
-            viewHolder.setIvChatPhoto(Util.local(model.getMapModel().getLatitude(), model.getMapModel().getLongitude()));
+            viewHolder.setIvChatPhoto(Utils.local(model.getMapModel().getLatitude(), model.getMapModel().getLongitude()));
             viewHolder.tvIsLocation(View.VISIBLE);
         }
     }

@@ -1,11 +1,15 @@
 package com.sega.vimarket.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +34,8 @@ import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.LoginActivity;
 import com.sega.vimarket.activity.ManagementUser;
 import com.sega.vimarket.activity.PreferenceActivity;
+import com.sega.vimarket.activity.ProductActivity;
+import com.sega.vimarket.color.Colorful;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.User;
@@ -43,6 +49,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.lapism.searchview.SearchView.SPEECH_REQUEST_CODE;
+
 public class ProductDrawerFragment extends Fragment implements OnMenuItemClickListener {
 
     public static User userobj;
@@ -53,7 +61,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     private SessionManager session;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    Boolean isTablet;
     Spinner catefilter;
     @BindView(R.id.areafilter)
     Spinner areafilter;
@@ -61,7 +69,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     Spinner filter;
     int areaposition;
     public String category="0",area="",fitter="0",search = "";
-
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     protected SearchView mSearchView = null;
     private SearchHistoryTable mHistoryDatabase;
 
@@ -75,7 +83,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         unbinder = ButterKnife.bind(this, v);
         preferences = getContext().getSharedPreferences(ViMarket.TABLE_USER, Context.MODE_PRIVATE);
         // Setup toolbar
-
+        isTablet =  getResources().getBoolean(R.bool.is_tablet);
         toolbar.inflateMenu(R.menu.menu_product);
         toolbar.setOnMenuItemClickListener(this);
         onRefreshToolbarMenu();
@@ -86,6 +94,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         filter = (Spinner)v.findViewById(R.id.filter);
         mSearchView = (SearchView) v.findViewById(R.id.searchView);
         setSearchView();
+
       /*  final TransitionDrawable transition = new TransitionDrawable(new ColorDrawable[]{
                 new ColorDrawable(Color.WHITE), new ColorDrawable(Color.BLUE)
         });
@@ -211,15 +220,20 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         }
         else {
             fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ViMarket.TAG_GRID_FRAGMENT);
-            toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    toolbar.setTitle("");
-                    toolbar.setNavigationIcon(null);
-                    setSelectedDrawerItem();
-                }
-            });
+            if(!savedInstanceState.getString(ViMarket.search_text).equals(""))
+            {
+                toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
+                toolbar.setTitle(savedInstanceState.getString(ViMarket.search_text));
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toolbar.setTitle("");
+                        toolbar.setNavigationIcon(null);
+                        setSelectedDrawerItem();
+                    }
+                });
+            }
+
 
 
         }
@@ -232,7 +246,8 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        System.out.println(areaposition);
+        System.out.println(search);
+        outState.putString(ViMarket.search_text, search);
         outState.putInt("category", Integer.parseInt(category));
         outState.putInt("area", areaposition);
         outState.putInt("filter", Integer.parseInt(fitter));
@@ -281,13 +296,25 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 startActivity(backupIntent);
                 return true;
             case R.id.setting:
-                Intent rateIntent = new Intent(getActivity(), PreferenceActivity.class);
-                startActivity(rateIntent);
+                if(isTablet)
+                    ((ProductActivity) getActivity()).loadSettingFragment();
+                else
+                {
+                    Intent rateIntent = new Intent(getActivity(), PreferenceActivity.class);
+                    startActivity(rateIntent);
+                }
+
                 return true;
             case R.id.logout:
                 session.deleteLogin();
                 db.deleteUsers();
                 // Launching the login activity
+                Colorful.config(getActivity())
+                        .primaryColor(Colorful.ThemeColor.RED)
+                        .accentColor(Colorful.ThemeColor.DEEP_ORANGE)
+                        .translucent(false)
+                        .dark(false)
+                        .apply();
                 getActivity().getSharedPreferences(AppConfig.SHARED_PREF, Context.MODE_PRIVATE).edit().clear().apply();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
@@ -362,6 +389,26 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
       editor.apply();
 
   }
+
+    String[] permissions = new String[]{
+            Manifest.permission.RECORD_AUDIO,
+           };
+
+    private boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(getActivity(), p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
     protected void setSearchView() {
         mHistoryDatabase = new SearchHistoryTable(getActivity());
 
@@ -374,7 +421,23 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
             mSearchView.setHint("Search");
             mSearchView.setDivider(false);
             mSearchView.setVoice(true);
-            mSearchView.setVoiceText("Set permission on Android 6+ !");
+            mSearchView.setOnVoiceClickListener(new SearchView.OnVoiceClickListener() {
+                @Override
+                public void onVoiceClick() {
+                    if (checkPermissions()) {
+                        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak Now");
+                        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+
+                        if (getActivity() != null) {
+                            getActivity().startActivityForResult(intent, SPEECH_REQUEST_CODE);
+                        }
+                    }
+
+
+                }
+            });
             mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
             mSearchView.setShadowColor(ContextCompat.getColor(getActivity(), R.color.search_shadow_layout));
             mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

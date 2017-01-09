@@ -5,34 +5,36 @@ package com.sega.vimarket.activity;
  */
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 
 import com.sega.vimarket.R;
 import com.sega.vimarket.color.CActivity;
-import com.sega.vimarket.color.ColorPickerDialog;
-import com.sega.vimarket.color.Colorful;
-
+import com.sega.vimarket.config.SessionManager;
+import com.sega.vimarket.fragment.SettingsFragment;
 
 
 public class PreferenceActivity extends CActivity {
-
-
+    SessionManager session;
+    int color,color2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //apply activity's theme if dark theme is enabled
-
-
-
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        color = typedValue.data;
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        color2 = typedValue.data;
 
         setContentView(R.layout.preference_activity);
+        session = new SessionManager(this);
+        session.setColor(color,color2 );
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //provide back navigation
@@ -61,105 +63,5 @@ public class PreferenceActivity extends CActivity {
 
 
 
-    public static class SettingsFragment extends PreferenceFragment {
 
-        //preferences
-        static Preference first,second,third;
-
-        ColorPickerDialog dialog;
-        private SharedPreferences.OnSharedPreferenceChangeListener mListenerOptions;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.setting);
-
-            //get the preferences
-            first = findPreference("preferenceColor");
-            second = findPreference("preferenceSupport");
-            third = findPreference("preferenceAbout");
-            dialog = new ColorPickerDialog(getActivity());
-            dialog.setOnColorSelectedListener(new ColorPickerDialog.OnColorSelectedListener() {
-                @Override
-                public void onColorSelected(Colorful.ThemeColor color) {
-                    //TODO: Do something with the color
-                    Colorful.config(getActivity())
-                            .primaryColor(color)
-                            .accentColor(color)
-                            .translucent(false)
-                            .dark(false)
-                            .apply();
-
-                    dialog.dismiss();
-                    getActivity().finish();
-                    getActivity().overridePendingTransition(0, 0);
-                    getActivity().startActivity(getActivity().getIntent());
-                    getActivity().overridePendingTransition(0, 0);
-
-                }
-            });
-
-
-
-            first.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-
-
-                    //associate dialog with selected preference
-                    dialog.show();
-                    return false;
-                }
-            });
-
-            second.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-
-
-                    //associate dialog with selected preference
-                    Intent i = new Intent (getActivity(),IntroActivity.class);
-                    getActivity().startActivity(i);
-                    return false;
-                }
-            });
-
-            third.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-
-
-                    //associate dialog with selected preference
-
-                    return false;
-                }
-            });
-
-            //initialize shared preference change listener
-            //some preferences when enabled requires an app reboot
-
-        }
-
-        //register preferences changes
-        @Override
-        public void onResume() {
-            super.onResume();
-
-            //register preferences changes
-            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(mListenerOptions);
-        }
-
-        //unregister preferences changes
-        @Override
-        public void onPause() {
-            getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(mListenerOptions);
-            super.onPause();
-        }
-
-        //method to restart the app and apply the changes
-
-    }
 }

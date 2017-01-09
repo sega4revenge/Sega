@@ -111,73 +111,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
 
     @OnClick(R.id.edit_inforuser)
     public void onEditInforuser() {
-//        final Dialog dialog = new Dialog(getApplicationContext());
-//        dialog.setContentView(R.layout.edit_user);
-////        dialog.setTitle("Title...");
-//
-//        // set the custom dialog components - text, image and button
-//        TextView text = (TextView) dialog.findViewById(R.id.text);
-//        text.setText("Android custom dialog example!");
-//        final EditText edt1=(EditText) findViewById(R.id.edtedit1);
-//        final EditText edt2=(EditText) findViewById(R.id.edtedit2);
-//        final EditText edt3=(EditText) findViewById(R.id.edtedit3);
-//        final ImageView img = (ImageView) findViewById(R.id.ld_icon);
-//        img.setImageResource(R.drawable.icon_star);
 
-//        dialog.
-
-//        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-//        // if button is clicked, close the custom dialog
-//        dialogButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-//        dialog.show();
-//    }
-
-//
-
-        //////////////
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-////                .setTitle(R.string.editaddressproduct);
-////                .setMessage("Enter password");
-//        final FrameLayout frameView = new FrameLayout(getApplicationContext());
-//        builder.setView(frameView);
-//
-//        final AlertDialog alertDialog = builder.create();
-//        LayoutInflater inflater = alertDialog.getLayoutInflater();
-//        View dialoglayout = inflater.inflate(R.layout.edit_layout2, frameView);
-//        final EditText edt1=(EditText) dialoglayout.findViewById(R.id.edtedit1);
-//        final Spinner spn1=(Spinner) dialoglayout.findViewById(R.id.edtedit2) ;
-//        final ImageView img = (ImageView) dialoglayout.findViewById(R.id.ld_icon);
-//        img.setImageResource(R.drawable.icon_star);
-//
-//        builder.setPositiveButton(R.string.btneditok,
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-////                         Write your code here to execute after dialog
-//
-//
-//                    }
-//                });
-//
-//        // Setting Negative "NO" Btn
-//        builder.setNegativeButton(R.string.btneditcancel,
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // Write your code here to execute after dialog
-////                        Toast.makeText(getActivity(),
-////                                "You clicked on NO", Toast.LENGTH_SHORT)
-////                                .show();
-//                        dialog.cancel();
-////                        dialog.cancel();
-//                    }
-//                });
-//        builder.show();
-        ///////////////////////
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_user, null);
