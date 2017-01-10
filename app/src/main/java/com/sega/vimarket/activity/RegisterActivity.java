@@ -36,7 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-/**a
+/**
+ * a
  * Created by Sega on 27/12/2016.
  */
 
@@ -44,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private CountDownTimer countDownTimer;
     Spinner spinarea;
-    TextInputLayout layoutuser,layoutcode,layoutpass,layoutrepass,layoutemail,layoutphone,layoutaddress;
+    TextInputLayout layoutuser, layoutcode, layoutpass, layoutrepass, layoutemail, layoutphone, layoutaddress;
     EditText edtuser, edtpassword, edtrepassword, edtemail, edtphone, edtaddress, edtcode;
     Button register, confirm, cancel, cancelcode;
     TextView verifytext;
