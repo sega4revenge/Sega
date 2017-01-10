@@ -22,6 +22,12 @@ public class SessionManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_UNIQUEID = "uniqueid";
     private static final String KEY_UNIQUEPIC = "uniquepic";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_RATE = "rate";
+    private static final String KEY_PHONENUMBER = "phonenumber";
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_AREA = "area";
+
     public SessionManager(Context context) {
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -29,12 +35,18 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void setLogin(boolean isLoggedIn, int userid, String username,String uniqueid,String userpic) {
+    public void setLogin(boolean isLoggedIn, int userid, String username,String uniqueid,String userpic, String email, String rate, String phonenumber,String address,String area) {
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.putInt(KEY_USERID, userid);
         editor.putString(KEY_USERNAME, username);
         editor.putString(KEY_UNIQUEID, uniqueid);
         editor.putString(KEY_UNIQUEPIC, userpic);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_RATE, rate);
+        editor.putString(KEY_PHONENUMBER, phonenumber);
+        editor.putString(KEY_ADDRESS, address);
+        editor.putString(KEY_AREA, area);
+
         // commit changes
         editor.commit();
         Log.d(TAG, "User login session modified!");
@@ -83,4 +95,22 @@ public class SessionManager {
     public String getLoginPic() {
         return pref.getString(KEY_UNIQUEPIC,"");
     }
+
+    public String getLoginEmail() {
+        return pref.getString(KEY_EMAIL,"");
+    }
+    public String getLoginRate() {
+        return pref.getString(KEY_RATE,"");
+    }
+    public String getLoginPhone() {
+        return pref.getString(KEY_PHONENUMBER,"");
+    }
+    public String getLoginAddress() {
+        return pref.getString(KEY_ADDRESS,"");
+    }
+    public String getLoginArea() {
+        return pref.getString(KEY_AREA,"");
+    }
+
+
 }

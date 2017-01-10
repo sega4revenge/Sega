@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,15 +41,13 @@ import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.genasync12.AsyncResponse;
 import com.kosalgeek.genasync12.EachExceptionsHandler;
 import com.kosalgeek.genasync12.PostResponseAsyncTask;
-import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
-import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
-import com.nguyenhoanglam.imagepicker.model.Image;
 import com.sega.vimarket.R;
 import com.sega.vimarket.addproduct.Constants;
 import com.sega.vimarket.addproduct.GeocodeAddressIntentService;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
-import com.sega.vimarket.fragment.ProductDrawerFragment;
+import com.sega.vimarket.config.SessionManager;
+import com.sega.vimarket.model.Image;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,13 +55,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.sega.vimarket.R.id.producttype;
 
 /**
  * Created by Sega on 09/01/2017.
@@ -88,7 +87,7 @@ public class AddProduct extends CActivity {
     //////////////////////////////////////////////////
     AddressResultReceiver mResultReceiver;
 
-    EditText ten,gia,addressEdit,des,edtcategory,edtarea,edttype;
+    EditText ten,gia,addressEdit,des,edtcategory,edtarea;
 
 
     double latitude,longitude;
@@ -117,14 +116,14 @@ public class AddProduct extends CActivity {
 
     boolean fetchAddress;
     int fetchType = Constants.USE_ADDRESS_LOCATION;
-
+    SessionManager session;
     private static final String TAG = "MAIN_ACTIVITY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addproduct);
         ButterKnife.bind(this);
-
+        session = new SessionManager(this);
         ivImage = (ImageView)findViewById(R.id.ivImage);
         ivImage2 = (ImageView)findViewById(R.id.ivImage2);
         ivImage3 = (ImageView)findViewById(R.id.ivImage3);
@@ -249,18 +248,6 @@ public class AddProduct extends CActivity {
                     }
                 });
         AreaDialog = Areabuilder.create();
-        final CharSequence[] itemstype = getResources().getStringArray(R.array.type);
-        Typebuilder = new AlertDialog.Builder(AddProduct.this);
-        Typebuilder.setTitle(getResources().getString(R.string.type))
-                .setSingleChoiceItems(itemstype, 1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogInterface, int item) {
-                        Toast.makeText(getApplicationContext(), itemstype[item], Toast.LENGTH_SHORT).show();
-                        edttype.setText(itemstype[item]);
-                        TypeDialog.dismiss();
-
-                    }
-                });
-        TypeDialog = Typebuilder.create();
         edtcategory.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -294,23 +281,10 @@ public class AddProduct extends CActivity {
                 return true; // consume touch even
             }
         });
-        edttype = (EditText) findViewById(producttype);
-        edttype.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int inType = edttype.getInputType(); // backup the input type
-                edttype.setInputType(InputType.TYPE_NULL); // disable soft input
-                edttype.onTouchEvent(event); // call native handler
-                edttype.setInputType(inType); // restore input type
-
-
-
-
-                TypeDialog.show();
-
-                return true; // consume touch even
-            }
-        });
+        Locale current = this.getResources().getConfiguration().locale;
+        Currency cur = Currency.getInstance(current);
+        TextView currency = (TextView)findViewById(R.id.currency);
+        currency.setText(cur.getCurrencyCode());
 
         des = (EditText) findViewById(R.id.description);
 
@@ -384,7 +358,7 @@ public class AddProduct extends CActivity {
                 //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
                 productname = ten.getText().toString();
                 price = gia.getText().toString();
-                userid = ProductDrawerFragment.userobj.userid + "";
+                userid = session.getLoginId()+"";
                 // cateid = category.getSelectedItem().toString();
 
 

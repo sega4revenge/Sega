@@ -21,6 +21,7 @@ public class ChatModel {
         this.message = message;
         this.timeStamp = timeStamp;
         this.file = file;
+
     }
 
     public ChatModel(UserModel userModel, String timeStamp, MapModel mapModel) {

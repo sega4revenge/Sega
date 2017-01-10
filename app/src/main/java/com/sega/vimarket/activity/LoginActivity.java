@@ -181,9 +181,9 @@ public class LoginActivity extends AppCompatActivity {
                         //Saving the boolean as true i.e. the device is registered
                         editor.putBoolean(AppConfig.REGISTERED, true);
 
-                        //Applying the changes on sharedpreferences
+                        //Applying the changes on sharedpreferencs
                         editor.apply();
-                        session.setLogin(true, userid, username,uniqueId,userpic);
+                        session.setLogin(true, userid, username,uniqueId,userpic,email,rate,phonenumber,address,area);
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
                                                    ProductActivity.class);

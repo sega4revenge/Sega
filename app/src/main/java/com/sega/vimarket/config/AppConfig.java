@@ -6,7 +6,8 @@ package com.sega.vimarket.config;
 public class AppConfig {
     // Server user login url
     public static String URL_LOGIN = "http://freemarkets.ga/login.php";
-    public static String API_URL = "http://freemarkets.ga/getcurrency.php";
+    public static String API_MESSENGERGET = "http://freemarkets.ga/messengerget.php";
+    public static String API_MESSENGERPUT = "http://freemarkets.ga/messengerput.php";
     // Server user register urldfsd
     public static String URL_REGISTER = "http://freemarkets.ga/register.php";
     public static String URL_COMMENTS = "http://freemarkets.ga/allcomment.php";
@@ -26,6 +27,7 @@ public class AppConfig {
     public static String URL_DELETEPRODUCT = "http://freemarkets.ga/deleteproduct.php";
     public static String URL_DELETENOTIFICATION = "http://freemarkets.ga/deleteNotification.php";
     public static String URL_ADDNOTIFICATION = "http://freemarkets.ga/addNotification.php";
+    public static String URL_RATEDETAILPROFILE = "http://freemarkets.ga/ratedetailprofile.php";
 
     public static String URL_PRODUCTCATE1 = "http://freemarkets.ga/productcate1.php";
     public static String URL_PRODUCTSEARCH = "http://freemarkets.ga/productsearch.php";

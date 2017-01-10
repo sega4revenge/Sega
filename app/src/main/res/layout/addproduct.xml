@@ -226,34 +226,53 @@
 
 
                     </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                    <EditText
-
-                        android:id="@+id/price"
+                    android:orientation="horizontal">
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/price"
-                        android:drawablePadding="15dp"
-                        android:ems="10"
-                        android:hint="@string/add_price"
-                        android:background="@android:color/transparent"
+                        android:paddingTop="10dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
-                        android:inputType="numberDecimal"
+                        <EditText
+
+                            android:id="@+id/price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@mipmap/price"
+                            android:drawablePadding="15dp"
+                            android:ems="10"
+                            android:hint="@string/add_price"
+                            android:background="@android:color/transparent"
+
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+
+
+                            android:textColor="@color/material_black"
+                            android:textColorHighlight="@color/bg_screen1"/>
+
+
+                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/currency"
+                        android:layout_gravity="bottom"
+                        android:paddingTop="10dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="15dp"
                         android:padding="5dp"
+                        android:textSize="20dp"
+                        android:text="ok"/>
 
+                </LinearLayout>
 
-                        android:textColor="@color/material_black"
-                        android:textColorHighlight="@color/bg_screen1"/>
-
-
-                </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

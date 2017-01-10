@@ -111,4 +111,6 @@ public class ProductDetailActivity extends CActivity {
         super.onStop();
 
     }
+
+
 }

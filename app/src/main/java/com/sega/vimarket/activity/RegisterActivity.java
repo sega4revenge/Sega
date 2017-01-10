@@ -36,8 +36,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
-
 /**a
  * Created by Sega on 27/12/2016.
  */
@@ -46,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private CountDownTimer countDownTimer;
     Spinner spinarea;
-    TextInputLayout layoutcode;
+    TextInputLayout layoutuser,layoutcode,layoutpass,layoutrepass,layoutemail,layoutphone,layoutaddress;
     EditText edtuser, edtpassword, edtrepassword, edtemail, edtphone, edtaddress, edtcode;
     Button register, confirm, cancel, cancelcode;
     TextView verifytext;
@@ -64,6 +62,13 @@ public class RegisterActivity extends AppCompatActivity {
         edtaddress = (EditText) findViewById(R.id.address);
         edtcode = (EditText) findViewById(R.id.code);
         layoutcode = (TextInputLayout) findViewById(R.id.layoutcode);
+        layoutuser = (TextInputLayout) findViewById(R.id.layoutuser);
+        layoutpass = (TextInputLayout) findViewById(R.id.layoutpass);
+        layoutrepass = (TextInputLayout) findViewById(R.id.layoutrepass);
+        layoutemail = (TextInputLayout) findViewById(R.id.layoutemail);
+        layoutphone = (TextInputLayout) findViewById(R.id.layoutphone);
+        layoutaddress = (TextInputLayout) findViewById(R.id.layoutaddress);
+
         spinarea = (Spinner) findViewById(R.id.spinarea);
         layoutcode.setVisibility(View.GONE);
         cancel = (Button) findViewById(R.id.btcancel);
@@ -161,6 +166,13 @@ public class RegisterActivity extends AppCompatActivity {
                                                             spinarea.setVisibility(View.GONE);
                                                             register.setVisibility(View.GONE);
                                                             cancel.setVisibility(View.GONE);
+                                                            layoutuser.setVisibility(View.GONE);
+                                                            layoutaddress.setVisibility(View.GONE);
+                                                            layoutemail.setVisibility(View.GONE);
+                                                            layoutpass.setVisibility(View.GONE);
+                                                            layoutphone.setVisibility(View.GONE);
+                                                            layoutrepass.setVisibility(View.GONE);
+
                                                             cancelcode.setVisibility(View.VISIBLE);
                                                             String text = getResources().getText(R.string.verifytext) + phone;
                                                             verifytext.setText(text);

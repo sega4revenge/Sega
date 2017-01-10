@@ -41,7 +41,7 @@ import com.kosalgeek.genasync12.PostResponseAsyncTask;
 import com.sega.vimarket.R;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
-import com.sega.vimarket.fragment.ProductDrawerFragment;
+import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.widget.CircleImageView;
 import com.sega.vimarket.widget.RobotoBoldTextView;
 import com.sega.vimarket.widget.RobotoLightTextView;
@@ -81,7 +81,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    SessionManager session;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,15 +116,16 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_user, null);
         dialogBuilder.setView(dialogView);
+        session = new SessionManager(this);
         final EditText edt1=(EditText) dialogView.findViewById(R.id.edtedit1);
         final EditText edt2=(EditText) dialogView.findViewById(R.id.edtedit2);
         final EditText edt3=(EditText) dialogView.findViewById(R.id.edtedit3);
         final ImageView img = (ImageView) dialogView.findViewById(R.id.ld_icon);
         img.setImageResource(R.drawable.icon_star);
 
-        edt1.setText(ProductDrawerFragment.userobj.username);
-        edt2.setText(ProductDrawerFragment.userobj.phone);
-        edt3.setText(ProductDrawerFragment.userobj.address);
+        edt1.setText(session.getLoginName());
+        edt2.setText(session.getLoginPhone());
+        edt3.setText(session.getLoginAddress());
 
         dialogBuilder.setPositiveButton(R.string.btneditok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -191,7 +192,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> param = new HashMap<>();
-                            param.put("userid", String.valueOf(ProductDrawerFragment.userobj.userid));
+                            param.put("userid", String.valueOf(session.getLoginId()));
                             param.put("userimage",userimage);
                             param.put("name", String.valueOf(name.getText()));
                             param.put("phone", String.valueOf(phone.getText()));
@@ -247,7 +248,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
     else {
         System.out.println("2");
 
-        userimage = ProductDrawerFragment.userobj.userpic;
+        userimage = session.getLoginPic();
         Toast.makeText(getApplicationContext(),userimage,Toast.LENGTH_LONG).show();
 
 //                userimage = s;
@@ -269,7 +270,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
-                param.put("userid", String.valueOf(ProductDrawerFragment.userobj.userid));
+                param.put("userid", String.valueOf(session.getLoginId()));
                 param.put("userimage",userimage);
                 param.put("name", String.valueOf(name.getText()));
                 param.put("phone", String.valueOf(phone.getText()));
@@ -345,14 +346,14 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
     }
     public void init() {
         userpic = (CircleImageView) findViewById(R.id.iconuser);
-        Glide.with(getApplicationContext()).load(ProductDrawerFragment.userobj.userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(userpic);
+        Glide.with(getApplicationContext()).load(session.getLoginPic()).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(userpic);
         username = (RobotoBoldTextView) findViewById(R.id.drawer_username);
         email = (RobotoRegularTextView) findViewById(R.id.drawer_email);
         rate = (RobotoRegularTextView) findViewById(R.id.drawer_rate);
 
-        username.setText(ProductDrawerFragment.userobj.username);
-        email.setText(ProductDrawerFragment.userobj.email);
-        rate.setText(ProductDrawerFragment.userobj.rate);
+        username.setText(session.getLoginName());
+        email.setText(session.getLoginEmail());
+        rate.setText(session.getLoginRate());
 
         name = (RobotoLightTextView) findViewById(R.id.sellername);
         useremail = (RobotoLightTextView) findViewById(R.id.selleremail);
@@ -361,11 +362,11 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
         area = (RobotoLightTextView) findViewById(R.id.sellerarea);
 
 //        Toast.makeText(getApplicationContext(), ProductDrawerFragment.userobj.getPhone(), Toast.LENGTH_SHORT).show();
-        name.setText(ProductDrawerFragment.userobj.username);
-        useremail.setText(ProductDrawerFragment.userobj.email);
-        phone.setText(ProductDrawerFragment.userobj.phone);
-        address.setText(ProductDrawerFragment.userobj.address);
-        area.setText(ProductDrawerFragment.userobj.area);
+        name.setText(session.getLoginName());
+        useremail.setText(session.getLoginEmail());
+        phone.setText(session.getLoginPhone());
+        address.setText(session.getLoginAddress());
+        area.setText(session.getLoginArea());
 
     }
     public void verifyStoragePermissions(Activity activity) {

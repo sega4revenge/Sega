@@ -17,6 +17,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -41,12 +45,14 @@ import com.sega.vimarket.adapter.ChatFirebaseAdapter;
 import com.sega.vimarket.adapter.CircleTransform;
 import com.sega.vimarket.adapter.ClickListenerChatFirebase;
 import com.sega.vimarket.color.CActivity;
+import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.FileModel;
 import com.sega.vimarket.model.MapModel;
 import com.sega.vimarket.model.UserModel;
 import com.sega.vimarket.model.Utils;
+import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.view.FullScreenImageActivity;
 
 import java.io.File;
@@ -87,7 +93,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     String room;
     private ImageView ivUser;
     private TextView tvUser;
-
+    int sellerid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +112,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
             ivUser = (ImageView)toolbar.findViewById(R.id.avatar);
             tvUser = (TextView)toolbar.findViewById(R.id.title);
             int userid =  getIntent().getIntExtra(ViMarket.user_ID,-1);
-            int sellerid =  getIntent().getIntExtra(ViMarket.seller_ID,-1);
+           sellerid =  getIntent().getIntExtra(ViMarket.seller_ID,-1);
             urlPhotoUser = getIntent().getStringExtra("sellerpic");
             System.out.println(urlPhotoUser);
             nameUser = getIntent().getStringExtra(ViMarket.seller_name);
@@ -329,9 +335,11 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     private void sendMessageFirebase(){
         ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
         mFirebaseDatabaseReference.child(room).push().setValue(model);
-        System.out.println(mFirebaseDatabaseReference);
         edMessage.setText(null);
         firebaseAdapter.notifyDataSetChanged();
+
+
+
 
     }
 
@@ -365,8 +373,41 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
      */
     private void verificaUsuarioLogado(){
 
-            userModel = new UserModel(session.getLoginName()+"",session.getLoginPic(), session.getLoginId()+"");
+            userModel = new UserModel(session.getLoginName()+","+session.getLoginId(),session.getLoginPic(), "12");
             lerMessagensFirebase(room);
+
+        //========================================================
+        final String TAG = ChatActivity.class.getSimpleName();
+        // Hide all views
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                                                 AppConfig.API_MESSENGERPUT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Register Response: " + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Registration Error: " + error.getMessage());
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<>();
+                params.put("userid", session.getLoginId() + "");
+                params.put("room",room);
+                params.put("roomname",nameUser);
+                params.put("roompic",urlPhotoUser);
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        strReq.setTag(this.getClass().getName());
+        VolleySingleton.getInstance(this).requestQueue.add(strReq);
 
     }
 

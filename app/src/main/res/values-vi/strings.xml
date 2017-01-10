@@ -272,4 +272,14 @@
     <string name="linkshare">"Bấm vào đây để xem chi tiết : "</string>
     <string name="supportsum">Bạn có thể liên hệ với chúng tôi khi cần hỗ trợ</string>
     <string name="action_aboutsum">Giới thiệu về ứng dụng của chúng tôi</string>
+    <string name="changetheme">Thay đổi chủ đề</string>
+    <string name="select_color" translatable="false">Chọn màu</string>
+    <string name="select_picture_title" translatable="false">Chọn hình ảnh từ..</string>
+    <string name="sendLocation" translatable="false">Gửi vị trí</string>
+    <string name="sendPhoto">Hình ảnh camera</string>
+    <string name="sendPhotoGallery">Thư viện hình ảnh</string>
+    <string name="setting" translatable="false">Cài đặt</string>
+    <string name="theme">Chủ đề</string>
+    <string name="welcome_theme_description">Nhiều màu</string>
+    <string name="welcome_theme_title">Chọn một màu</string>
 </resources>

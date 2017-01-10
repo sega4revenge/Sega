@@ -33,12 +33,12 @@ import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.LoginActivity;
 import com.sega.vimarket.activity.ManagementUser;
+import com.sega.vimarket.activity.MessengerActivity;
 import com.sega.vimarket.activity.PreferenceActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.color.Colorful;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
-import com.sega.vimarket.model.User;
 import com.sega.vimarket.provider.SQLiteHandler;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ import static com.lapism.searchview.SearchView.SPEECH_REQUEST_CODE;
 
 public class ProductDrawerFragment extends Fragment implements OnMenuItemClickListener {
 
-    public static User userobj;
+
     private Fragment fragment;
     private Unbinder unbinder;
     private SharedPreferences preferences;
@@ -292,8 +292,14 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 onRefreshFragmentLayout();
                 return true;
             case R.id.myaccount:
-                Intent backupIntent = new Intent(getContext(), ManagementUser.class);
-                startActivity(backupIntent);
+                Intent profile =  new Intent(getActivity(), ManagementUser.class);
+                profile.putExtra(ViMarket.user_ID, session.getLoginId()+"");
+                startActivity(profile);
+                return true;
+            case R.id.myinbox:
+                Intent inboxIntent = new Intent(getContext(), MessengerActivity.class);
+                inboxIntent.putExtra(ViMarket.user_ID, session.getLoginId()+"");
+                startActivity(inboxIntent);
                 return true;
             case R.id.setting:
                 if(isTablet)

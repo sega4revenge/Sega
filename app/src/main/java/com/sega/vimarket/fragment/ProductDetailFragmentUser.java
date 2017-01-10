@@ -49,6 +49,7 @@ import com.sega.vimarket.activity.Fullscreen;
 import com.sega.vimarket.addproduct.Constants;
 import com.sega.vimarket.addproduct.GeocodeAddressIntentService;
 import com.sega.vimarket.config.AppConfig;
+import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.Product;
 import com.sega.vimarket.model.User;
 import com.sega.vimarket.util.TextUtils;
@@ -85,7 +86,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
     String newproductcategory2;
     String categoryid;
     String productimage1, productimage2, productimage3, productimage4;
-
+    SessionManager session;
 
     RequestQueue requestQueue;
 
@@ -189,7 +190,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
 
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
-
+        session = new SessionManager(getActivity());
         unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
         Locale current = getActivity().getResources().getConfiguration().locale;
@@ -393,7 +394,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                 Map<String, String> params;
                 params = new HashMap<String, String>();
                 params.put("productid", id);
-                params.put("userrated", String.valueOf(ProductDrawerFragment.userobj.userid));
+                params.put("userrated", String.valueOf(session.getLoginId()));
                 params.put("userrating", userid);
                 return params;
             }

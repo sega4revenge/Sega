@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.sega.vimarket.R;
 import com.sega.vimarket.config.AppConfig;
-import com.sega.vimarket.fragment.ProductDrawerFragment;
+import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.util.VolleySingleton;
 
 import org.json.JSONArray;
@@ -44,7 +44,7 @@ public class ProductRegistration extends AppCompatActivity {
     SwipeToAction swipeToAction;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    SessionManager session;
     List<Item> items = new ArrayList<>();
 
     @Override
@@ -64,7 +64,7 @@ public class ProductRegistration extends AppCompatActivity {
 //        toolbar.setTitle(R.string.btn_sell);
 
 
-
+        session = new SessionManager(this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -91,7 +91,7 @@ public class ProductRegistration extends AppCompatActivity {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> param = new HashMap<>();
 
-                        param.put("userid", String.valueOf(ProductDrawerFragment.userobj.userid));
+                        param.put("userid", String.valueOf(session.getLoginId()));
                         param.put("text", itemData.getTitle());
                         return param;
 
@@ -119,7 +119,7 @@ public class ProductRegistration extends AppCompatActivity {
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 Map<String, String> param = new HashMap<>();
 
-                                param.put("userid", String.valueOf(ProductDrawerFragment.userobj.userid));
+                                param.put("userid", String.valueOf(session.getLoginId()));
                                 param.put("text", itemData.getTitle());
                                 return param;
 
@@ -196,7 +196,7 @@ public class ProductRegistration extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<>();
-                params.put("userid", String.valueOf(ProductDrawerFragment.userobj.userid));
+                params.put("userid", String.valueOf(session.getLoginId()));
                 return params;
             }
         };

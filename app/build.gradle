@@ -43,7 +43,6 @@ repositories {
 }
 
 dependencies {
-    compile project(':imagepicker')
     compile project(':slidelibrary')
     compile project(':searchview')
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

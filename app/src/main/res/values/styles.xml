@@ -7,14 +7,6 @@
         <item name="android:textSize">15sp</item>
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-  <!--      <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/bg_screen1</item>
-        <item name="android:colorBackground">@color/backgroundlayout</item>
-        <item name="android:colorForeground">@color/foreground</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/primary</item>-->
     </style>
     <style name="AppThemeBlue" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -46,6 +38,23 @@
     </style>
 
     <!-- File Picker Themes -->
+
+
+    <style name="ImagePickerTheme" parent="AppTheme">
+        <item name="actionModeStyle">@style/CustomActionModeStyle</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="CustomActionModeStyle" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/colorPrimary</item>
+    </style>
+
+    <style name="CustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="actionMenuTextColor">@color/colorTextPrimary</item>
+    </style>
 
 
 
