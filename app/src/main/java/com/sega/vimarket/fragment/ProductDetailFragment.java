@@ -2,13 +2,13 @@ package com.sega.vimarket.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
@@ -24,12 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.sega.vimarket.Animations.DescriptionAnimation;
-import com.sega.vimarket.SliderLayout;
-import com.sega.vimarket.SliderTypes.BaseSliderView;
-import com.sega.vimarket.SliderTypes.TextSliderView;
-import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -37,10 +31,14 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.sega.vimarket.Animations.DescriptionAnimation;
 import com.sega.vimarket.R;
+import com.sega.vimarket.SliderLayout;
+import com.sega.vimarket.SliderTypes.BaseSliderView;
+import com.sega.vimarket.SliderTypes.TextSliderView;
+import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.ChatActivity;
-import com.sega.vimarket.activity.CommentActivity;
 import com.sega.vimarket.activity.Fullscreen;
 import com.sega.vimarket.activity.PersonalPage;
 import com.sega.vimarket.activity.ProductActivity;
@@ -55,7 +53,6 @@ import com.sega.vimarket.model.Utils;
 import com.sega.vimarket.service.GPSTracker;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.util.VolleySingleton;
-import com.sega.vimarket.widget.CircleImageView;
 import com.sega.vimarket.widget.RobotoLightTextView;
 import com.sega.vimarket.widget.SimpleRatingBar;
 
@@ -67,12 +64,10 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindBool;
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -137,7 +132,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     RobotoLightTextView productaddress;
     @BindView(R.id.productcategory)
     RobotoLightTextView productcategory;
-        @BindView(R.id.comments_holder)
+   /*     @BindView(R.id.comments_holder)
         View comments_holder;
 //     Comment
         @BindView(R.id.comments_see_all)
@@ -153,7 +148,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         @BindViews({R.id.datecomment1, R.id.datecomment2, R.id.datecomment3})
         List<TextView> usercommenttime;
         @BindViews({R.id.user_rating1, R.id.user_rating2, R.id.user_rating3})
-        List<TextView> usercommentrate;
+        List<TextView> usercommentrate;*/
     @BindView(R.id.ratingDetail)
     SimpleRatingBar ratingDetail;
 
@@ -391,23 +386,23 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
 
                     switch (feedObj.getInt("point")) {
                         case 1:
-                            ratee.onestar = Integer.parseInt(feedObj.getString("count"));
+                            ratee.onestar +=1;
 
                             break;
                         case 2:
-                            ratee.twostar = Integer.parseInt(feedObj.getString("count"));
+                            ratee.twostar +=1;
 
                             break;
                         case 3:
-                            ratee.threestar = Integer.parseInt(feedObj.getString("count"));
+                            ratee.threestar +=1;
 
                             break;
                         case 4:
-                            ratee.fourstar = Integer.parseInt(feedObj.getString("count"));
+                            ratee.fourstar +=1;
 
                             break;
                         case 5:
-                            ratee.fivestar = Integer.parseInt(feedObj.getString("count"));
+                            ratee.fivestar +=1;
 
                             break;
                     }
@@ -515,6 +510,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                                       Double.parseDouble(feedObj.getString("lat")),
                                       Double.parseDouble(feedObj.getString("lot"))
                 );
+                point = feedObj.getString("point");
                 seller = new User();
                 seller.userid = Integer.parseInt(feedObj.getString("userid"));
                 seller.setEmail(feedObj.getString("email"));
@@ -522,10 +518,10 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 seller.count = feedObj.getString("count");
                 seller.userpic = feedObj.getString("userpic");
                 seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
-                JSONArray feedArray = feedObj.getJSONArray("comments");
+          /*      JSONArray feedArray = feedObj.getJSONArray("comments");
                 commentslist.clear();
 
-                point = feedObj.getString("point");
+
                 for (int i = 0; i < feedArray.length(); i++) {
                     final JSONObject feedComment = (JSONObject) feedArray.get(i);
                     //add product to list products
@@ -533,7 +529,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                                                     feedComment.getString("contentcomment"), feedComment.getString("userpic"), feedComment.getString("rate"));
                     commentslist.add(comment);
                     //add product to sqlite
-                }
+                }*/
                 error=false;
             } catch (JSONException e) {
                 // JSON error
@@ -598,84 +594,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         ratingDetail.setRating(Float.parseFloat(seller.rate));
         productaddress.setText(product.productaddress + ", " + product.areaproduct);
         productcategory.setText(product.categoryname);
-                if (commentslist.size() == 0) {
-                    movieCastItems.get(0).setVisibility(View.GONE);
-                    movieCastItems.get(1).setVisibility(View.GONE);
-                    movieCastItems.get(2).setVisibility(View.GONE);
-                } else if (commentslist.size() == 1) {
-                    movieCastItems.get(0).setVisibility(View.VISIBLE);
-                    // 0
-                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
-                    usercommentname.get(0).setText(commentslist.get(0).username);
-                    usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
-                    usercommentrate.get(0).setText(commentslist.get(0).rate);
-                    usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(0).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // Hide views
-                    movieCastItems.get(2).setVisibility(View.GONE);
-                    movieCastItems.get(1).setVisibility(View.GONE);
-                    // Fix padding
-                    int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
-                    comments_holder.setPadding(padding, padding, padding, padding);
-                } else if (commentslist.size() == 2) {
-                    movieCastItems.get(0).setVisibility(View.VISIBLE);
-                    movieCastItems.get(1).setVisibility(View.VISIBLE);
-                    // 1
-                    Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
-                    usercommentname.get(1).setText(commentslist.get(1).username);
-                    usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
-                    usercommentrate.get(1).setText(commentslist.get(1).rate);
-                    usercommenttime.get(1).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(1).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // 0
-                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
-                    usercommentname.get(0).setText(commentslist.get(0).username);
-                    usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
-                    usercommentrate.get(0).setText(commentslist.get(0).rate);
-                    usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(0).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // Hide views
-                    movieCastItems.get(2).setVisibility(View.GONE);
-                    // Fix padding
-                    int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
-                    comments_holder.setPadding(padding, padding, padding, padding);
-                } else if (commentslist.size() >= 3) {
-                    movieCastItems.get(0).setVisibility(View.VISIBLE);
-                    movieCastItems.get(1).setVisibility(View.VISIBLE);
-                    movieCastItems.get(2).setVisibility(View.VISIBLE);
-                    // 2
-                    Glide.with(getActivity()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
-                    usercommentname.get(2).setText(commentslist.get(2).username);
-                    usercommentcontent.get(2).setText(commentslist.get(2).contentcomment);
-                    usercommentrate.get(2).setText(commentslist.get(2).rate);
-                    usercommenttime.get(2).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(2).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // 1
-                    Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
-                    usercommentname.get(1).setText(commentslist.get(1).username);
-                    usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
-                    usercommentrate.get(1).setText(commentslist.get(1).rate);
-                    usercommenttime.get(1).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(1).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // 0
-                    Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
-                    usercommentname.get(0).setText(commentslist.get(0).username);
-                    usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
-                    usercommentrate.get(0).setText(commentslist.get(0).rate);
-                    usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
-                            Long.parseLong(commentslist.get(0).time),
-                            System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
-                    // Hide show all button
-                    if (commentslist.size() == 3) {
-                        int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
-                        comments_holder.setPadding(padding, padding, padding, padding);
-                    }
-                }
+
         showAnimationBanner();
     }
 
@@ -715,16 +634,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
      /*   downloadproductDetails(id);*/
     }
 
-        @OnClick(R.id.comments_see_all)
-        public void onComment() {
-            Intent intent = new Intent(getActivity(), CommentActivity.class);
 
-            intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
-            intent.putExtra(ViMarket.product_NAME, product.productname);
-            intent.putExtra(ViMarket.product_ID, product.productid);
-            intent.putExtra(ViMarket.COMMENT_LIST, commentslist);
-            startActivityForResult(intent, 1);
-        }
 
     // FAB related functions
     @OnClick(R.id.fab_call)

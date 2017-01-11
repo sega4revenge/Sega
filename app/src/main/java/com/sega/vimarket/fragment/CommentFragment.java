@@ -162,7 +162,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
                     for (int i = 0; i < feedArray.length(); i++) {
                         final JSONObject feedComment = (JSONObject) feedArray.get(i);
                         //add product to list products
-                        Comments comment = new Comments(feedComment.getString("userid"), feedComment.getString("username"), feedComment.getString("productid"), feedComment.getString("time"),
+                        Comments comment = new Comments(feedComment.getString("userid"), feedComment.getString("username"), feedComment.getString("time"),
                                                         feedComment.getString("contentcomment"), feedComment.getString("userpic"), feedComment.getString("rate"));
                         adapter.CommentsList.add(comment);
                     }

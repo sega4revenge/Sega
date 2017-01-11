@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -345,7 +346,7 @@ public class ProgressWheel extends View {
     }
   }
 
-  @Override protected void onVisibilityChanged(View changedView, int visibility) {
+  @Override protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
     super.onVisibilityChanged(changedView, visibility);
 
     if (visibility == VISIBLE) {

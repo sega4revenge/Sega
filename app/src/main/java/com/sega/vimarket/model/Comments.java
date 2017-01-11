@@ -7,12 +7,11 @@ import android.os.Parcelable;
  * Created by Sega on 8/3/2016.
  */
 public class Comments implements Parcelable {
-    public String userid,username,productid,time,contentcomment,userpic,rate;
+    public String userid,username,time,contentcomment,userpic,rate;
 
-    public Comments(String userid,String username,String productid,String time,String contentcomment,String userpic,String rate) {
+    public Comments(String userid,String username,String time,String contentcomment,String userpic,String rate) {
         this.userid=userid;
         this.username=username;
-        this.productid=productid;
         this.time=time;
         this.contentcomment=contentcomment;
         this.userpic=userpic;
@@ -28,7 +27,7 @@ public class Comments implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.userid);
         dest.writeString(this.username);
-        dest.writeString(this.productid);
+
         dest.writeString(this.time);
         dest.writeString(this.contentcomment);
         dest.writeString(this.userpic);
@@ -38,7 +37,7 @@ public class Comments implements Parcelable {
     private Comments(Parcel in) {
         this.userid = in.readString();
         this.username = in.readString();
-        this.productid = in.readString();
+
         this.time = in.readString();
         this.contentcomment = in.readString();
         this.userpic = in.readString();

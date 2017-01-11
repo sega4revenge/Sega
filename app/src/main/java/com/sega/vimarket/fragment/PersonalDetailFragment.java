@@ -15,6 +15,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +33,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -43,7 +43,9 @@ import com.google.maps.android.SphericalUtil;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.sega.vimarket.R;
+import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.activity.CommentActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivity;
 import com.sega.vimarket.adapter.ProductAdapter;
@@ -71,10 +73,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindBool;
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -162,6 +166,23 @@ CollapsingToolbarLayout  toolbar2;
     HorizontalBarChart chart;
     Rate ratee;
     Unbinder unbinder;
+         @BindView(R.id.comments_holder)
+      View comments_holder;
+//     Comment
+      @BindView(R.id.comments_see_all)
+      View commentsallbutton;
+      @BindViews({R.id.movie_cast_item1, R.id.movie_cast_item2, R.id.movie_cast_item3})
+      List<View> movieCastItems;
+      @BindViews({R.id.userimage1, R.id.userimage2, R.id.userimage3})
+      List<CircleImageView> usercommentimage;
+      @BindViews({R.id.usercomments1, R.id.usercomments2, R.id.usercomments3})
+      List<TextView> usercommentname;
+      @BindViews({R.id.comments1, R.id.comments2, R.id.comments3})
+      List<TextView> usercommentcontent;
+      @BindViews({R.id.datecomment1, R.id.datecomment2, R.id.datecomment3})
+      List<TextView> usercommenttime;
+      @BindViews({R.id.user_rating1, R.id.user_rating2, R.id.user_rating3})
+      List<TextView> usercommentrate;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -420,35 +441,49 @@ CollapsingToolbarLayout  toolbar2;
             public void onResponse(String response) {
                 try {
 
+
                     JSONObject jObj = new JSONObject(response);
                     JSONArray feedArray = jObj.getJSONArray("rate");
                     ratee = new Rate();
                     for (int i = 0; i < feedArray.length(); i++) {
                         final JSONObject feedObj = (JSONObject) feedArray.get(i);
+                        System.out.println(feedObj);
                         //add product to list product
+
+
+
+
+
+                            //add product to list products
+
+                            //add product to sqlite
 
                         switch (feedObj.getInt("point")) {
                             case 1:
-                                ratee.onestar = Integer.parseInt(feedObj.getString("count"));
+                                ratee.onestar +=1;
 
                                 break;
                             case 2:
-                                ratee.twostar = Integer.parseInt(feedObj.getString("count"));
+                                ratee.twostar +=1;
 
                                 break;
                             case 3:
-                                ratee.threestar = Integer.parseInt(feedObj.getString("count"));
+                                ratee.threestar +=1;
 
                                 break;
                             case 4:
-                                ratee.fourstar = Integer.parseInt(feedObj.getString("count"));
+                                ratee.fourstar+=1;
 
                                 break;
                             case 5:
-                                ratee.fivestar = Integer.parseInt(feedObj.getString("count"));
+                                ratee.fivestar +=1;
 
                                 break;
+
                         }
+                        Comments comment = new Comments(feedObj.getString("userid"), feedObj.getString("username"),feedObj.getString("time"),
+                                                        feedObj.getString("contentcomment"), feedObj.getString("userpic"), feedObj.getString("point"));
+                        commentslist.add(comment);
                     }
                     onDownloadRateSuccessful();
                 } catch (Exception ex) {
@@ -512,6 +547,86 @@ CollapsingToolbarLayout  toolbar2;
         chart.setPinchZoom(true);
 
         leftAxis.setDrawLabels(true);
+        System.out.println( commentslist.size());
+
+        if (commentslist.size() == 0) {
+            movieCastItems.get(0).setVisibility(View.GONE);
+            movieCastItems.get(1).setVisibility(View.GONE);
+            movieCastItems.get(2).setVisibility(View.GONE);
+        } else if (commentslist.size() == 1) {
+            movieCastItems.get(0).setVisibility(View.VISIBLE);
+            // 0
+            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+            usercommentname.get(0).setText(commentslist.get(0).username);
+            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
+            usercommentrate.get(0).setText(commentslist.get(0).rate);
+            usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(0).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // Hide views
+            movieCastItems.get(2).setVisibility(View.GONE);
+            movieCastItems.get(1).setVisibility(View.GONE);
+            // Fix padding
+            int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
+            comments_holder.setPadding(padding, padding, padding, padding);
+        } else if (commentslist.size() == 2) {
+            movieCastItems.get(0).setVisibility(View.VISIBLE);
+            movieCastItems.get(1).setVisibility(View.VISIBLE);
+            // 1
+            Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+            usercommentname.get(1).setText(commentslist.get(1).username);
+            usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
+            usercommentrate.get(1).setText(commentslist.get(1).rate);
+            usercommenttime.get(1).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(1).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // 0
+            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+            usercommentname.get(0).setText(commentslist.get(0).username);
+            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
+            usercommentrate.get(0).setText(commentslist.get(0).rate);
+            usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(0).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // Hide views
+            movieCastItems.get(2).setVisibility(View.GONE);
+            // Fix padding
+            int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
+            comments_holder.setPadding(padding, padding, padding, padding);
+        } else if (commentslist.size() >= 3) {
+            movieCastItems.get(0).setVisibility(View.VISIBLE);
+            movieCastItems.get(1).setVisibility(View.VISIBLE);
+            movieCastItems.get(2).setVisibility(View.VISIBLE);
+            // 2
+            Glide.with(getActivity()).load(commentslist.get(2).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(2));
+            usercommentname.get(2).setText(commentslist.get(2).username);
+            usercommentcontent.get(2).setText(commentslist.get(2).contentcomment);
+            usercommentrate.get(2).setText(commentslist.get(2).rate);
+            usercommenttime.get(2).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(2).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // 1
+            Glide.with(getActivity()).load(commentslist.get(1).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(1));
+            usercommentname.get(1).setText(commentslist.get(1).username);
+            usercommentcontent.get(1).setText(commentslist.get(1).contentcomment);
+            usercommentrate.get(1).setText(commentslist.get(1).rate);
+            usercommenttime.get(1).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(1).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // 0
+            Glide.with(getActivity()).load(commentslist.get(0).userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(120, 120).into(usercommentimage.get(0));
+            usercommentname.get(0).setText(commentslist.get(0).username);
+            usercommentcontent.get(0).setText(commentslist.get(0).contentcomment);
+            usercommentrate.get(0).setText(commentslist.get(0).rate);
+            usercommenttime.get(0).setText(DateUtils.getRelativeTimeSpanString(
+                    Long.parseLong(commentslist.get(0).time),
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
+            // Hide show all button
+            if (commentslist.size() == 3) {
+                int padding = getResources().getDimensionPixelSize(R.dimen.dist_large);
+                comments_holder.setPadding(padding, padding, padding, padding);
+            }
+        }
     }
 
     private ArrayList<String> getXAxisValues() {
@@ -560,19 +675,8 @@ CollapsingToolbarLayout  toolbar2;
                     seller.userpic = (feedObj.getString("userpic"));
                     seller.count = feedObj.getString("count");
                     seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
-                    JSONArray feedArray = feedObj.getJSONArray("comments");
-                    commentslist.clear();
-
                     point = feedObj.getString("point");
                     favorite = feedObj.getString("favorite");
-                    for (int i = 0; i < feedArray.length(); i++) {
-                        final JSONObject feedComment = (JSONObject) feedArray.get(i);
-                        //add product to list products
-                        Comments comment = new Comments(feedComment.getString("userid"), feedComment.getString("username"), feedComment.getString("productid"), feedComment.getString("time"),
-                                                        feedComment.getString("contentcomment"), feedComment.getString("userpic"), feedComment.getString("rate"));
-                        commentslist.add(comment);
-                        //add product to sqlite
-                    }
                     onDownloadSuccessful();
                 } catch (JSONException e) {
                     // JSON error
@@ -657,9 +761,19 @@ CollapsingToolbarLayout  toolbar2;
         txtrate.setText(seller.rate);
         ratingDetail.setRating(Float.parseFloat(seller.rate));
         txtratecount.setText(seller.count);
+
         refreshLayout();
     }
+     @OnClick(R.id.comments_see_all)
+        public void onComment() {
+            Intent intent = new Intent(getActivity(), CommentActivity.class);
 
+            intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
+            intent.putExtra(ViMarket.product_NAME, product.productname);
+            intent.putExtra(ViMarket.product_ID, product.productid);
+            intent.putExtra(ViMarket.COMMENT_LIST, commentslist);
+            startActivityForResult(intent, 1);
+        }
 
     private void onDownloadFailed() {
         errorMessage.setVisibility(View.VISIBLE);
