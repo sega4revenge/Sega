@@ -140,6 +140,9 @@
         <activity android:name=".activity.ChatActivity"
                   android:theme="@style/AppThemeFullScreenImage">
         </activity>
+        <activity android:name=".activity.ProfilePage"
+                  android:theme="@style/AppThemeFullScreenImage">
+        </activity>
         <activity
             android:name=".activity.FullScreenImageActivity"
             android:theme="@style/AppThemeFullScreenImage">

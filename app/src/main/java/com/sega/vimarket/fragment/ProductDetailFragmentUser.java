@@ -1089,7 +1089,7 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
     public void onDestroy() {
         super.onDestroy();
 //        mDemoSlider.stopAutoCycle();
-        unbinder.unbind();
+//        unbinder.unbind();
 
     }
 

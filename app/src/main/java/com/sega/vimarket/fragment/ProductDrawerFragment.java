@@ -25,21 +25,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.sega.vimarket.search.SearchAdapter;
-import com.sega.vimarket.search.SearchHistoryTable;
-import com.sega.vimarket.search.SearchItem;
-import com.sega.vimarket.search.SearchView;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.LoginActivity;
-import com.sega.vimarket.activity.ManagementUser;
 import com.sega.vimarket.activity.MessengerActivity;
 import com.sega.vimarket.activity.PreferenceActivity;
 import com.sega.vimarket.activity.ProductActivity;
+import com.sega.vimarket.activity.ProfilePage;
 import com.sega.vimarket.color.Colorful;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.provider.SQLiteHandler;
+import com.sega.vimarket.search.SearchAdapter;
+import com.sega.vimarket.search.SearchHistoryTable;
+import com.sega.vimarket.search.SearchItem;
+import com.sega.vimarket.search.SearchView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,7 +292,11 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 onRefreshFragmentLayout();
                 return true;
             case R.id.myaccount:
-                Intent profile =  new Intent(getActivity(), ManagementUser.class);
+//                Intent profile =  new Intent(getActivity(), ManagementUser.class);
+//                profile.putExtra(ViMarket.user_ID, session.getLoginId()+"");
+//                startActivity(profile);
+//                return true;
+                Intent profile =  new Intent(getActivity(), ProfilePage.class);
                 profile.putExtra(ViMarket.user_ID, session.getLoginId()+"");
                 startActivity(profile);
                 return true;
