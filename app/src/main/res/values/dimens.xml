@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="search_height">46dp</dimen>
-
+    <dimen name="md_styled_text_title">20sp</dimen>
+    <dimen name="md_styled_text_description">16sp</dimen>
+    <dimen name="md_styled_dialog_header">120dp</dimen>
+    <dimen name="md_styled_pic_size">44dp</dimen>
     <dimen name="search_key_line">16dp</dimen>
     <dimen name="search_divider">1dp</dimen>
     <dimen name="search_view_margin_text">24dp</dimen>

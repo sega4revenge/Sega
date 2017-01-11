@@ -10,6 +10,9 @@
     <color name="background">#eeeeee</color>
     <color name="foreground">#616161</color>
     <color name="black">#000000</color>
+    <color name="md_styled_primary">#1565C0</color>
+    <color name="md_styled_primary_dark">#0D47A1</color>
+    <color name="md_styled_accent">#FFC107</color>
     <!-- Text Colors -->
     <color name="text_primary">#000000</color>
     <color name="text_secondary">#FFFFFF</color>

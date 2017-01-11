@@ -29,8 +29,8 @@ public class CommentActivity extends CActivity {
             CommentFragment fragment = new CommentFragment();
             Bundle args = new Bundle();
             args.putInt(ViMarket.COMMENT_TYPE, getIntent().getIntExtra(ViMarket.COMMENT_TYPE, 0));
-            args.putInt(ViMarket.product_ID, getIntent().getIntExtra(ViMarket.product_ID, 0));
-            args.putString(ViMarket.product_NAME, getIntent().getStringExtra(ViMarket.product_NAME));
+            args.putInt(ViMarket.user_ID, getIntent().getIntExtra(ViMarket.user_ID, 0));
+            args.putString(ViMarket.user_name, getIntent().getStringExtra(ViMarket.user_name));
             args.putParcelableArrayList(ViMarket.COMMENT_LIST, getIntent().getParcelableArrayListExtra(ViMarket.COMMENT_LIST));
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.comment_container, fragment).commit();

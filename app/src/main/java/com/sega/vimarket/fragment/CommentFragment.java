@@ -46,7 +46,7 @@ import butterknife.Unbinder;
  * Created by Sega on 8/4/2016.
  */
 public class CommentFragment extends Fragment implements CommentsAdapter.OnCommentsClickListener {
-    private int productid;
+    private int userid;
     SessionManager session;
     private Unbinder unbinder;
     CommentsAdapter adapter;
@@ -66,15 +66,15 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comments, container, false);
         unbinder = ButterKnife.bind(this, v);
-        productid = getArguments().getInt(ViMarket.product_ID);
+        userid = getArguments().getInt(ViMarket.user_ID);
         int commentType = getArguments().getInt(ViMarket.COMMENT_TYPE);
-        String movieName = getArguments().getString(ViMarket.product_NAME);
+        String userName = getArguments().getString(ViMarket.user_name);
         toolbar.setTitle("");
         if (commentType == ViMarket.COMMENT_TYPE_CAST) {
             toolbarTitle.setText(R.string.cast_title);
         }
         session = new SessionManager(getActivity());
-        toolbarSubtitle.setText(movieName);
+        toolbarSubtitle.setText(userName);
         toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +140,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
                 Map<String, String> params = new HashMap<>();
                 params.put("userid", session.getLoginId() + "");
                 params.put("contentcomment", writecomment.getText().toString());
-                params.put("productid", productid + "");
+                params.put("userid", userid + "");
                 return params;
             }
         };
@@ -185,7 +185,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<>();
-                params.put("productid", productid + "");
+                params.put("userid", userid + "");
                 return params;
             }
         };

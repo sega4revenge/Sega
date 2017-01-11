@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -59,6 +62,7 @@ import com.sega.vimarket.model.User;
 import com.sega.vimarket.service.GPSTracker;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.util.VolleySingleton;
+import com.sega.vimarket.view.MaterialStyledDialog;
 import com.sega.vimarket.widget.CircleImageView;
 import com.sega.vimarket.widget.ItemPaddingDecoration;
 import com.sega.vimarket.widget.SimpleRatingBar;
@@ -169,6 +173,7 @@ CollapsingToolbarLayout  toolbar2;
          @BindView(R.id.comments_holder)
       View comments_holder;
 //     Comment
+    float ratingpoint;
       @BindView(R.id.comments_see_all)
       View commentsallbutton;
       @BindViews({R.id.movie_cast_item1, R.id.movie_cast_item2, R.id.movie_cast_item3})
@@ -194,10 +199,56 @@ CollapsingToolbarLayout  toolbar2;
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         session = new SessionManager(getActivity());
         height = displaymetrics.heightPixels;
+        context = getContext();
         width = displaymetrics.widthPixels;
        errorMessage = v.findViewById(R.id.error_message);
         unbinder = ButterKnife.bind(this, v);
+        final MaterialStyledDialog.Builder dialogHeader_4 = new MaterialStyledDialog.Builder(context)
+                .setHeaderDrawable(R.drawable.background)
+                .setTitle("Sweet!")
+                .setDescription("Please rate and leave a feedback!")
+                .setPositiveText("Summit")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        requestQueue = Volley.newRequestQueue(getContext());
 
+                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_RATE, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> param = new HashMap<>();
+                                param.put("userrated", session.getLoginId()+"");
+                                param.put("userrating", sellerid);
+                                param.put("point", String.valueOf(ratingpoint));
+
+                                return param;
+
+                            }
+
+                        };
+
+                        requestQueue.add(request);
+                    }
+                })
+                .setNegativeText("Not now")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                      ratingpoint = 0;
+
+                    }
+                });
         toolbar.setOnMenuItemClickListener(this);
         if (!isTablet) {
             toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
@@ -228,41 +279,16 @@ CollapsingToolbarLayout  toolbar2;
             @Override
             public void onRatingChanged(SimpleRatingBar simpleRatingBar, final float rating,
                                         boolean fromUser) {
+                ratingpoint = rating;
+                dialogHeader_4.show();
 
-                requestQueue = Volley.newRequestQueue(getContext());
 
-                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_RATE, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> param = new HashMap<>();
-                        param.put("userrated", session.getLoginId()+"");
-                        param.put("userrating", sellerid);
-                        param.put("point", String.valueOf(rating));
-
-                        return param;
-
-                    }
-
-                };
-
-                requestQueue.add(request);
                 //                Toast.makeText(getActivity(),String.valueOf(rating),Toast.LENGTH_SHORT).show();
             }
         });
 
         currency = new HashMap<>();
-        context = getContext();
+
         unbinder = ButterKnife.bind(this, v);
         // Initialize variables
 
@@ -393,7 +419,9 @@ CollapsingToolbarLayout  toolbar2;
         super.onResume();
 
     }
+    public void summitrate(){
 
+    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -769,8 +797,8 @@ CollapsingToolbarLayout  toolbar2;
             Intent intent = new Intent(getActivity(), CommentActivity.class);
 
             intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
-            intent.putExtra(ViMarket.product_NAME, product.productname);
-            intent.putExtra(ViMarket.product_ID, product.productid);
+            intent.putExtra(ViMarket.user_name, seller.username);
+            intent.putExtra(ViMarket.user_ID, seller.userid);
             intent.putExtra(ViMarket.COMMENT_LIST, commentslist);
             startActivityForResult(intent, 1);
         }
