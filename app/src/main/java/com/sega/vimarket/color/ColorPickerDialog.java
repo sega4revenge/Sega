@@ -11,8 +11,6 @@ import android.view.View;
 import com.sega.vimarket.R;
 
 public class ColorPickerDialog extends Dialog implements View.OnClickListener, ColorPickerAdapter.OnItemClickListener {
-    private RecyclerView recycler;
-    private Toolbar toolbar;
     private OnColorSelectedListener listener;
 
     public ColorPickerDialog(Context context) {
@@ -37,8 +35,8 @@ public class ColorPickerDialog extends Dialog implements View.OnClickListener, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_colorpicker);
 
-        recycler = ((RecyclerView) findViewById(R.id.colorful_color_picker_recycler));
-        toolbar = ((Toolbar) findViewById(R.id.colorful_color_picker_toolbar));
+        RecyclerView recycler = ((RecyclerView) findViewById(R.id.colorful_color_picker_recycler));
+        Toolbar toolbar = ((Toolbar) findViewById(R.id.colorful_color_picker_toolbar));
 
         toolbar.setNavigationOnClickListener(this);
         toolbar.setBackgroundColor(getContext().getResources().getColor(Colorful.getThemeDelegate().getPrimaryColor().getColorRes()));

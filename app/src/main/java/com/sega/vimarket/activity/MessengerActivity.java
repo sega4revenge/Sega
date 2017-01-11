@@ -49,7 +49,6 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     SessionManager session;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
-    private LinearLayoutManager layoutManager;
 
 
     @Override
@@ -59,7 +58,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
         session = new SessionManager(this);
         RecyclerView recycleView = (RecyclerView) findViewById(R.id.messenger_list);
-        layoutManager = new LinearLayoutManager(MessengerActivity.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MessengerActivity.this);
         recycleView.setHasFixedSize(true);
         recycleView.setLayoutManager(layoutManager);
         recycleView.addItemDecoration(new ItemPaddingDecoration(MessengerActivity.this));

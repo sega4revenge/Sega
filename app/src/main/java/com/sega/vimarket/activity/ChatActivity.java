@@ -42,8 +42,8 @@ import com.google.firebase.storage.UploadTask;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.adapter.ChatFirebaseAdapter;
-import com.sega.vimarket.adapter.CircleTransform;
-import com.sega.vimarket.adapter.ClickListenerChatFirebase;
+import com.sega.vimarket.view.CircleTransform;
+import com.sega.vimarket.listeners.ClickListenerChatFirebase;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
@@ -53,7 +53,6 @@ import com.sega.vimarket.model.MapModel;
 import com.sega.vimarket.model.UserModel;
 import com.sega.vimarket.model.Utils;
 import com.sega.vimarket.util.VolleySingleton;
-import com.sega.vimarket.view.FullScreenImageActivity;
 
 import java.io.File;
 import java.util.Calendar;

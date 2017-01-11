@@ -55,7 +55,7 @@
             android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.AddProduct"
+            android:name=".activity.AddProductActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.ManagementUser"
@@ -115,7 +115,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".addproduct.GeocodeAddressIntentService"
+            android:name=".service.GeocodeAddressIntentService"
             android:exported="false"/>
         <service android:name=".service.FirebaseInstanceIDService">
             <intent-filter>
@@ -141,7 +141,7 @@
                   android:theme="@style/AppThemeFullScreenImage">
         </activity>
         <activity
-            android:name=".view.FullScreenImageActivity"
+            android:name=".activity.FullScreenImageActivity"
             android:theme="@style/AppThemeFullScreenImage">
         </activity>
         <activity android:name=".activity.MainActivity">

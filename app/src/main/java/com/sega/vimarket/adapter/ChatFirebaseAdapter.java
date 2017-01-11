@@ -12,8 +12,10 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.sega.vimarket.R;
+import com.sega.vimarket.listeners.ClickListenerChatFirebase;
 import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.Utils;
+import com.sega.vimarket.view.CircleTransform;
 
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 

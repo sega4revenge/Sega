@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
-    <com.daimajia.slider.library.SliderLayout
+    <com.sega.vimarket.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
         custom:pager_animation="Accordion"

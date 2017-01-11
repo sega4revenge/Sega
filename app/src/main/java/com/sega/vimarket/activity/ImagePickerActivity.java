@@ -39,12 +39,12 @@ import com.sega.vimarket.R;
 import com.sega.vimarket.adapter.FolderPickerAdapter;
 import com.sega.vimarket.adapter.ImagePickerAdapter;
 import com.sega.vimarket.color.CActivity;
-import com.sega.vimarket.helper.Constants;
-import com.sega.vimarket.helper.ImageUtils;
 import com.sega.vimarket.listeners.OnFolderClickListener;
 import com.sega.vimarket.listeners.OnImageClickListener;
 import com.sega.vimarket.model.Folder;
 import com.sega.vimarket.model.Image;
+import com.sega.vimarket.util.Constants;
+import com.sega.vimarket.util.ImageUtils;
 import com.sega.vimarket.view.GridSpacingItemDecoration;
 import com.sega.vimarket.view.ProgressWheel;
 
@@ -356,10 +356,10 @@ public class ImagePickerActivity extends CActivity implements OnImageClickListen
         final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, permissions,Constants.PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
             if (!isPermissionRequested(Constants.PREF_WRITE_EXTERNAL_STORAGE_REQUESTED)) {
-                ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(this, permissions,Constants.PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
                 setPermissionRequested(Constants.PREF_WRITE_EXTERNAL_STORAGE_REQUESTED);
             } else {
                 Snackbar snackbar = Snackbar.make(mainLayout, R.string.msg_no_write_external_permission,

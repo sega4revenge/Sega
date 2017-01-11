@@ -32,8 +32,6 @@ import com.sega.vimarket.R;
 public class ProgressWheel extends View {
   private static final String TAG = ProgressWheel.class.getSimpleName();
   private final int barLength = 16;
-  private final int barMaxLength = 270;
-  private final long pauseGrowingTime = 200;
   /**
    * *********
    * DEFAULTS *
@@ -356,6 +354,7 @@ public class ProgressWheel extends View {
   }
 
   private void updateBarLength(long deltaTimeInMilliSeconds) {
+    long pauseGrowingTime = 200;
     if (pausedTimeWithoutGrowing >= pauseGrowingTime) {
       timeStartGrowing += deltaTimeInMilliSeconds;
 
@@ -371,6 +370,7 @@ public class ProgressWheel extends View {
 
       float distance =
           (float) Math.cos((timeStartGrowing / barSpinCycleTime + 1) * Math.PI) / 2 + 0.5f;
+      int barMaxLength = 270;
       float destLength = (barMaxLength - barLength);
 
       if (barGrowingFromFront) {
@@ -696,7 +696,7 @@ public class ProgressWheel extends View {
      *
      * @param progress a double value between 0.00 and 1.00 both included
      */
-    public void onProgressUpdate(float progress);
+    void onProgressUpdate(float progress);
   }
 
   static class WheelSavedState extends BaseSavedState {

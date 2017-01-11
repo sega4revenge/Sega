@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.sega.vimarket.R;
-import com.sega.vimarket.helper.Constants;
 import com.sega.vimarket.model.Image;
+import com.sega.vimarket.util.Constants;
 
 import java.util.ArrayList;
 

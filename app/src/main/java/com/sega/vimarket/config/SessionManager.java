@@ -13,7 +13,7 @@ public class SessionManager {
     // LogCat tag
     private static String TAG = SessionManager.class.getSimpleName();
     // Shared Preferences
-    private SharedPreferences pref,colorful;
+    private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     // Shared preferences file name
     private static final String PREF_NAME = "AndroidHiveLogin";
@@ -31,7 +31,7 @@ public class SessionManager {
     public SessionManager(Context context) {
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        colorful = context.getSharedPreferences((Utils.PREFERENCE_KEY),PRIVATE_MODE);
+        SharedPreferences colorful = context.getSharedPreferences((Utils.PREFERENCE_KEY), PRIVATE_MODE);
         editor = pref.edit();
     }
 

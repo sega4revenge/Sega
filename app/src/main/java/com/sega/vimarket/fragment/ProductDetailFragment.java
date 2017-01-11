@@ -25,11 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.sega.vimarket.Animations.DescriptionAnimation;
+import com.sega.vimarket.SliderLayout;
+import com.sega.vimarket.SliderTypes.BaseSliderView;
+import com.sega.vimarket.SliderTypes.TextSliderView;
+import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -86,7 +86,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     boolean error;
     ArrayList<Comments> commentslist = new ArrayList<>();
     SessionManager session;
-    private Unbinder unbinder;
 
 
     private String id, userid;
@@ -189,7 +188,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         final Uri data = getActivity().getIntent().getData();
         sellername = (RobotoLightTextView)v.findViewById(R.id.sellername);
         mDemoSlider = (SliderLayout) v.findViewById(R.id.slider);
-        unbinder = ButterKnife.bind(this, v);
+        Unbinder unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
         if(session.getColor()==-1)
         {

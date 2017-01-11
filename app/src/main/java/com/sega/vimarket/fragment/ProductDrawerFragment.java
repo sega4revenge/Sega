@@ -25,10 +25,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.lapism.searchview.SearchAdapter;
-import com.lapism.searchview.SearchHistoryTable;
-import com.lapism.searchview.SearchItem;
-import com.lapism.searchview.SearchView;
+import com.sega.vimarket.search.SearchAdapter;
+import com.sega.vimarket.search.SearchHistoryTable;
+import com.sega.vimarket.search.SearchItem;
+import com.sega.vimarket.search.SearchView;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.LoginActivity;
@@ -49,7 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.lapism.searchview.SearchView.SPEECH_REQUEST_CODE;
+import static com.sega.vimarket.search.SearchView.SPEECH_REQUEST_CODE;
 
 public class ProductDrawerFragment extends Fragment implements OnMenuItemClickListener {
 

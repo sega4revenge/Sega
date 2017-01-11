@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
-import com.sega.vimarket.activity.AddProduct;
+import com.sega.vimarket.activity.AddProductActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivity;
 import com.sega.vimarket.activity.ProductDetailActivityUser;
@@ -165,7 +165,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddProduct.class);
+                Intent i = new Intent(getActivity(), AddProductActivity.class);
                 startActivity(i);
             }
         });

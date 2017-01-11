@@ -7,7 +7,7 @@
     android:paddingRight="?android:attr/scrollbarSize"
     android:background="?android:attr/selectableItemBackground" >
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:layout_marginRight="6dip"

@@ -28,7 +28,7 @@
         <include layout="@layout/content_product_drawer" />
 
     </LinearLayout>
-    <com.lapism.searchview.SearchView
+    <com.sega.vimarket.search.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

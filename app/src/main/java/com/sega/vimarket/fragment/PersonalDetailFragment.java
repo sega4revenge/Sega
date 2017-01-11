@@ -32,7 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -603,7 +603,7 @@ CollapsingToolbarLayout  toolbar2;
 
     private void onDownloadSuccessful() {
         //        Toast.makeText(getActivity(),point,Toast.LENGTH_LONG).show();
-        if (point.equalsIgnoreCase("null")) {
+        if (point.equalsIgnoreCase("null")||point.equalsIgnoreCase("")) {
             ratingBar.setRating(0);
         }
         else {
@@ -630,16 +630,12 @@ CollapsingToolbarLayout  toolbar2;
         productHolder.setVisibility(View.VISIBLE);
         //        floatingActionsMenu.setVisibility(View.VISIBLE);
         // Set title and tagline
-        if (TextUtils.isNullOrEmpty(product.productname)) {
-            toolbar.setTitle(product.productname);
-            toolbarTextHolder.setVisibility(View.GONE);
-        }
-        else {
+
             toolbar.setTitle("");
             toolbarTextHolder.setVisibility(View.VISIBLE);
             toolbarTitle.setText(getString(R.string.personalpage) + " " + product.username);
             //            toolbarSubtitle.setText(seller.email);
-        }
+
 
         Glide.with(getContext()).load(seller.userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
 

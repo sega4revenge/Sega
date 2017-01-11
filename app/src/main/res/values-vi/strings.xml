@@ -280,6 +280,4 @@
     <string name="sendPhotoGallery">Thư viện hình ảnh</string>
     <string name="setting" translatable="false">Cài đặt</string>
     <string name="theme">Chủ đề</string>
-    <string name="welcome_theme_description">Nhiều màu</string>
-    <string name="welcome_theme_title">Chọn một màu</string>
 </resources>

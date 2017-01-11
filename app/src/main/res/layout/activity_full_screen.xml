@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#424242"
-                tools:context="com.sega.vimarket.view.FullScreenImageActivity">
+                tools:context="com.sega.vimarket.activity.FullScreenImageActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

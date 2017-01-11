@@ -30,8 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.sega.vimarket.SliderTypes.BaseSliderView;
+import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
@@ -87,7 +87,9 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managementuser);
         ButterKnife.bind(this);
+        session = new SessionManager(this);
         verifyStoragePermissions(this);
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.action_home));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -116,7 +118,7 @@ public class ManagementUser extends CActivity implements Toolbar.OnMenuItemClick
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_user, null);
         dialogBuilder.setView(dialogView);
-        session = new SessionManager(this);
+
         final EditText edt1=(EditText) dialogView.findViewById(R.id.edtedit1);
         final EditText edt2=(EditText) dialogView.findViewById(R.id.edtedit2);
         final EditText edt3=(EditText) dialogView.findViewById(R.id.edtedit3);

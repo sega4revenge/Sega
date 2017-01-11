@@ -2,6 +2,5 @@
 <resources>
     <bool name="is_tablet">true</bool>
     <item name="activity_product" type="layout">@layout/activity_product_twopane</item>
-    <dimen name="review_detail_padding" type="layout">8dp</dimen>
 
 </resources>
