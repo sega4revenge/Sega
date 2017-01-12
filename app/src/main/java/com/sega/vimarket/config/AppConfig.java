@@ -28,6 +28,7 @@ public class AppConfig {
     public static String URL_DELETENOTIFICATION = "http://freemarkets.ga/deleteNotification.php";
     public static String URL_ADDNOTIFICATION = "http://freemarkets.ga/addNotification.php";
     public static String URL_RATEDETAILPROFILE = "http://freemarkets.ga/ratedetailprofile.php";
+    public static String URL_EDITAVATAR = "http://freemarkets.ga/editavatar.php";
 
     public static String URL_PRODUCTCATE1 = "http://freemarkets.ga/productcate1.php";
     public static String URL_PRODUCTSEARCH = "http://freemarkets.ga/productsearch.php";

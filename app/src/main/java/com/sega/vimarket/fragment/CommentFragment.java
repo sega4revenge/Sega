@@ -88,7 +88,6 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
         commentView.setHasFixedSize(true);
         commentView.setLayoutManager(layoutManager);
         commentView.setAdapter(adapter);
-        downloadComment();
         // Load Analytics Tracker
 
         return v;

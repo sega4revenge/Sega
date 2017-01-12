@@ -340,8 +340,8 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
 
                 //add product to sqlite
             }
-
-            if (viewType == ViMarket.VIEW_TYPE_NEAR) {
+            System.out.println(GPSTracker.mLastestLocation);
+            if (fitter.equals("1")) {
                 Collections.sort(adapter.productList,
                                  new Comparator<Product>() {
                                      @Override

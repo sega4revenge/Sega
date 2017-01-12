@@ -33,8 +33,7 @@
 
         <activity
             android:name=".activity.ProductActivity"
-            android:label="@string/app_name"
-           />
+            android:label="@string/app_name"/>
         <activity
             android:name=".activity.PersonalPage"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -132,16 +131,16 @@
         </activity>
         <activity
             android:name=".activity.PreferenceActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/setting">
+            android:label="@string/setting"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
-
-        <activity android:name=".activity.ChatActivity"
-                  android:theme="@style/AppThemeFullScreenImage">
+        <activity
+            android:name=".activity.ChatActivity"
+            android:theme="@style/AppThemeFullScreenImage">
         </activity>
-        <activity android:name=".activity.ProfilePage"
-                  android:theme="@style/AppThemeFullScreenImage">
+        <activity
+            android:name=".activity.ProfilePage"
+            android:theme="@style/AppThemeFullScreenImage">
         </activity>
         <activity
             android:name=".activity.FullScreenImageActivity"
@@ -155,7 +154,7 @@
             android:name=".activity.ImagePickerActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/ImagePickerTheme" />
+            android:theme="@style/ImagePickerTheme"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -164,8 +163,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
+
+        <activity android:name=".activity.AboutActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -261,7 +261,7 @@
     <string name="verifytext">Một mã xác nhận đã được gửi đến số điện thoại </string>
     <string name="verifycode">Mã xác nhận</string>
     <string name="image">Tải ảnh lên</string>
-    <string name="rate">Điểm đánh giá</string>
+    <string name="rate">Bình chọn cho người bán này</string>
     <string name="personalpage">Trang cá nhân</string>
     <string name="productsofuser">Các sản phẩm</string>
     <string name="verifytextforgot">Một mã xác nhận đã được gửi đến email </string>
@@ -280,4 +280,20 @@
     <string name="sendPhotoGallery">Thư viện hình ảnh</string>
     <string name="setting" translatable="false">Cài đặt</string>
     <string name="theme">Chủ đề</string>
+    <string name="camera">Máy ảnh</string>
+    <string name="done">Thành công</string>
+    <string name="error_create_image_file">Lỗi khi tạo file ảnh</string>
+    <string name="error_no_camera">Không tìm thấy máy ảnh</string>
+    <string name="image_directory">Máy ảnh</string>
+    <string name="msg_empty_images">Không tìm thấy hình ảnh</string>
+    <string name="msg_limit_images">Giới hạn hình ảnh</string>
+    <string name="msg_no_camera_permission">Xin hãy cấp quyền cho máy ảnh để chụp ảnh</string>
+    <string name="msg_no_write_external_permission">Xin hãy cấp quyền để chọn ảnh</string>
+    <string name="ok">Đồng ý</string>
+    <string name="ratetextcomplete">Bạn đã đánh giá người bán này</string>
+    <string name="search_content_description">Nội dung mô tả</string>
+    <string name="title_folder">Thư mục</string>
+    <string name="title_select_image">Chọn hình ảnh</string>
+    <string name="About">Free Market là ứng dụng hỗ trợ mua bán, cho phép người mua và người bán kết nối và giao dịch an toàn, dễ dàng, nhanh chóng và tiện lợi. Đăng tin rao bán hoàn toàn miễn phí. Ứng dụng hỗ trợ tìm kiếm nhanh các sản phẩm rao bán vô cùng nhanh chóng ở tất cả các danh mục khác nhau từ bất động sản, điện thoại, xe máy, vật nuôi.... Ở Free Market bạn có thể mua bán hàng thật phong phú, đa dạng và độc đáo. Hãy đến với Free Market để cảm nhận sự khác biệt khi mua bán hàng hóa online.</string>
+    <string name="about_version">Phiên bản 1.0</string>
 </resources>

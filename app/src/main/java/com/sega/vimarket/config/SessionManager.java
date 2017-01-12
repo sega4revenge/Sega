@@ -51,6 +51,11 @@ public class SessionManager {
         editor.commit();
         Log.d(TAG, "User login session modified!");
     }
+    public void setPicUser(String userpic){
+        editor.remove(KEY_UNIQUEPIC).commit();
+        editor.putString(KEY_UNIQUEPIC, userpic);
+        editor.commit();
+    }
     public void setCurrency(Double currency){
         editor.putString("currency", Double.toString(currency));
         editor.commit();

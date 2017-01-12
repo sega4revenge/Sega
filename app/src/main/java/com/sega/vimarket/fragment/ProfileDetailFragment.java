@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -39,11 +41,18 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.maps.android.SphericalUtil;
+import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.kosalgeek.android.photoutil.ImageBase64;
+import com.kosalgeek.genasync12.AsyncResponse;
+import com.kosalgeek.genasync12.EachExceptionsHandler;
+import com.kosalgeek.genasync12.PostResponseAsyncTask;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.sega.vimarket.R;
 import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.activity.ImagePicker;
+import com.sega.vimarket.activity.ImagePickerActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivityUser;
 import com.sega.vimarket.adapter.ProductAdapter;
@@ -51,6 +60,7 @@ import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.loader.MyValueFormatter;
 import com.sega.vimarket.model.Comments;
+import com.sega.vimarket.model.Image;
 import com.sega.vimarket.model.Product;
 import com.sega.vimarket.model.Rate;
 import com.sega.vimarket.model.User;
@@ -64,6 +74,12 @@ import com.sega.vimarket.widget.SimpleRatingBar;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -77,6 +93,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.sega.vimarket.activity.AddProductActivity.getReducedBitmap;
 
 /**
  * Created by HOHOANGLINH on 11-Jan-17.
@@ -98,11 +116,10 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     private boolean isLoadingLocked;
 
 
-    @BindView(R.id.loading_more)
     View loadingMore;
-    @BindView(R.id.swipe_refresh)
+
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.product_grid)
+
     RecyclerView recyclerView;
 
 
@@ -115,9 +132,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     // Toolbar
-    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_text_holder)
+
     View toolbarTextHolder;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -126,16 +142,13 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     @BindView(R.id.price)
     TextView tvprice;
 
-    @BindView(R.id.username)
-    TextView tvusername;
+//    @BindView(R.id.username)
+//    TextView tvusername;
 
-    @BindView(R.id.progress_circle)
     View progressCircle;
     View errorMessage;
-    @BindView(R.id.product_detail_holder)
     NestedScrollView productHolder;
 
-    @BindView(R.id.poster_image)
     CircleImageView posterImage;
 
     @BindView(R.id.product_name)
@@ -150,18 +163,26 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     @BindView(R.id.txtratecount)
     TextView txtratecount;
 
-    @BindView(R.id.thumb_button)
-    LikeButton thumbButton;
+//    @BindView(R.id.thumb_button)
+//    LikeButton thumbButton;
     int height, width;
     @BindView(R.id.toolbar2)
     CollapsingToolbarLayout toolbar2;
     RequestQueue requestQueue;
-    String point="", favorite="";
+    String point = "", favorite = "";
     @BindView(R.id.chart)
     HorizontalBarChart chart;
     Rate ratee;
     Unbinder unbinder;
-    String rate1 = "0",point1 ="0";
+    String rate1 = "0", point1 = "0";
+    private ArrayList<Image> images = new ArrayList<>();
+    private int REQUEST_CODE_PICKER = 2000;
+    String selectedPhoto;
+    public static final int RESULT_OK = -1;
+    final int GALLERY_REQUEST = 22131;
+    GalleryPhoto galleryPhoto;
+    String userimage;
+Bitmap bitmap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -174,7 +195,15 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         session = new SessionManager(getActivity());
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
+        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         errorMessage = v.findViewById(R.id.error_message);
+        progressCircle = v.findViewById(R.id.progress_circle);
+        loadingMore = v.findViewById(R.id.loading_more);
+        productHolder = (NestedScrollView) v.findViewById(R.id.product_detail_holder);
+        toolbarTextHolder = v.findViewById(R.id.toolbar_text_holder);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
+        recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);
+        posterImage = (CircleImageView) v.findViewById(R.id.poster_image);
         unbinder = ButterKnife.bind(this, v);
 
         toolbar.setOnMenuItemClickListener(this);
@@ -188,12 +217,10 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 }
             });
         }
-        if(session.getColor()==-1)
-        {
+        if (session.getColor() == -1) {
             toolbar2.setContentScrimColor(getResources().getColor(R.color.primary));
         }
-        else
-        {
+        else {
             toolbar2.setContentScrimColor((session.getColor()));
         }
 
@@ -201,7 +228,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         // Download product details if new instance, else restore from saved instance
 
         // Setup FAB
-        thumbButton.setOnLikeListener(this);
+//        thumbButton.setOnLikeListener(this);
 
         currency = new HashMap<>();
         context = getContext();
@@ -229,12 +256,17 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                     if (pageToDownload < TOTAL_PAGES) {
                         loadingMore.setVisibility(View.VISIBLE);
                         downloadproductsList();
-                        downloadRate();
+                        //                        downloadRate();
                     }
                 }
             }
         });
-
+        posterImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                start();
+            }
+        });
 
         //        recyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
         //            @Override
@@ -264,7 +296,6 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 pageToDownload = 1;
                 adapter = null;
                 downloadproductsList();
-                downloadRate();
             }
         });
         // Get the products list
@@ -332,6 +363,20 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
 
         return v;
+    }
+
+    public void start() {
+        ImagePicker.create(this)
+                .folderMode(true) // set folder mode (false by default)
+                .folderTitle("Folder") // folder selection title
+                .imageTitle("Tap to select") // image selection title
+                .single() // single mode
+                //                .multi() // multi mode (default mode)
+                .limit(1) // max images can be selected (999 by default)
+                .showCamera(true) // show camera or not (true by default)
+                .imageDirectory("Camera")   // captured image directory name ("Camera" folder by default)
+                .origin(images) // original selected images, used in multi mode
+                .start(REQUEST_CODE_PICKER); // start image picker activity with request code
     }
 
     @Override
@@ -422,7 +467,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                     rate1 = jObj.getString("rate1");
                     point1 = jObj.getString("count");
 
-                    Log.e("RATEOK","rate: " +rate1 + " " +"point: "+ point1);
+                    Log.e("RATEOK", "rate: " + rate1 + " " + "point: " + point1);
                     onDownloadRateSuccessful();
                 } catch (Exception ex) {
                     // JSON parsing error
@@ -485,8 +530,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         chart.setPinchZoom(true);
 
         leftAxis.setDrawLabels(true);
-
-        txtrate.setText(rate1);
+        DecimalFormat numberFormat = new DecimalFormat("#.0");
+        txtrate.setText(numberFormat.format(Float.parseFloat(rate1)));
 
         ratingDetail.setRating(Float.parseFloat(rate1));
         txtratecount.setText(point1);
@@ -609,10 +654,10 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         //            toolbarSubtitle.setText(seller.email);
 
 
-        Glide.with(getContext()).load(session.getLoginPic()).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
+        Glide.with(getContext()).load(session.getLoginPic().replaceAll("\\\\","")).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
 
         productTitle.setText(session.getLoginName());
-        tvusername.setText(session.getLoginName());
+//        tvusername.setText(session.getLoginName());
         tvprice.setText(session.getLoginPhone());
 
         tvproductdate.setText(session.getLoginEmail());
@@ -789,7 +834,132 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 downloadRate();
             }
         }
+        if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
+            images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+
+            for (int i = 0, l = images.size(); i < l; i++) {
+                if (i == 0) {
+                    selectedPhoto = images.get(0).getPath();
+//                    Log.e("link",selectedPhoto);
+                     bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
+//                    posterImage.setImageBitmap(bitmap);
+                    Glide.with(getActivity())
+                            .load(new File(selectedPhoto)) // Uri of the picture
+
+                    .into(posterImage);
+//                    posterImage.setImage
+                }
+            }
+        }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST) {
+                Uri uri = data != null ? data.getData() : null;
+
+                galleryPhoto.setPhotoUri(uri);
+                String photoPath = galleryPhoto.getPath();
+                selectedPhoto = photoPath;
+//                Log.e("link",selectedPhoto);
+                 bitmap = getReducedBitmap(photoPath, 256, 200000);
+//                posterImage.setImageBitmap(bitmap);
+                Glide.with(getActivity())
+                        .load(new File(selectedPhoto)) // Uri of the picture
+
+                        .into(posterImage);            }
+        }
+
+//        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
+        if(bitmap != null){
+    assert bitmap != null;
+        String encodedImage = ImageBase64.encode(bitmap);
+
+
+        Log.d("IMAGE", encodedImage);
+
+
+        HashMap<String, String> postData = new HashMap<>();
+        postData.put("image", encodedImage);
+        PostResponseAsyncTask task = new PostResponseAsyncTask(getContext(), postData, new AsyncResponse() {
+
+            @Override
+            public void processFinish(String s) {
+                Log.e("Image", s);
+                //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
+                //                    Log.e(TAG,s.substring(1,60));
+
+                userimage = s.substring(1, s.length() - 1);
+                //                    Toast.makeText(getContext(),userimage,Toast.LENGTH_LONG).show();
+
+                //                userimage = s;
+                //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
+                requestQueue = Volley.newRequestQueue(getActivity());
+
+                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_EDITAVATAR, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                        session.setPicUser(userimage);
+                        Log.e("IMAGE",session.getLoginPic());
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> param = new HashMap<>();
+                        param.put("userid", String.valueOf(session.getLoginId()));
+                        param.put("userimage", userimage);
+                        //                            param.put("name", String.valueOf(name.getText()));
+                        //                            param.put("phone", String.valueOf(phone.getText()));
+                        //                            param.put("address", String.valueOf(address.getText()));
+
+                        return param;
+
+                    }
+
+                };
+
+                requestQueue.add(request);
+
+
+            }
+        });
+
+        task.execute(AppConfig.URL_IMAGEUSER);
+
+        task.setEachExceptionsHandler(new EachExceptionsHandler() {
+            @Override
+            public void handleIOException(IOException e) {
+                Toast.makeText(getContext(), "Cannot Connect to Server.",
+                               Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleMalformedURLException(MalformedURLException e) {
+                Toast.makeText(getContext(), "URL Error.",
+                               Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleProtocolException(ProtocolException e) {
+                Toast.makeText(getContext(), "Protocol Error.",
+                               Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
+                Toast.makeText(getContext(), "Encoding Error.",
+                               Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        }
     }
+
 
     public int getNumberOfColumns() {
         // Get screen width
@@ -911,3 +1081,4 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     }
 }
 
+////////////////////////////////////

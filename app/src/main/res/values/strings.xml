@@ -286,7 +286,7 @@
     <string name="verifycode">Verification code</string>
     <string name="verifytext">An verification code has been send to phone number </string>
     <string name="image">Upload image </string>
-    <string name="rate">Average Rating</string>
+    <string name="rate">Like this seller</string>
     <string name="personalpage">Personal Page</string>
     <string name="productsofuser">Products</string>
     <string name="verifytextforgot">An verification code has been send to email %1$s</string>
@@ -296,4 +296,6 @@
     <string name="ratetextcomplete">You have already rated this seller</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
+    <string name="About">Free Market is a supporting sale app ,allowing buyers and sellers to connect and transact safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . The application supports to search sale products extremely quickly in all the different categories likes : real estate, mobile phone, motorbike, pet .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \"</string>
+    <string name="about_version">Version 1.0</string>
 </resources>

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <!-- Section 1: Basic Info -->
-            <include layout="@layout/layout_personal_info" />
+            <include layout="@layout/layout_profile_info" />
             <include layout="@layout/layout_detail_rating_profile"/>
         </LinearLayout>
 

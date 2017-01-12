@@ -286,6 +286,8 @@ CollapsingToolbarLayout  toolbar2;
                                 request.setTag(this.getClass().getName());
                                 VolleySingleton.getInstance(getActivity()).requestQueue.add(request);
                                 downloadRate();
+                                downloadproductDetails(id);
+
 
                             }
                         })
@@ -487,6 +489,7 @@ CollapsingToolbarLayout  toolbar2;
     }
 
     private void downloadRate() {
+        commentslist.clear();
         StringRequest strReq = new StringRequest(Request.Method.POST,
                                                  AppConfig.URL_RATEDETAIL, new Response.Listener<String>() {
             @Override
@@ -729,8 +732,7 @@ CollapsingToolbarLayout  toolbar2;
                     if(feedObj.getString("rate").equals("null"))
                         seller.rate = "0";
                     else
-                    {   layoutratingbar.setClickable(false);
-                        ratingtext.setText(getString(R.string.ratetextcomplete));
+                    {
                         seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
                     }
 
@@ -773,6 +775,8 @@ CollapsingToolbarLayout  toolbar2;
             ratingBar.setFocusable(false);
             ratingBar.setFocusableInTouchMode(false);
             ratingBar.setRating(Float.parseFloat(point));
+            layoutratingbar.setClickable(false);
+            ratingtext.setText(getString(R.string.ratetextcomplete));
         }
         //        sellername.setSelected(true);
         //        sellerphone.setSelected(true);

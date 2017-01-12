@@ -32,12 +32,13 @@
         app:fab_label="@string/detail_fab_sms"
         app:fab_size="mini" />
     <com.github.clans.fab.FloatingActionButton
+
         android:id="@+id/fab_messenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/sms"
-        app:fab_colorNormal="@color/fab_blue"
-        app:fab_colorPressed="@color/fab_blue_dark"
+        android:src="@drawable/chat"
+        app:fab_colorNormal="@color/material_redA400"
+        app:fab_colorPressed="@color/material_redA700"
         app:fab_label="Messenger"
         app:fab_size="mini" />
 
