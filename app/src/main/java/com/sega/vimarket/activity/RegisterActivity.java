@@ -159,25 +159,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                         if (phone.length() >= 10 && phone.length() <= 15) {
 
 
-                                                            edtuser.setVisibility(View.GONE);
-                                                            edtpassword.setVisibility(View.GONE);
-                                                            edtrepassword.setVisibility(View.GONE);
-                                                            edtemail.setVisibility(View.GONE);
-                                                            edtphone.setVisibility(View.GONE);
-                                                            edtaddress.setVisibility(View.GONE);
-                                                            spinarea.setVisibility(View.GONE);
-                                                            register.setVisibility(View.GONE);
-                                                            cancel.setVisibility(View.GONE);
-                                                            layoutuser.setVisibility(View.GONE);
-                                                            layoutaddress.setVisibility(View.GONE);
-                                                            layoutemail.setVisibility(View.GONE);
-                                                            layoutpass.setVisibility(View.GONE);
-                                                            layoutphone.setVisibility(View.GONE);
-                                                            layoutrepass.setVisibility(View.GONE);
-
-                                                            cancelcode.setVisibility(View.VISIBLE);
-                                                            String text = getResources().getText(R.string.verifytext) +" "+ phone;
-                                                            verifytext.setText(text);
                                                             registerUser(name, email, password, phone, address, area);
 
                                                         }
@@ -219,6 +200,26 @@ public class RegisterActivity extends AppCompatActivity {
                     if (!error) {
                         layoutcode.setVisibility(View.VISIBLE);
                         confirm.setVisibility(View.VISIBLE);
+
+                        edtuser.setVisibility(View.GONE);
+                        edtpassword.setVisibility(View.GONE);
+                        edtrepassword.setVisibility(View.GONE);
+                        edtemail.setVisibility(View.GONE);
+                        edtphone.setVisibility(View.GONE);
+                        edtaddress.setVisibility(View.GONE);
+                        spinarea.setVisibility(View.GONE);
+                        register.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
+                        layoutuser.setVisibility(View.GONE);
+                        layoutaddress.setVisibility(View.GONE);
+                        layoutemail.setVisibility(View.GONE);
+                        layoutpass.setVisibility(View.GONE);
+                        layoutphone.setVisibility(View.GONE);
+                        layoutrepass.setVisibility(View.GONE);
+
+                        cancelcode.setVisibility(View.VISIBLE);
+                        String text = getResources().getText(R.string.verifytext) +" "+ phone;
+                        verifytext.setText(text);
                         startCountdownTimer();
 
                     }
