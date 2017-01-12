@@ -158,8 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     if (password.length() >= 6 && password.equals(repass)) {
                                                         if (phone.length() >= 10 && phone.length() <= 15) {
 
-                                                            layoutcode.setVisibility(View.VISIBLE);
-                                                            confirm.setVisibility(View.VISIBLE);
+
                                                             edtuser.setVisibility(View.GONE);
                                                             edtpassword.setVisibility(View.GONE);
                                                             edtrepassword.setVisibility(View.GONE);
@@ -177,9 +176,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                             layoutrepass.setVisibility(View.GONE);
 
                                                             cancelcode.setVisibility(View.VISIBLE);
-                                                            String text = getResources().getText(R.string.verifytext) + phone;
+                                                            String text = getResources().getText(R.string.verifytext) +" "+ phone;
                                                             verifytext.setText(text);
-
+                                                            registerUser(name, email, password, phone, address, area);
 
                                                         }
                                                     }
@@ -218,7 +217,8 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        registerUser(name, email, password, phone, address, area);
+                        layoutcode.setVisibility(View.VISIBLE);
+                        confirm.setVisibility(View.VISIBLE);
                         startCountdownTimer();
 
                     }
