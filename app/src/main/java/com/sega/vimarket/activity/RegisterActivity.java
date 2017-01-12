@@ -1,5 +1,6 @@
 package com.sega.vimarket.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -278,8 +279,11 @@ public class RegisterActivity extends AppCompatActivity {
                     String result = json.getString("error");
 
                     if (result.equals(ViMarket.FALSE)) {
-
+                     Toast.makeText(getApplicationContext(),R.string.registersusscess,Toast.LENGTH_LONG).show();
                         countDownTimer.cancel();
+
+                        Intent i = new Intent(RegisterActivity.this,ProductActivity.class);
+                        startActivity(i);
                         finish();
 
                     }
