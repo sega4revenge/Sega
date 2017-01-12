@@ -91,3 +91,6 @@
 -dontwarn com.kosalgeek.android.**
 -keep class com.kosalgeek.genasync12.** { *; }
 -dontwarn com.kosalgeek.genasync12.**
+
+-keep class com.daimajia.androidanimations.library.** { *; }
+-dontwarn com.daimajia.androidanimations.library.**

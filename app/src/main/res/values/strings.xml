@@ -293,6 +293,7 @@
     <string name="forgottext">Please input email linked your account </string>
     <string name="addcomment">Write your comments here</string>
     <string name="ratetext">Rate this seller:</string>
+    <string name="ratetextcomplete">You have already rated this seller</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
 </resources>

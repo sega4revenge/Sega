@@ -5,16 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
@@ -23,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +62,6 @@ import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.view.MaterialStyledDialog;
 import com.sega.vimarket.widget.CircleImageView;
-import com.sega.vimarket.widget.ItemPaddingDecoration;
 import com.sega.vimarket.widget.SimpleRatingBar;
 
 import org.json.JSONArray;
@@ -107,12 +104,12 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     private boolean isLoadingLocked;
 
 
-    @BindView(R.id.loading_more)
+/*    @BindView(R.id.loading_more)
     View loadingMore;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.product_grid)
-    RecyclerView recyclerView;
+    RecyclerView recyclerView;*/
 
 
     ArrayList<Comments> commentslist = new ArrayList<>();
@@ -138,9 +135,9 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     @BindView(R.id.username)
     TextView tvusername;
 
-    @BindView(R.id.progress_circle)
+  /*  @BindView(R.id.progress_circle)
     View progressCircle;
-    View errorMessage;
+    View errorMessage;*/
     @BindView(R.id.product_detail_holder)
     NestedScrollView productHolder;
 
@@ -149,7 +146,8 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
 
     @BindView(R.id.product_name)
     TextView productTitle;
-
+    @BindView(R.id. ratingtext)
+    TextView ratingtext;
     @BindView(R.id.ratingDetail)
     SimpleRatingBar ratingDetail;
     @BindView(R.id.ratingBar)
@@ -158,7 +156,7 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     TextView txtrate;
     @BindView(R.id.txtratecount)
     TextView txtratecount;
-
+    SimpleRatingBar ratingBardialog;
     @BindView(R.id.thumb_button)
     LikeButton thumbButton;
     int height, width;
@@ -170,8 +168,11 @@ CollapsingToolbarLayout  toolbar2;
     HorizontalBarChart chart;
     Rate ratee;
     Unbinder unbinder;
+    @BindView(R.id.layoutratingbar)
+    LinearLayout layoutratingbar;
          @BindView(R.id.comments_holder)
       View comments_holder;
+
 //     Comment
     float ratingpoint;
       @BindView(R.id.comments_see_all)
@@ -188,12 +189,15 @@ CollapsingToolbarLayout  toolbar2;
       List<TextView> usercommenttime;
       @BindViews({R.id.user_rating1, R.id.user_rating2, R.id.user_rating3})
       List<TextView> usercommentrate;
+    MaterialStyledDialog.Builder dialogHeader_4;
+    View customView;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
 
         View v = inflater.inflate(R.layout.fragment_personal_detail, container, false);
+
         setRetainInstance(true);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -201,54 +205,11 @@ CollapsingToolbarLayout  toolbar2;
         height = displaymetrics.heightPixels;
         context = getContext();
         width = displaymetrics.widthPixels;
-       errorMessage = v.findViewById(R.id.error_message);
         unbinder = ButterKnife.bind(this, v);
-        final MaterialStyledDialog.Builder dialogHeader_4 = new MaterialStyledDialog.Builder(context)
-                .setHeaderDrawable(R.drawable.background)
-                .setTitle("Sweet!")
-                .setDescription("Please rate and leave a feedback!")
-                .setPositiveText("Summit")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        requestQueue = Volley.newRequestQueue(getContext());
+     /*  errorMessage = v.findViewById(R.id.error_message);*/
 
-                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_RATE, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
 
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                Map<String, String> param = new HashMap<>();
-                                param.put("userrated", session.getLoginId()+"");
-                                param.put("userrating", sellerid);
-                                param.put("point", String.valueOf(ratingpoint));
 
-                                return param;
-
-                            }
-
-                        };
-
-                        requestQueue.add(request);
-                    }
-                })
-                .setNegativeText("Not now")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                      ratingpoint = 0;
-
-                    }
-                });
         toolbar.setOnMenuItemClickListener(this);
         if (!isTablet) {
             toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
@@ -271,16 +232,82 @@ CollapsingToolbarLayout  toolbar2;
 
 
         // Download product details if new instance, else restore from saved instance
-
+        final LayoutInflater inflatertemp = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        customView = inflatertemp.inflate(R.layout.layout_rating_dialog,container, false);
+        final EditText comments = (EditText) customView.findViewById(R.id.commentdialog);
+        ratingBardialog = (SimpleRatingBar)customView.findViewById(R.id.ratingBardialog);
         // Setup FAB
         thumbButton.setOnLikeListener(this);
         ratingBar.setStepSize();
-        ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
+        ratingBar.setIndicator(true);
+        layoutratingbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                new MaterialStyledDialog.Builder(context)
+                        .setHeaderDrawable(R.drawable.background)
+                        .setTitle("Sweet!")
+                        .setCancelable(false)
+                        .setDescription("Please rate and leave a feedback!")
+                        .setPositiveText("Summit")
+                        .setCustomView(customView,20,20,20,0)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_RATE, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        System.out.println(response);
+                                        //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        Map<String, String> param = new HashMap<>();
+                                        param.put("userrated", session.getLoginId()+"");
+                                        param.put("userrating", sellerid);
+                                        param.put("point", String.valueOf(ratingpoint));
+                                        param.put("contentcomment",comments.getText().toString());
+                                        return param;
+
+                                    }
+
+                                };
+                                request.setTag(this.getClass().getName());
+                                VolleySingleton.getInstance(getActivity()).requestQueue.add(request);
+                                downloadRate();
+
+                            }
+                        })
+                        .setNegativeText("Not now")
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                ratingpoint = 0;
+                                ratingBardialog.setRating(0);
+                                ((ViewGroup)customView.getParent()).removeView(customView);
+                            }
+                        }).show();
+
+            }
+        });
+        ratingBardialog.setStepSize();
+
+         ratingBardialog.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(SimpleRatingBar simpleRatingBar, final float rating,
                                         boolean fromUser) {
                 ratingpoint = rating;
-                dialogHeader_4.show();
 
 
                 //                Toast.makeText(getActivity(),String.valueOf(rating),Toast.LENGTH_SHORT).show();
@@ -299,7 +326,7 @@ CollapsingToolbarLayout  toolbar2;
         adapter = new ProductAdapter(context, this);
         //        floatingActionsMenu.setVisibility(View.VISIBLE);
         layoutManager = new GridLayoutManager(context, getNumberOfColumns());
-        recyclerView.setHasFixedSize(true);
+  /*      recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new ItemPaddingDecoration(context));
         recyclerView.setAdapter(adapter);
@@ -316,7 +343,7 @@ CollapsingToolbarLayout  toolbar2;
                     }
                 }
             }
-        });
+        });*/
 
 
         //        recyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
@@ -333,7 +360,7 @@ CollapsingToolbarLayout  toolbar2;
         //        });
         // Setup swipe refresh
         //Toast.makeText(getActivity(),ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
+      /*  swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -348,7 +375,7 @@ CollapsingToolbarLayout  toolbar2;
                 adapter = null;
                 downloadproductsList();
             }
-        });
+        });*/
         // Get the products list
         if (savedInstanceState == null || !(savedInstanceState.containsKey(ViMarket.product_ID)
                 && savedInstanceState.containsKey(ViMarket.product_OBJECT) && savedInstanceState.containsKey(ViMarket.seller_DETAIL))) {
@@ -357,7 +384,7 @@ CollapsingToolbarLayout  toolbar2;
 
             rate = getArguments().getDouble(ViMarket.currency_RATE);
             if (TextUtils.isNullOrEmpty(id)) {
-                progressCircle.setVisibility(View.GONE);
+              /*  progressCircle.setVisibility(View.GONE);*/
                 toolbarTextHolder.setVisibility(View.GONE);
                 toolbar.setTitle("");
             }
@@ -391,16 +418,16 @@ CollapsingToolbarLayout  toolbar2;
             // Download again if stopped, else show list
             if (isLoading) {
                 if (pageToDownload == 1) {
-                    progressCircle.setVisibility(View.VISIBLE);
+                /*    progressCircle.setVisibility(View.VISIBLE);
                     loadingMore.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    swipeRefreshLayout.setVisibility(View.GONE);*/
                 }
                 else {
-                    progressCircle.setVisibility(View.GONE);
+           /*         progressCircle.setVisibility(View.GONE);
                     loadingMore.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);*/
                 }
 
                 downloadproductsList();
@@ -419,9 +446,7 @@ CollapsingToolbarLayout  toolbar2;
         super.onResume();
 
     }
-    public void summitrate(){
 
-    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -438,7 +463,6 @@ CollapsingToolbarLayout  toolbar2;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        requestQueue.cancelAll(this.getClass().getName());
         unbinder.unbind();
         Runtime.getRuntime().gc();
     }
@@ -575,7 +599,7 @@ CollapsingToolbarLayout  toolbar2;
         chart.setPinchZoom(true);
 
         leftAxis.setDrawLabels(true);
-        System.out.println( commentslist.size());
+
 
         if (commentslist.size() == 0) {
             movieCastItems.get(0).setVisibility(View.GONE);
@@ -702,7 +726,14 @@ CollapsingToolbarLayout  toolbar2;
                     seller.setPhone(feedObj.getString("phone"));
                     seller.userpic = (feedObj.getString("userpic"));
                     seller.count = feedObj.getString("count");
-                    seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
+                    if(feedObj.getString("rate").equals("null"))
+                        seller.rate = "0";
+                    else
+                    {   layoutratingbar.setClickable(false);
+                        ratingtext.setText(getString(R.string.ratetextcomplete));
+                        seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
+                    }
+
                     point = feedObj.getString("point");
                     favorite = feedObj.getString("favorite");
                     onDownloadSuccessful();
@@ -739,6 +770,8 @@ CollapsingToolbarLayout  toolbar2;
             ratingBar.setRating(0);
         }
         else {
+            ratingBar.setFocusable(false);
+            ratingBar.setFocusableInTouchMode(false);
             ratingBar.setRating(Float.parseFloat(point));
         }
         //        sellername.setSelected(true);
@@ -778,19 +811,19 @@ CollapsingToolbarLayout  toolbar2;
         tvproductdate.setText(seller.email);
 
         isLoading = false;
-        errorMessage.setVisibility(View.GONE);
+    /*    errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.GONE);
         loadingMore.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(true);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
         txtrate.setText(seller.rate);
         ratingDetail.setRating(Float.parseFloat(seller.rate));
         txtratecount.setText(seller.count);
 
-        refreshLayout();
+      /*  refreshLayout();*/
     }
      @OnClick(R.id.comments_see_all)
         public void onComment() {
@@ -804,46 +837,46 @@ CollapsingToolbarLayout  toolbar2;
         }
 
     private void onDownloadFailed() {
-        errorMessage.setVisibility(View.VISIBLE);
-        progressCircle.setVisibility(View.GONE);
+       /* errorMessage.setVisibility(View.VISIBLE);
+        progressCircle.setVisibility(View.GONE);*/
         productHolder.setVisibility(View.GONE);
         toolbarTextHolder.setVisibility(View.GONE);
         toolbar.setTitle("");
         isLoading = false;
         if (pageToDownload == 1) {
-            progressCircle.setVisibility(View.GONE);
+         /*   progressCircle.setVisibility(View.GONE);
             loadingMore.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             swipeRefreshLayout.setVisibility(View.GONE);
-            errorMessage.setVisibility(View.VISIBLE);
+            errorMessage.setVisibility(View.VISIBLE);*/
         }
         else {
-            progressCircle.setVisibility(View.GONE);
+          /*  progressCircle.setVisibility(View.GONE);
             loadingMore.setVisibility(View.GONE);
             errorMessage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
-            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.setEnabled(true);*/
             isLoadingLocked = true;
         }
     }
 
-    public void refreshLayout() {
+  /*  public void refreshLayout() {
         Parcelable state = layoutManager.onSaveInstanceState();
         layoutManager = new GridLayoutManager(getContext(), getNumberOfColumns());
         recyclerView.setLayoutManager(layoutManager);
         layoutManager.onRestoreInstanceState(state);
-    }
+    }*/
 
 
     private void downloadproductsList() {
-        if (adapter == null) {
+       /* if (adapter == null) {
             adapter = new ProductAdapter(context, this);
             recyclerView.setAdapter(adapter);
 
-        }
+        }*/
 
         StringRequest Listreq = new StringRequest(Request.Method.POST,
                                                   AppConfig.URL_PRODUCTUSER, new Response.Listener<String>() {
@@ -930,11 +963,11 @@ CollapsingToolbarLayout  toolbar2;
 
     }
 
-    @OnClick(R.id.try_again)
+  /*  @OnClick(R.id.try_again)
     public void onTryAgainClicked() {
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.VISIBLE);
-    }
+    }*/
 
 
     @Override

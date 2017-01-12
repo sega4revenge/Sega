@@ -47,8 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:cardElevation="8dp"
-            app:contentPadding="16dp"
+
             >
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,25 +59,49 @@
                           app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 >
                 <include layout="@layout/layout_detail_cast"/>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="6dp">
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dist_small"
+                    android:paddingLeft="@dimen/dist_large"
+                    android:paddingRight="@dimen/dist_large"
+                    android:paddingTop="@dimen/dist_large">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
 
-                    <ImageView
-                        style="@style/MovieItemIconsStyle"
-                        android:src="@drawable/icon_crew"
-                        tools:ignore="ContentDescription" />
+                        <ImageView
+                            style="@style/MovieItemIconsStyle"
+                            android:src="@drawable/icon_crew"
+                            tools:ignore="ContentDescription" />
 
-                    <com.sega.vimarket.widget.RobotoBoldTextView
-                        style="@style/MovieItemHeaderStyle"
-                        android:text="@string/productsofuser" />
+                        <com.sega.vimarket.widget.RobotoBoldTextView
+                            style="@style/MovieItemHeaderStyle"
+                            android:text="@string/productsofuser" />
 
+                    </LinearLayout>
+                    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+                                  xmlns:android="http://schemas.android.com/apk/res/android"
+                                  style="@style/MovieSeeAllHolderStyle"
+                                  android:foregroundGravity="top"
+                                  android:gravity="right|center_vertical">
+
+                        <com.sega.vimarket.widget.RobotoBoldTextView
+                            style="@style/MovieSeeAllTextStyle" />
+
+                        <ImageView
+                            style="@style/MovieSeeAllArrowStyle"
+                            tools:ignore="contentDescription"/>
+                    </LinearLayout>
                 </LinearLayout>
+
                 <!-- To show when unable to load data -->
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <include
@@ -88,7 +111,7 @@
                         android:layout_height="match_parent"
                         android:visibility="gone" />
 
-                    <!-- Progress Circle -->
+                    &lt;!&ndash; Progress Circle &ndash;&gt;
                     <include
                         android:id="@+id/progress_circle"
                         layout="@layout/layout_progress_circle"
@@ -97,14 +120,14 @@
                         android:layout_centerInParent="true"
                         android:visibility="visible" />
 
-                    <!-- Pull to Refresh -->
+                    &lt;!&ndash; Pull to Refresh &ndash;&gt;
                     <android.support.v4.widget.SwipeRefreshLayout
                         android:id="@+id/swipe_refresh"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone">
 
-                        <!-- Recycler View -->
+                        &lt;!&ndash; Recycler View &ndash;&gt;
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/product_grid"
                             android:name="com.sega.vimarket.productGridFragment"
@@ -117,7 +140,7 @@
 
                     </android.support.v4.widget.SwipeRefreshLayout>
 
-                    <!-- Indicator for loading more -->
+                    &lt;!&ndash; Indicator for loading more &ndash;&gt;
                     <include
                         android:id="@+id/loading_more"
                         layout="@layout/layout_progress_circle_white"
@@ -128,15 +151,15 @@
                         android:layout_marginBottom="@dimen/dist_xlarge"
                         android:visibility="gone" />
 
-                    <!--<include-->
-                    <!--layout="@layout/layout_detail_fab"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end|bottom"-->
-                    <!--android:layout_marginRight="@dimen/dist_medium"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_alignEnd="@+id/progress_circle" />-->
-                </RelativeLayout>
+                    &lt;!&ndash;<include&ndash;&gt;
+                    &lt;!&ndash;layout="@layout/layout_detail_fab"&ndash;&gt;
+                    &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:layout_gravity="end|bottom"&ndash;&gt;
+                    &lt;!&ndash;android:layout_marginRight="@dimen/dist_medium"&ndash;&gt;
+                    &lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;
+                    &lt;!&ndash;android:layout_alignEnd="@+id/progress_circle" />&ndash;&gt;
+                </RelativeLayout>-->
 
             </LinearLayout>
 

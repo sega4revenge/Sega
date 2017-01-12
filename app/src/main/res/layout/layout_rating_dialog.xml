@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:id="@+id/layout_dialog_rate">
+
+    <com.sega.vimarket.widget.SimpleRatingBar
+        android:id="@+id/ratingBardialog"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:srb_fillColor="@color/primary"
+        app:srb_borderColor="@color/foreground"
+        android:layout_gravity="center"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/commentdialog"/>
+
+</LinearLayout>

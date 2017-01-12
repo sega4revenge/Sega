@@ -140,6 +140,7 @@ public class MaterialStyledDialog {
 
         //Set the custom view
         if (builder.customView != null) {
+
             dialogCustomViewGroup.addView(builder.customView);
             dialogCustomViewGroup.setPadding(builder.customViewPaddingLeft, builder.customViewPaddingTop, builder.customViewPaddingRight, builder.customViewPaddingBottom);
         }

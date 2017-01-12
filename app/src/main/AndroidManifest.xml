@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
-
+    <uses-permission android:name="android.permission.CAMERA"/>
     <!-- Set screen size support -->
     <supports-screens
         android:largeScreens="true"

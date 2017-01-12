@@ -167,6 +167,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     @BindView(R.id.chart)
     HorizontalBarChart chart;
     LinearLayout maps;
+    private Unbinder unbinder;
 
 
     // Fragment lifecycle
@@ -183,7 +184,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         final Uri data = getActivity().getIntent().getData();
         sellername = (RobotoLightTextView)v.findViewById(R.id.sellername);
         mDemoSlider = (SliderLayout) v.findViewById(R.id.slider);
-        Unbinder unbinder = ButterKnife.bind(this, v);
+       unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
         if(session.getColor()==-1)
         {
@@ -517,7 +518,10 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 seller.setPhone(feedObj.getString("phone"));
                 seller.count = feedObj.getString("count");
                 seller.userpic = feedObj.getString("userpic");
-                seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
+                if(feedObj.getString("rate").equals("null"))
+                    seller.rate="0";
+                else
+                    seller.rate = (double) Math.round(Double.parseDouble(feedObj.getString("rate")) * 10) / 10 + "";
           /*      JSONArray feedArray = feedObj.getJSONArray("comments");
                 commentslist.clear();
 
