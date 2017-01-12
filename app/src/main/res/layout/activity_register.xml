@@ -294,7 +294,13 @@
 
                         />
                 </android.support.design.widget.TextInputLayout>
-
+                <TextView
+                    android:id="@+id/countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"/>
                 <Button
                     android:id="@+id/buttonconfirm"
                     android:layout_width="match_parent"

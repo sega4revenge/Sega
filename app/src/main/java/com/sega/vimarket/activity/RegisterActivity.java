@@ -49,8 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputLayout layoutuser, layoutcode, layoutpass, layoutrepass, layoutemail, layoutphone, layoutaddress;
     EditText edtuser, edtpassword, edtrepassword, edtemail, edtphone, edtaddress, edtcode;
     Button register, confirm, cancel, cancelcode;
-    TextView verifytext;
-
+    TextView verifytext,countdown;
+    String name,email,phone,address,area,password,repass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         cancel = (Button) findViewById(R.id.btcancel);
         cancelcode = (Button) findViewById(R.id.btcancelcode);
         verifytext = (TextView) findViewById(R.id.verifytext);
+        countdown = (TextView) findViewById(R.id.countdown);
         cancelcode.setVisibility(View.GONE);
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +125,13 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            String name = edtuser.getText().toString().trim();
-                                            String email = edtemail.getText().toString().trim();
-                                            String password = edtpassword.getText().toString().trim();
-                                            String phone = edtphone.getText().toString().trim();
-                                            String address = edtaddress.getText().toString().trim();
-                                            String area = spinarea.getSelectedItem().toString().trim();
-                                            String repass = edtrepassword.getText().toString().trim();
+                                            name = edtuser.getText().toString().trim();
+                                             email = edtemail.getText().toString().trim();
+                                             password = edtpassword.getText().toString().trim();
+                                             phone = edtphone.getText().toString().trim();
+                                            address = edtaddress.getText().toString().trim();
+                                             area = spinarea.getSelectedItem().toString().trim();
+                                             repass = edtrepassword.getText().toString().trim();
                                             if (name.isEmpty()) {
                                                 edtuser.setError("Invalid User");
                                             }
@@ -178,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                             cancelcode.setVisibility(View.VISIBLE);
                                                             String text = getResources().getText(R.string.verifytext) + phone;
                                                             verifytext.setText(text);
-                                                            registerUser(name, email, password, phone, address, area);
+
 
                                                         }
                                                     }
@@ -217,6 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
+                        registerUser(name, email, password, phone, address, area);
                         startCountdownTimer();
 
                     }
@@ -318,12 +320,17 @@ public class RegisterActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(120000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
+                countdown.setText("Time remaining : " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-
-
+                countdown.setText("Click here to resend sms verification");
+                countdown.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        registerUser(name, email, password, phone, address, area);;
+                    }
+                });
             }
         }.start();
     }
