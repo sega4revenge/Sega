@@ -52,12 +52,13 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     private MessengerAdapter arrayAdapter;
     ArrayList<Room> roomlist = new ArrayList<>();
-    String sellername,sellerpic,message,timestamp;
+    String sellername, sellerpic, message, timestamp;
     SessionManager session;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     boolean load = false;
     ArrayList<String> pic = new ArrayList<>();
     ArrayList<String> name = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
         recycleView.setLayoutManager(layoutManager);
         recycleView.addItemDecoration(new ItemPaddingDecoration(MessengerActivity.this));
         arrayAdapter = new MessengerAdapter(MessengerActivity.this, this);
-        getroom(session.getLoginId()+"");
+        getroom(session.getLoginId() + "");
 
         recycleView.setAdapter(arrayAdapter);
 
@@ -92,22 +93,23 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     public void onMessengerClicked(int position) {
 
         String[] temp = roomlist.get(position).room.split("-");
-        Intent i = new Intent(MessengerActivity.this,ChatActivity.class);
-        if(temp[0].trim().equals(session.getLoginId()+""))
-        {
+        Intent i = new Intent(MessengerActivity.this, ChatActivity.class);
+        if (temp[0].trim().equals(session.getLoginId() + "")) {
             i.putExtra(ViMarket.seller_ID, Integer.parseInt(temp[1]));
         }
-        else
-            i.putExtra(ViMarket.seller_ID,Integer.parseInt(temp[0]));
+        else {
+            i.putExtra(ViMarket.seller_ID, Integer.parseInt(temp[0]));
+        }
 
         i.putExtra(ViMarket.user_ID, session.getLoginId());
-        i.putExtra(ViMarket.seller_name,name.get(position));
+        i.putExtra(ViMarket.seller_name, name.get(position));
         i.putExtra("sellerpic", pic.get(position));
-        load=true;
+        load = true;
         startActivity(i);
 
     }
-    public void getroom(final String id){
+
+    public void getroom(final String id) {
         roomlist.clear();
         final String TAG = MessengerActivity.class.getSimpleName();
         // Hide all views
@@ -123,11 +125,10 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                     for (int i = 0; i < jsonArray.length(); i++) {
                         final JSONObject feedObj = (JSONObject) jsonArray.get(i);
                         //add product to list products
-                        roomlist.add(new Room(feedObj.getString("room"),feedObj.getString("roomname"),feedObj.getString("roompic")));
+                        roomlist.add(new Room(feedObj.getString("room"), feedObj.getString("roomname"), feedObj.getString("roompic")));
 
                         //add product to sqlite
                     }
-
 
 
                     // Load detail fragment if in tablet mode
@@ -159,8 +160,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     }
 
-    public void getRoomDetail()
-    {
+    public void getRoomDetail() {
         /*for(int i = 0;i<roomlist.size();i++)
         {
 
@@ -197,10 +197,9 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator i = dataSnapshot.getChildren().iterator();
 
-                while (i.hasNext()){
-                    searchroom(((DataSnapshot)i.next()).getKey());
+                while (i.hasNext()) {
+                    searchroom(((DataSnapshot) i.next()).getKey());
                 }
-
 
 
                 arrayAdapter.notifyDataSetChanged();
@@ -257,63 +256,53 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 */
 
 
-
     }
 
     private void searchroom(final String key) {
-           root.child(key).orderByChild("name").limitToLast(1).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!load){
-                        Messenger temp2 = null;
+        root.child(key).orderByChild("name").limitToLast(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!load) {
+                    Messenger temp2 = null;
 
-                        Iterator it = dataSnapshot.getChildren().iterator();
-                        try {
-                            ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
-                            System.out.println(a.getUserModel().getName());
-                            System.out.println(session.getLoginName());
-                            message = a.getMessage();
-                            timestamp = a.getTimeStamp();
-                            String[] temp = key.split("-");
-                            if(temp[0].equals(session.getLoginId()+""))
-                            {
-                                arrayAdapter.MessengerList.add(messenger(temp[1]));
-                            }
-                            else
-                                arrayAdapter.MessengerList.add(messenger(temp[0]));
+                    Iterator it = dataSnapshot.getChildren().iterator();
+                    try {
+                        ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
+                        System.out.println(a.getUserModel().getName());
+                        System.out.println(session.getLoginName());
+                        message = a.getMessage();
+                        timestamp = a.getTimeStamp();
+                        String[] temp = key.split("-");
+                        if (temp[0].equals(session.getLoginId() + "")) {
+                            arrayAdapter.MessengerList.add(messenger(temp[1]));
+                        }
+                        else {
+                            arrayAdapter.MessengerList.add(messenger(temp[0]));
+                        }
 
                       /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());
                         arrayAdapter.MessengerList.add(temp2);*/
 
 
-
-
-
-
-
-
-
-
-                        }catch (NoSuchElementException e)
-                        {
-                            Toast.makeText(getApplicationContext(),"no chat",Toast.LENGTH_SHORT).show();
-                        }
-
-                        arrayAdapter.notifyDataSetChanged();
-
+                    } catch (NoSuchElementException e) {
+                        Toast.makeText(getApplicationContext(), "no chat", Toast.LENGTH_SHORT).show();
                     }
 
-
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    arrayAdapter.notifyDataSetChanged();
 
                 }
-            });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
-    public Messenger messenger(String id){
+
+    public Messenger messenger(String id) {
 
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -321,7 +310,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
                 .build();
         RequestBody body = new FormBody.Builder()
-                .add("id",id + "")
+                .add("id", id + "")
 
                 .build();
 
@@ -336,7 +325,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             System.out.println(forceCacheResponse.code());
             String responsestring = forceCacheResponse.body().string();
             System.out.println(responsestring);
-            if(forceCacheResponse.isSuccessful()){
+            if (forceCacheResponse.isSuccessful()) {
                 JSONObject jObj = new JSONObject(responsestring);
                 JSONObject user = jObj.getJSONObject("user");
                 sellername = user.getString("name");
@@ -345,7 +334,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                 name.add(sellername);
             }
 
-            else{
+            else {
 
 
             }
@@ -358,7 +347,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
         }
 
-return new Messenger(sellername,timestamp,message,sellerpic);
+        return new Messenger(sellername, timestamp, message, sellerpic);
 
     }
 }
