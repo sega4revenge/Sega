@@ -372,7 +372,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
      */
     private void verificaUsuarioLogado(){
 
-            userModel = new UserModel(session.getLoginName()+","+session.getLoginId(),session.getLoginPic(), "12");
+            userModel = new UserModel(session.getLoginName(),session.getLoginPic(), "12");
             lerMessagensFirebase(room);
 
         //========================================================
@@ -397,6 +397,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
                 params.put("userid", session.getLoginId() + "");
+                params.put("useridchat",sellerid+"");
                 params.put("room",room);
                 params.put("roomname",nameUser);
                 params.put("roompic",urlPhotoUser);

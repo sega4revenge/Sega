@@ -35,7 +35,7 @@ public class AppConfig {
     public static String URL_RATE = "http://freemarkets.ga/ratinguser.php";
     public static String URL_FAVORITE = "http://freemarkets.ga/favorite.php";
     public static String URL_VERIFY = "http://freemarkets.ga/verify_otp.php";
-
+    public static String URL_GETUSER = "http://freemarkets.ga/getuser.php";
 
 
     public static final String SHARED_PREF = "mynotificationapp";

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,6 +36,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 /**
  * Created by Sega on 09/01/2017.
@@ -46,11 +52,12 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     private MessengerAdapter arrayAdapter;
     ArrayList<Room> roomlist = new ArrayList<>();
-
+    String sellername,sellerpic,message,timestamp;
     SessionManager session;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
-
-
+    boolean load = false;
+    ArrayList<String> pic = new ArrayList<>();
+    ArrayList<String> name = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +90,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     @Override
     public void onMessengerClicked(int position) {
+
         String[] temp = roomlist.get(position).room.split("-");
         Intent i = new Intent(MessengerActivity.this,ChatActivity.class);
         if(temp[0].trim().equals(session.getLoginId()+""))
@@ -93,13 +101,14 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             i.putExtra(ViMarket.seller_ID,Integer.parseInt(temp[0]));
 
         i.putExtra(ViMarket.user_ID, session.getLoginId());
-        i.putExtra(ViMarket.seller_name, roomlist.get(position).username);
-
-        i.putExtra("sellerpic", roomlist.get(position).userpic);
+        i.putExtra(ViMarket.seller_name,name.get(position));
+        i.putExtra("sellerpic", pic.get(position));
+        load=true;
         startActivity(i);
 
     }
     public void getroom(final String id){
+        roomlist.clear();
         final String TAG = MessengerActivity.class.getSimpleName();
         // Hide all views
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -152,20 +161,26 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     public void getRoomDetail()
     {
-        for(int i = 0;i<roomlist.size();i++)
+        /*for(int i = 0;i<roomlist.size();i++)
         {
 
             System.out.println(roomlist.get(i).room);
             final int finalI = i;
-            root.child(roomlist.get(i).room).orderByChild("name").limitToLast(1).addValueEventListener(new ValueEventListener() {
+            arrayAdapter.MessengerList.clear();*/
+         /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    arrayAdapter.MessengerList.clear();
                     Iterator it = dataSnapshot.getChildren().iterator();
                     ChatModel a = ((DataSnapshot)it.next()).getValue(ChatModel.class);
                     System.out.println(a.getMessage());
-                    Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
-                    arrayAdapter.MessengerList.add(temp);
+                  *//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
+                    if (arrayAdapter.MessengerList.contains(temp)) {
+                        arrayAdapter.MessengerList.add(temp);
+                    }else
+*//*
+
+
+
                     arrayAdapter.notifyDataSetChanged();
 
                 }
@@ -174,10 +189,176 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+            });*/
+
+
+        root.orderByKey().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator i = dataSnapshot.getChildren().iterator();
+
+                while (i.hasNext()){
+                    searchroom(((DataSnapshot)i.next()).getKey());
+                }
+
+
+
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+ /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterator it = dataSnapshot.getChildren().iterator();
+                    ChatModel a = ((DataSnapshot)it.next()).getValue(ChatModel.class);
+                    System.out.println(a.getMessage());
+                  *//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
+                    if (arrayAdapter.MessengerList.contains(temp)) {
+                        arrayAdapter.MessengerList.add(temp);
+                    }else
+*//*
+
+
+
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });*/
+
+          /*  FirebaseDatabase.getInstance().getReference().orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println(dataSnapshot.getKey());
+                    Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
+                    List<User> users = new ArrayList<>();
+                    while (dataSnapshots.hasNext()) {
+                        DataSnapshot dataSnapshotChild = dataSnapshots.next();
+                        User user = dataSnapshotChild.getValue(User.class);
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
             });
+*/
+
+
+
+    }
+
+    private void searchroom(final String key) {
+           root.child(key).orderByChild("name").limitToLast(1).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!load){
+                        Messenger temp2 = null;
+
+                        Iterator it = dataSnapshot.getChildren().iterator();
+                        try {
+                            ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
+                            System.out.println(a.getUserModel().getName());
+                            System.out.println(session.getLoginName());
+                            message = a.getMessage();
+                            timestamp = a.getTimeStamp();
+                            String[] temp = key.split("-");
+                            if(temp[0].equals(session.getLoginId()+""))
+                            {
+                                arrayAdapter.MessengerList.add(messenger(temp[1]));
+                            }
+                            else
+                                arrayAdapter.MessengerList.add(messenger(temp[0]));
+
+                      /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());
+                        arrayAdapter.MessengerList.add(temp2);*/
+
+
+
+
+
+
+
+
+
+
+                        }catch (NoSuchElementException e)
+                        {
+                            Toast.makeText(getApplicationContext(),"no chat",Toast.LENGTH_SHORT).show();
+                        }
+
+                        arrayAdapter.notifyDataSetChanged();
+
+                    }
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+    public Messenger messenger(String id){
+
+
+        OkHttpClient client = new OkHttpClient.Builder()
+
+
+                .build();
+        RequestBody body = new FormBody.Builder()
+                .add("id",id + "")
+
+                .build();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(AppConfig.URL_GETUSER)
+
+                .post(body)
+                .build();
+        okhttp3.Response forceCacheResponse = null;
+        try {
+            forceCacheResponse = client.newCall(request).execute();
+            System.out.println(forceCacheResponse.code());
+            String responsestring = forceCacheResponse.body().string();
+            System.out.println(responsestring);
+            if(forceCacheResponse.isSuccessful()){
+                JSONObject jObj = new JSONObject(responsestring);
+                JSONObject user = jObj.getJSONObject("user");
+                sellername = user.getString("name");
+                sellerpic = user.getString("userpic");
+                pic.add(sellerpic);
+                name.add(sellername);
+            }
+
+            else{
+
+
+            }
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
 
         }
 
+return new Messenger(sellername,timestamp,message,sellerpic);
 
     }
 }

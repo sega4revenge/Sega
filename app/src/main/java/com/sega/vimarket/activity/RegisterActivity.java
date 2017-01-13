@@ -24,7 +24,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sega.vimarket.R;
-import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.util.VolleySingleton;
 
@@ -280,8 +279,8 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(response);
                     String result = json.getString("error");
-
-                    if (result.equals(ViMarket.FALSE)) {
+                    System.out.println(result);
+                    if (result.equals("false")) {
                      Toast.makeText(getApplicationContext(),R.string.registersusscess,Toast.LENGTH_LONG).show();
                         countDownTimer.cancel();
 
@@ -300,6 +299,7 @@ public class RegisterActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
         }) {
