@@ -61,6 +61,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,6 +82,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     boolean error;
     ArrayList<Comments> commentslist = new ArrayList<>();
     SessionManager session;
+    DecimalFormat formatprice;
 
 
     private String id, userid;
@@ -196,6 +198,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             floatingActionsMenu.setMenuButtonColorNormal(session.getColor());
             floatingActionsMenu.setMenuButtonColorPressed(session.getColor2());
         }
+        formatprice = new DecimalFormat("#00,000");
         Locale current = getActivity().getResources().getConfiguration().locale;
         if (current.getCountry().equals("VN"))
             format = NumberFormat.getCurrencyInstance();
@@ -267,9 +270,10 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse(ViMarket.MAPS_INTENT_URI +
-                                                                 Uri.encode(product.productaddress + ", " + product.areaproduct)));
-                                startActivity(intent);
+//                                intent.setData(Uri.parse("geo:"+product.location.latitude+","+product.location.longitude+"?z=18"));
+                intent.setData(Uri.parse("geo:"+product.location.latitude+","+product.location.longitude+"?q=" +
+                        Uri.encode(product.location.latitude+","+product.location.longitude+"("+product.productname+")")));
+                startActivity(intent);
             }
         });
 
@@ -497,7 +501,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 //add product to list products
                 product = new Product(feedObj.getInt("productid"),
                                       feedObj.getString("productname"),
-                                      feedObj.getLong("price") / rate,
+                                      feedObj.getLong("price"),
                                       feedObj.getInt("userid"),
                                       feedObj.getString("username"),
                                       feedObj.getString("categoryname"),
@@ -573,7 +577,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         }
         productTitle.setText(product.productname);
 
-        tvprice.setText(format.format(product.price));
+        tvprice.setText(formatprice.format(product.price));
         CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
                 Long.parseLong(product.productdate),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
@@ -596,7 +600,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         txtrate.setText(seller.rate);
         txtratecount.setText(seller.count);
         ratingDetail.setRating(Float.parseFloat(seller.rate));
-        productaddress.setText(product.productaddress + ", " + product.areaproduct);
+        productaddress.setText(product.productaddress);
         productcategory.setText(product.categoryname);
 
         showAnimationBanner();

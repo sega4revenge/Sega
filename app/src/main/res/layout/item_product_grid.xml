@@ -70,12 +70,17 @@
                 android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
+                android:ellipsize="marquee"
                 android:gravity="center"
-                android:maxLines="2"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_large"
-                tools:text="My Awesome product Title" />
+                tools:text="My Awesome product Title"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                />
 
             <!-- product Year -->
 

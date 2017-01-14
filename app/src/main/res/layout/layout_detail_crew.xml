@@ -190,8 +190,8 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:text="5.0"
                     android:id="@+id/txtrate"
                     android:textSize="50sp"
@@ -207,9 +207,9 @@
                     <com.sega.vimarket.widget.SimpleRatingBar
                         android:id="@+id/ratingDetail"
                         android:layout_height="wrap_content"
-                        app:srb_fillColor="@color/material_green300"
-                        app:srb_borderColor="@color/material_green500"
-                        android:layout_marginTop="20dp"
+                        app:srb_fillColor="@color/material_red700"
+                        app:srb_borderColor="@color/material_red400"
+                        android:layout_marginTop="15dp"
                         android:layout_marginLeft="10dp"
                         app:srb_isIndicator="true"
                         android:layout_width="80dp" />
@@ -225,6 +225,7 @@
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="Large Text"
                             android:id="@+id/txtratecount"
+                            android:paddingTop="2dp"
                             android:layout_marginLeft="10dp"/>
 
                         <ImageView

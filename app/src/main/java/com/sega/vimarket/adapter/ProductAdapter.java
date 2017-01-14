@@ -22,6 +22,7 @@ import com.sega.vimarket.service.GPSTracker;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.widget.AutoResizeTextView;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,6 +36,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private NumberFormat format;
     private SharedPreferences sharedPref;
     public ArrayList<Product> productList;
+    DecimalFormat formatprice;
     private final OnproductClickListener onproductClickListener;
 
     // Constructor
@@ -42,6 +44,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
         this.productList = new ArrayList<>();
         this.onproductClickListener = onproductClickListener;
+        formatprice = new DecimalFormat("#00,000");
+
         sharedPref = context.getSharedPreferences(ViMarket.TABLE_USER, Context.MODE_PRIVATE);
         imageWidth = sharedPref.getInt(ViMarket.THUMBNAIL_SIZE,
                                        0);   // Load image width for grid view
@@ -121,7 +125,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ProductGridViewHolder productViewHolder = (ProductGridViewHolder) viewHolder;
 
 
-            productViewHolder.price.setText(format.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price));
             // Title and year
             productViewHolder.area.setText(product.areaproduct);
             productViewHolder.productName.setText(product.productname);
@@ -168,7 +172,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // LIST MODE
             ProductListViewHolder productViewHolder = (ProductListViewHolder) viewHolder;
 
-            productViewHolder.price.setText(format.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price));
             // Title, year and overview
             CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
                     Long.parseLong(product.productdate),
@@ -224,7 +228,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.productRating.setText(product.sharecount);
             productViewHolder.area.setText(product.areaproduct);
 
-            productViewHolder.price.setText(format.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price));
             String distance =
                     Utils.formatDistanceBetween(GPSTracker.mLastestLocation, product.location);
             if (android.text.TextUtils.isEmpty(distance)) {

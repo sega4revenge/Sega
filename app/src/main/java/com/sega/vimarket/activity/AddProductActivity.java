@@ -36,6 +36,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.genasync12.AsyncResponse;
@@ -50,7 +55,9 @@ import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
+import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.Image;
+import com.sega.vimarket.model.MapModel;
 import com.sega.vimarket.service.GeocodeAddressIntentService;
 import com.sega.vimarket.util.Constants;
 
@@ -60,6 +67,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,7 +98,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
     //////////////////////////////////////////////////
-    AddressResultReceiver mResultReceiver;
+//    AddressResultReceiver mResultReceiver;
 
     EditText ten,gia,addressEdit,des,edtcategory,edtarea;
 
@@ -109,6 +117,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     String description;
     String[] productimage;
     String[] slideimage;
+    String lat,lot,add;
     private ArrayList<Image> images = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -123,6 +132,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     boolean fetchAddress;
     int fetchType = Constants.USE_ADDRESS_LOCATION;
     SessionManager session;
+    private static final int PLACE_PICKER_REQUEST = 3;
     private static final String TAG = "MAIN_ACTIVITY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,15 +274,29 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 edtcategory.setInputType(InputType.TYPE_NULL); // disable soft input
                 edtcategory.onTouchEvent(event); // call native handler
                 edtcategory.setInputType(inType); // restore input type
-
-
-
-
                 CategoryDialog.show();
 
                 return true; // consume touch even
             }
         });
+        addressEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                locationPlacesIntent();
+            }
+        });
+//        addressEdit.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                int inType = addressEdit.getInputType(); // backup the input type
+//                addressEdit.setInputType(InputType.TYPE_NULL); // disable soft input
+//                addressEdit.onTouchEvent(motionEvent); // call native handler
+//                addressEdit.setInputType(inType); // restore input type
+//                locationPlacesIntent();
+//
+//                return true;
+//            }
+//        });
         edtarea = (EditText) findViewById(R.id.productarea);
         edtarea.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -281,10 +305,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 edtarea.setInputType(InputType.TYPE_NULL); // disable soft input
                 edtarea.onTouchEvent(event); // call native handler
                 edtarea.setInputType(inType); // restore input type
-
-
-
-
                 AreaDialog.show();
 
                 return true; // consume touch even
@@ -297,12 +317,12 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         des = (EditText) findViewById(R.id.description);
 
 
-        mResultReceiver = new AddressResultReceiver(null);
+//        mResultReceiver = new AddressResultReceiver(null);
 
-        fetchAddress = false;
-        fetchType = Constants.USE_ADDRESS_NAME;
-        addressEdit.setFocusable(true);
-        addressEdit.setFocusableInTouchMode(true);
+//        fetchAddress = false;
+//        fetchType = Constants.USE_ADDRESS_NAME;
+//        addressEdit.setFocusable(true);
+//        addressEdit.setFocusableInTouchMode(true);
 
 
     }
@@ -377,20 +397,54 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 description = des.getText().toString();
                 final String latlot = productaddress + " " + areaproduct;
                 requestQueue = Volley.newRequestQueue(getApplicationContext());
-                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
-                intent.putExtra(Constants.RECEIVER, mResultReceiver);
-                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
-                if (fetchType == Constants.USE_ADDRESS_NAME) {
-                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
-                }
-
-                Log.e(TAG, "Starting Service");
-                startService(intent);
+//                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
+//                intent.putExtra(Constants.RECEIVER, mResultReceiver);
+//                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
+//                if (fetchType == Constants.USE_ADDRESS_NAME) {
+//                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
+//                }
+//
+//                Log.e(TAG, "Starting Service");
+//                startService(intent);
                 //                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
                 //                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
 
+                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> param = new HashMap<>();
 
+                        param.put("productname", productname);
+                        param.put("price", price);
+                        param.put("userid", userid);
+                        param.put("categoryid", categoryid);
+                        param.put("productaddress", productaddress);
+                        param.put("areaproduct", areaproduct);
+                        param.put("productstatus",productstatus);
+                        param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
+                        param.put("description",description);
+                        param.put("lot",lat+"");
+                        param.put("lat",lot+"");
+
+                        return  param;
+
+                    }
+
+                };
+
+                requestQueue.add(request);
             }
         });
 
@@ -400,25 +454,25 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             @Override
             public void handleIOException(IOException e) {
                 Toast.makeText(getApplicationContext(), "Cannot Connect to Server.",
-                               Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleMalformedURLException(MalformedURLException e) {
                 Toast.makeText(getApplicationContext(), "URL Error.",
-                               Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleProtocolException(ProtocolException e) {
                 Toast.makeText(getApplicationContext(), "Protocol Error.",
-                               Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
                 Toast.makeText(getApplicationContext(), "Encoding Error.",
-                               Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -549,6 +603,23 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST){
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                if (place!=null){
+                    LatLng latLng = place.getLatLng();
+                    lot = String.valueOf(latLng.latitude);
+                    lat = String.valueOf(latLng.longitude);
+                    add = (String) place.getAddress();
+                    addressEdit.setText(add);
+//                    MapModel mapModel = new MapModel(latLng.latitude+"", latLng.longitude+"");
+                    Log.e("LatLng",lat + " " + lot +" "+add);
+
+//                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime()+"", mapModel);
+//                    mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
+                }
+            }
+        }
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
             images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
 
@@ -633,7 +704,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        
+
     }
 
     @Override
@@ -676,85 +747,93 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     }
 
     ///////////////////////////////////////////
+    private void locationPlacesIntent(){
 
-    @SuppressLint("ParcelCreator")
-    class AddressResultReceiver extends ResultReceiver {
-        AddressResultReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, final Bundle resultData) {
-            if (resultCode == Constants.SUCCESS_RESULT) {
-                final Address address = resultData.getParcelable(Constants.RESULT_ADDRESS);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        assert address != null;
-                        latitude = address.getLatitude();
-                        longitude = address.getLongitude();
-                        //Toast.makeText(getApplicationContext(), latitude + " " + longitude ,Toast.LENGTH_SHORT).show();
-
-                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
-                            }
-                        }){
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                Map<String, String> param = new HashMap<>();
-
-                                param.put("productname", productname);
-                                param.put("price", price);
-                                param.put("userid", userid);
-                                param.put("categoryid", categoryid);
-                                param.put("productaddress", productaddress);
-                                param.put("areaproduct", areaproduct);
-                                param.put("productstatus",productstatus);
-                                param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
-                                param.put("description",description);
-                                param.put("lot",longitude+"");
-                                param.put("lat",latitude+"");
-
-                                return  param;
-
-                            }
-
-                        };
-
-                        requestQueue.add(request);
-
-                    }
-                });
-            }
-            else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
-                        intent.putExtra(Constants.RECEIVER, mResultReceiver);
-                        intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
-                        if (fetchType == Constants.USE_ADDRESS_NAME) {
-                            intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, areaproduct);
-                        }
-
-                        Log.e(TAG, "Starting Service");
-                        startService(intent);
-                        //                        Toast.makeText(getApplicationContext(),resultData.getString(Constants.RESULT_DATA_KEY), Toast.LENGTH_SHORT).show();
-                        //                        infoText.setText(resultData.getString(Constants.RESULT_DATA_KEY));
-
-                    }
-                });
-            }
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
         }
     }
+    //    @SuppressLint("ParcelCreator")
+//    class AddressResultReceiver extends ResultReceiver {
+//        AddressResultReceiver(Handler handler) {
+//            super(handler);
+//        }
+//
+//        @Override
+//        protected void onReceiveResult(int resultCode, final Bundle resultData) {
+//            if (resultCode == Constants.SUCCESS_RESULT) {
+//                final Address address = resultData.getParcelable(Constants.RESULT_ADDRESS);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        assert address != null;
+//                        latitude = address.getLatitude();
+//                        longitude = address.getLongitude();
+//                        //Toast.makeText(getApplicationContext(), latitude + " " + longitude ,Toast.LENGTH_SHORT).show();
+//
+////                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
+////                            @Override
+////                            public void onResponse(String response) {
+////                                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+////                                finish();
+////                            }
+////                        }, new Response.ErrorListener() {
+////                            @Override
+////                            public void onErrorResponse(VolleyError error) {
+////                                Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
+////                            }
+////                        }){
+////                            @Override
+////                            protected Map<String, String> getParams() throws AuthFailureError {
+////                                Map<String, String> param = new HashMap<>();
+////
+////                                param.put("productname", productname);
+////                                param.put("price", price);
+////                                param.put("userid", userid);
+////                                param.put("categoryid", categoryid);
+////                                param.put("productaddress", productaddress);
+////                                param.put("areaproduct", areaproduct);
+////                                param.put("productstatus",productstatus);
+////                                param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
+////                                param.put("description",description);
+////                                param.put("lot",lat+"");
+////                                param.put("lat",lot+"");
+////
+////                                return  param;
+////
+////                            }
+////
+////                        };
+////
+////                        requestQueue.add(request);
+//
+//                    }
+//                });
+//            }
+//            else {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
+//                        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+//                        intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
+//                        if (fetchType == Constants.USE_ADDRESS_NAME) {
+//                            intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, areaproduct);
+//                        }
+//
+//                        Log.e(TAG, "Starting Service");
+//                        startService(intent);
+//                        //                        Toast.makeText(getApplicationContext(),resultData.getString(Constants.RESULT_DATA_KEY), Toast.LENGTH_SHORT).show();
+//                        //                        infoText.setText(resultData.getString(Constants.RESULT_DATA_KEY));
+//
+//                    }
+//                });
+//            }
+//        }
+//    }
     public void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);

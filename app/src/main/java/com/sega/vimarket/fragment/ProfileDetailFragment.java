@@ -163,7 +163,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     @BindView(R.id.txtratecount)
     TextView txtratecount;
 
-//    @BindView(R.id.thumb_button)
+    //    @BindView(R.id.thumb_button)
 //    LikeButton thumbButton;
     int height, width;
     @BindView(R.id.toolbar2)
@@ -182,7 +182,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     final int GALLERY_REQUEST = 22131;
     GalleryPhoto galleryPhoto;
     String userimage;
-Bitmap bitmap;
+    Bitmap bitmap;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -219,8 +220,7 @@ Bitmap bitmap;
         }
         if (session.getColor() == -1) {
             toolbar2.setContentScrimColor(getResources().getColor(R.color.primary));
-        }
-        else {
+        } else {
             toolbar2.setContentScrimColor((session.getColor()));
         }
 
@@ -309,13 +309,11 @@ Bitmap bitmap;
                 progressCircle.setVisibility(View.GONE);
                 toolbarTextHolder.setVisibility(View.GONE);
                 toolbar.setTitle("");
-            }
-            else {
+            } else {
                 //                downloadproductDetails(id);
                 downloadRate();
             }
-        }
-        else {
+        } else {
             id = savedInstanceState.getString(ViMarket.product_ID);
             product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
             seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
@@ -331,8 +329,7 @@ Bitmap bitmap;
             downloadproductsList();
             downloadRate();
 
-        }
-        else {
+        } else {
             adapter.productList = savedInstanceState.getParcelableArrayList(ViMarket.product_LIST);
             pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
             isLoadingLocked = savedInstanceState.getBoolean(ViMarket.IS_LOCKED);
@@ -345,8 +342,7 @@ Bitmap bitmap;
                     loadingMore.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     swipeRefreshLayout.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     progressCircle.setVisibility(View.GONE);
                     loadingMore.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -356,8 +352,7 @@ Bitmap bitmap;
                 downloadproductsList();
                 downloadRate();
 
-            }
-            else {
+            } else {
                 onDownloadSuccessful();
             }
         }
@@ -427,7 +422,7 @@ Bitmap bitmap;
 
     private void downloadRate() {
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                                                 AppConfig.URL_RATEDETAILPROFILE, new Response.Listener<String>() {
+                AppConfig.URL_RATEDETAILPROFILE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -654,7 +649,7 @@ Bitmap bitmap;
         //            toolbarSubtitle.setText(seller.email);
 
 
-        Glide.with(getContext()).load(session.getLoginPic().replaceAll("\\\\","")).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
+        Glide.with(getContext()).load(session.getLoginPic().replaceAll("\\\\", "")).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
 
         productTitle.setText(session.getLoginName());
 //        tvusername.setText(session.getLoginName());
@@ -690,8 +685,7 @@ Bitmap bitmap;
             swipeRefreshLayout.setRefreshing(false);
             swipeRefreshLayout.setVisibility(View.GONE);
             errorMessage.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             progressCircle.setVisibility(View.GONE);
             loadingMore.setVisibility(View.GONE);
             errorMessage.setVisibility(View.GONE);
@@ -719,7 +713,7 @@ Bitmap bitmap;
         }
 
         StringRequest Listreq = new StringRequest(Request.Method.POST,
-                                                  AppConfig.URL_PRODUCTUSER, new Response.Listener<String>() {
+                AppConfig.URL_PRODUCTUSER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -735,20 +729,20 @@ Bitmap bitmap;
                         ArrayList<String> productimg = new ArrayList<>(Arrays.asList(feedObj.getString("productimage").split(",")));
 
                         adapter.productList.add(new Product(feedObj.getInt("productid"),
-                                                            feedObj.getString("productname"),
-                                                            feedObj.getLong("price") / rate,
-                                                            feedObj.getInt("userid"),
-                                                            feedObj.getString("username"),
-                                                            feedObj.getString("categoryname"),
-                                                            feedObj.getString("productaddress"),
-                                                            feedObj.getString("areaproduct"),
-                                                            feedObj.getString("productstatus"),
-                                                            productimg,
-                                                            feedObj.getString("productdate"),
-                                                            feedObj.getString("description"),
-                                                            feedObj.getString("sharecount"),
-                                                            Double.parseDouble(feedObj.getString("lat")),
-                                                            Double.parseDouble(feedObj.getString("lot"))
+                                feedObj.getString("productname"),
+                                feedObj.getLong("price"),
+                                feedObj.getInt("userid"),
+                                feedObj.getString("username"),
+                                feedObj.getString("categoryname"),
+                                feedObj.getString("productaddress"),
+                                feedObj.getString("areaproduct"),
+                                feedObj.getString("productstatus"),
+                                productimg,
+                                feedObj.getString("productdate"),
+                                feedObj.getString("description"),
+                                feedObj.getString("sharecount"),
+                                Double.parseDouble(feedObj.getString("lat")),
+                                Double.parseDouble(feedObj.getString("lot"))
 
                         ));
 
@@ -757,16 +751,16 @@ Bitmap bitmap;
 
                     if (viewType == ViMarket.VIEW_TYPE_NEAR) {
                         Collections.sort(adapter.productList,
-                                         new Comparator<Product>() {
-                                             @Override
-                                             public int compare(Product lhs, Product rhs) {
-                                                 double lhsDistance = SphericalUtil.computeDistanceBetween(
-                                                         lhs.location, GPSTracker.mLastestLocation);
-                                                 double rhsDistance = SphericalUtil.computeDistanceBetween(
-                                                         rhs.location, GPSTracker.mLastestLocation);
-                                                 return (int) (lhsDistance - rhsDistance);
-                                             }
-                                         }
+                                new Comparator<Product>() {
+                                    @Override
+                                    public int compare(Product lhs, Product rhs) {
+                                        double lhsDistance = SphericalUtil.computeDistanceBetween(
+                                                lhs.location, GPSTracker.mLastestLocation);
+                                        double rhsDistance = SphericalUtil.computeDistanceBetween(
+                                                rhs.location, GPSTracker.mLastestLocation);
+                                        return (int) (lhsDistance - rhsDistance);
+                                    }
+                                }
                         );
                     }
                     // Load detail fragment if in tablet mode
@@ -841,12 +835,12 @@ Bitmap bitmap;
                 if (i == 0) {
                     selectedPhoto = images.get(0).getPath();
 //                    Log.e("link",selectedPhoto);
-                     bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
+                    bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
 //                    posterImage.setImageBitmap(bitmap);
                     Glide.with(getActivity())
                             .load(new File(selectedPhoto)) // Uri of the picture
 
-                    .into(posterImage);
+                            .into(posterImage);
 //                    posterImage.setImage
                 }
             }
@@ -859,103 +853,104 @@ Bitmap bitmap;
                 String photoPath = galleryPhoto.getPath();
                 selectedPhoto = photoPath;
 //                Log.e("link",selectedPhoto);
-                 bitmap = getReducedBitmap(photoPath, 256, 200000);
+                bitmap = getReducedBitmap(photoPath, 256, 200000);
 //                posterImage.setImageBitmap(bitmap);
                 Glide.with(getActivity())
                         .load(new File(selectedPhoto)) // Uri of the picture
 
-                        .into(posterImage);            }
+                        .into(posterImage);
+            }
         }
 
 //        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
-        if(bitmap != null){
-    assert bitmap != null;
-        String encodedImage = ImageBase64.encode(bitmap);
+        if (bitmap != null) {
+            assert bitmap != null;
+            String encodedImage = ImageBase64.encode(bitmap);
 
 
-        Log.d("IMAGE", encodedImage);
+            Log.d("IMAGE", encodedImage);
 
 
-        HashMap<String, String> postData = new HashMap<>();
-        postData.put("image", encodedImage);
-        PostResponseAsyncTask task = new PostResponseAsyncTask(getContext(), postData, new AsyncResponse() {
+            HashMap<String, String> postData = new HashMap<>();
+            postData.put("image", encodedImage);
+            PostResponseAsyncTask task = new PostResponseAsyncTask(getContext(), postData, new AsyncResponse() {
 
-            @Override
-            public void processFinish(String s) {
-                Log.e("Image", s);
-                //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
-                //                    Log.e(TAG,s.substring(1,60));
+                @Override
+                public void processFinish(String s) {
+                    Log.e("Image", s);
+                    //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
+                    //                    Log.e(TAG,s.substring(1,60));
 
-                userimage = s.substring(1, s.length() - 1);
-                //                    Toast.makeText(getContext(),userimage,Toast.LENGTH_LONG).show();
+                    userimage = s.substring(1, s.length() - 1);
+                    //                    Toast.makeText(getContext(),userimage,Toast.LENGTH_LONG).show();
 
-                //                userimage = s;
-                //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
-                requestQueue = Volley.newRequestQueue(getActivity());
+                    //                userimage = s;
+                    //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
+                    requestQueue = Volley.newRequestQueue(getActivity());
 
-                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_EDITAVATAR, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-                        session.setPicUser(userimage);
-                        Log.e("IMAGE",session.getLoginPic());
-
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> param = new HashMap<>();
-                        param.put("userid", String.valueOf(session.getLoginId()));
-                        param.put("userimage", userimage);
-                        //                            param.put("name", String.valueOf(name.getText()));
-                        //                            param.put("phone", String.valueOf(phone.getText()));
-                        //                            param.put("address", String.valueOf(address.getText()));
-
-                        return param;
-
-                    }
-
-                };
-
-                requestQueue.add(request);
+                    StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_EDITAVATAR, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                            session.setPicUser(userimage);
+                            Log.e("IMAGE", session.getLoginPic());
 
 
-            }
-        });
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> param = new HashMap<>();
+                            param.put("userid", String.valueOf(session.getLoginId()));
+                            param.put("userimage", userimage);
+                            //                            param.put("name", String.valueOf(name.getText()));
+                            //                            param.put("phone", String.valueOf(phone.getText()));
+                            //                            param.put("address", String.valueOf(address.getText()));
 
-        task.execute(AppConfig.URL_IMAGEUSER);
+                            return param;
 
-        task.setEachExceptionsHandler(new EachExceptionsHandler() {
-            @Override
-            public void handleIOException(IOException e) {
-                Toast.makeText(getContext(), "Cannot Connect to Server.",
-                               Toast.LENGTH_SHORT).show();
-            }
+                        }
 
-            @Override
-            public void handleMalformedURLException(MalformedURLException e) {
-                Toast.makeText(getContext(), "URL Error.",
-                               Toast.LENGTH_SHORT).show();
-            }
+                    };
 
-            @Override
-            public void handleProtocolException(ProtocolException e) {
-                Toast.makeText(getContext(), "Protocol Error.",
-                               Toast.LENGTH_SHORT).show();
-            }
+                    requestQueue.add(request);
 
-            @Override
-            public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
-                Toast.makeText(getContext(), "Encoding Error.",
-                               Toast.LENGTH_SHORT).show();
-            }
-        });
+
+                }
+            });
+
+            task.execute(AppConfig.URL_IMAGEUSER);
+
+            task.setEachExceptionsHandler(new EachExceptionsHandler() {
+                @Override
+                public void handleIOException(IOException e) {
+                    Toast.makeText(getContext(), "Cannot Connect to Server.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void handleMalformedURLException(MalformedURLException e) {
+                    Toast.makeText(getContext(), "URL Error.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void handleProtocolException(ProtocolException e) {
+                    Toast.makeText(getContext(), "Protocol Error.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
+                    Toast.makeText(getContext(), "Encoding Error.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }
@@ -974,8 +969,7 @@ Bitmap bitmap;
             float desiredPx = getResources().getDimensionPixelSize(R.dimen.product_card_width);
             int columns = Math.round(widthPx / desiredPx);
             return columns > 2 ? columns : 2;
-        }
-        else {
+        } else {
             float desiredPx = getResources().getDimensionPixelSize(R.dimen.product_list_card_width);
             int columns = Math.round(widthPx / desiredPx);
             return columns > 1 ? columns : 1;
@@ -1009,8 +1003,7 @@ Bitmap bitmap;
             ((ProductActivity) getActivity()).loadDetailFragmentUser(String.valueOf(adapter.productList.get(position).productid), String.valueOf(adapter.productList.get(position).userid));
             session.setDefaultPage();
 
-        }
-        else {
+        } else {
             //                                Toast.makeText(getActivity(),"2",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(context, ProductDetailActivityUser.class);
             intent.putExtra(ViMarket.product_ID, String.valueOf(adapter.productList.get(position).productid));

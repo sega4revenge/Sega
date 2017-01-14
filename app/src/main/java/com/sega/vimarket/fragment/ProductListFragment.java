@@ -322,7 +322,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
 
                 adapter.productList.add(new Product(feedObj.getInt("productid"),
                                                     feedObj.getString("productname"),
-                                                    feedObj.getLong("price") / rate,
+                                                    feedObj.getLong("price"),
                                                     feedObj.getInt("userid"),
                                                     feedObj.getString("username"),
                                                     feedObj.getString("categoryname"),
