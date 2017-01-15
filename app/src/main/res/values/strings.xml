@@ -81,19 +81,19 @@
     <string name="edtaddress">Address</string>
     <string name="edtemail">Email</string>
     <string name="edtarea">Area</string>
-    <string name="edtuser">Account name</string>
+    <string name="edtuser">Email</string>
     <string name="edtpass">Password</string>
     <string name="btn_accept">Confirm</string>
     <string name="btn_forgot">Forgot password ?</string>
     <string name="notfilldata"> Unknown enough data</string>
     <string name="slide_1_title">FreeMarket</string>
-    <string name="slide_1_desc">Utility - Secure - Fast</string>
-    <string name="slide_2_title">Utilities</string>
-    <string name="slide_2_desc">FreeMarket user-friendly, easy to use</string>
-    <string name="slide_3_title">Safe</string>
-    <string name="slide_3_desc">FreeMarket to help users avoid the risk of Internet fraud</string>
-    <string name="slide_4_title">Fast</string>
-    <string name="slide_4_desc">Quick transactions</string>
+    <string name="slide_1_desc">You can bring market to everywhere</string>
+    <string name="slide_2_title">Sell and Buy</string>
+    <string name="slide_2_desc">You can sell and buy products everytime, everywhere</string>
+    <string name="slide_3_title">Communication</string>
+    <string name="slide_3_desc">Communicate easily and exchange quickly</string>
+    <string name="slide_4_title">Search</string>
+    <string name="slide_4_desc">Easily search for products to buy</string>
     <string-array name="area">
         <item>Hà Nội</item>
         <item>TP HCM</item>
@@ -289,7 +289,7 @@
     <string name="rate">Like this seller</string>
     <string name="personalpage">Personal Page</string>
     <string name="productsofuser">Products</string>
-    <string name="verifytextforgot">An verification code has been send to email %1$s</string>
+    <string name="verifytextforgot">An verification code has been send to email </string>
     <string name="forgottext">Please input email linked your account </string>
     <string name="addcomment">Write your comments here</string>
     <string name="ratetext">Rate this seller:</string>
@@ -299,4 +299,7 @@
     <string name="About">Free Market is a supporting sale app ,allowing buyers and sellers to connect and transact safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . The application supports to search sale products extremely quickly in all the different categories likes : real estate, mobile phone, motorbike, pet .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \"</string>
     <string name="about_version">Version 1.0</string>
     <string name="registersusscess">Regrister Susscess</string>
+    <string name="toast_hinh">Please select enough image</string>
+    <string name="toast_thongtin">Please fill enough information</string>
+    <string name="error_server">Cannot connect to server</string>
 </resources>

@@ -56,17 +56,17 @@
     <string name="edtaddress">Địa chỉ</string>
     <string name="edtemail">Email</string>
     <string name="edtarea">Khu vực</string>
-    <string name="edtuser">Tên tài khoản</string>
+    <string name="edtuser">Email</string>
     <string name="btn_accept">Xác nhận</string>
     <string name="notfilldata">Chưa nhập đủ dữ liệu</string>
     <string name="slide_1_title">FreeMarket</string>
-    <string name="slide_1_desc">Tiện ích - An toàn - Nhanh chóng</string>
-    <string name="slide_2_title">Tiện Ích</string>
-    <string name="slide_2_desc">FreeMarket thân thiện người dùng,dễ dàng sử dụng</string>
-    <string name="slide_3_title">An toàn</string>
-    <string name="slide_3_desc">FreeMarket giúp người sử dụng trách nguy cơ lừa đảo trên mạng</string>
-    <string name="slide_4_title">Nhanh chóng</string>
-    <string name="slide_4_desc">Giao dịch nhanh chóng</string>
+    <string name="slide_1_desc">Bạn có thể mang chợ đến khắp mọi nơi</string>
+    <string name="slide_2_title">Mua và Bán</string>
+    <string name="slide_2_desc">Bạn có thể mua và bán các sản phẩm mọi lúc mọi nơi</string>
+    <string name="slide_3_title">Giao Tiếp</string>
+    <string name="slide_3_desc">Giao tiếp đơn giản và giao dịch nhanh chóng</string>
+    <string name="slide_4_title">Tìm Kiếm</string>
+    <string name="slide_4_desc">Dễ dàng tìm kiếm sản phẩm vừa ý để mua</string>
     <string-array name="area">
         <item>Hà Nội</item>
         <item>TP HCM</item>
@@ -269,7 +269,7 @@
     <string name="addcomment">Viết bình luận của bạn ở đây</string>
     <string name="ratetext">Đánh giá người bán này:</string>
     <string name="myaccount">Hồ sơ của tôi</string>
-    <string name="linkshare">"Bấm vào đây để xem chi tiết : "</string>
+    <string name="linkshare">\"Bấm vào đây để xem thêm chi tiết : \"</string>
     <string name="supportsum">Bạn có thể liên hệ với chúng tôi khi cần hỗ trợ</string>
     <string name="action_aboutsum">Giới thiệu về ứng dụng của chúng tôi</string>
     <string name="changetheme">Thay đổi chủ đề</string>
@@ -297,4 +297,7 @@
     <string name="About">Free Market là ứng dụng hỗ trợ mua bán, cho phép người mua và người bán kết nối và giao dịch an toàn, dễ dàng, nhanh chóng và tiện lợi. Đăng tin rao bán hoàn toàn miễn phí. Ứng dụng hỗ trợ tìm kiếm nhanh các sản phẩm rao bán vô cùng nhanh chóng ở tất cả các danh mục khác nhau từ bất động sản, điện thoại, xe máy, vật nuôi.... Ở Free Market bạn có thể mua bán hàng thật phong phú, đa dạng và độc đáo. Hãy đến với Free Market để cảm nhận sự khác biệt khi mua bán hàng hóa online.</string>
     <string name="about_version">Phiên bản 1.0</string>
     <string name="registersusscess">Đăng ký thành công</string>
+    <string name="toast_hinh">Vui lòng chọn đủ hình ảnh</string>
+    <string name="toast_thongtin">Xin vui lòng điền đầy đủ thông tin</string>
+    <string name="error_server">Không thể kết nối với máy chủ</string>
 </resources>

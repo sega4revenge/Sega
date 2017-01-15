@@ -60,13 +60,7 @@
     <string name="btn_accept">확인</string>
     <string name="notfilldata">정보입력  부족합니다</string>
     <string name="slide_1_title">FreeMarket</string>
-    <string name="slide_1_desc">편하기 - 안전하기 - 빠르기</string>
     <string name="slide_2_title">편의</string>
-    <string name="slide_2_desc">FreeMarket 사용자가 사용하기가 쉬운 앱입니다</string>
-    <string name="slide_3_title">안전</string>
-    <string name="slide_3_desc">FreeMarket 온라인 사기 막힐 수 있다</string>
-    <string name="slide_4_title">빠른 속도로 </string>
-    <string name="slide_4_desc">빠른 속도로 거래</string>
     <string-array name="area">
         <item>Hà Nội</item>
         <item>TP HCM</item>
@@ -263,5 +257,10 @@
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
     <string name="theme"></string>
+    <string name="toast_hinh">Please select enough image</string>
+    <string name="toast_thongtin">Please fill enough information</string>
+    <string name="error_server">Cannot connect to server</string>
 
 </resources>
+
+
