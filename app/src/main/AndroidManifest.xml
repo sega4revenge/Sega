@@ -168,6 +168,10 @@
 
         <activity android:name=".activity.AboutActivity">
         </activity>
+        <activity android:name=".activity.ProfileProduct"
+                  android:theme="@style/AppDetail">
+
+        </activity>
     </application>
 
 </manifest>

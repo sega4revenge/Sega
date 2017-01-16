@@ -229,24 +229,24 @@
     </string-array>
     <string-array name="danhmuc">
         <item>Vehicles</item>
-        <item>Land</item>
+        <item>Real estate</item>
         <item>Electronics</item>
-        <item>Entertainment, sport, hobby</item>
-        <item>Exterior and interior, houseware</item>
+        <item>Entertainment, sports, hobbies</item>
+        <item>Furniture,home appliances</item>
         <item>Fashion, personal belongings</item>
-        <item>Requisite, agricultural</item>
+        <item>Stationery</item>
         <item>Job, service</item>
         <item>Other</item>
     </string-array>
     <string-array name="danhmucfilter">
         <item>All Items</item>
         <item>Vehicles</item>
-        <item>Land</item>
+        <item>Real estate</item>
         <item>Electronics</item>
-        <item>Entertainment, sport, hobby</item>
-        <item>Exterior and interior, houseware</item>
+        <item>Entertainment, sports, hobbies</item>
+        <item>Furniture,home appliances</item>
         <item>Fashion, personal belongings</item>
-        <item>Requisite, agricultural</item>
+        <item>Stationery</item>
         <item>Job, service</item>
         <item>Other</item>
     </string-array>
@@ -264,14 +264,14 @@
     <string name="sellerphone">Phone</string>
     <string name="address">Address</string>
     <string name="type">Type</string>
-    <string name="confirm_delete">Confirm Delete..</string>
-    <string name="delete_detail">Are you sure you want delete this product?</string>
+    <string name="confirm_delete">Delete confirmation..</string>
+    <string name="delete_detail">Do you want delete this product?</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_edit">Save</string>
     <string name="btn_delete">Delete</string>
     <string name="add_product_name">Product Name</string>
-    <string name="add_price">Price</string>
+    <string name="add_price">Product  Price</string>
     <string name="add_address">Address</string>
     <string name="add_description">Description</string>
     <string name="btn_sell">Sell</string>
@@ -302,4 +302,6 @@
     <string name="toast_hinh">Please select enough image</string>
     <string name="toast_thongtin">Please fill enough information</string>
     <string name="error_server">Cannot connect to server</string>
+    <string name="username">Username</string>
+    <string name="inbox">Inbox</string>
 </resources>

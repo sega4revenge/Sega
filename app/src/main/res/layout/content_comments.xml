@@ -14,31 +14,12 @@
         android:id="@+id/comments_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/writelayout"
+
         tools:listitem="@layout/layout_comments">
 
     </android.support.v7.widget.RecyclerView>
 
-    <RelativeLayout
-        android:id="@+id/writelayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/writecomment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/buttoncomment"
-            android:hint="@string/addcomment"/>
 
-        <Button
-            android:id="@+id/buttoncomment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/sendcomment" />
-    </RelativeLayout>
+
 </RelativeLayout>

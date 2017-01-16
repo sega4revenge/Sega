@@ -2,15 +2,14 @@ package com.sega.vimarket.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.location.Address;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
@@ -36,22 +35,20 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.sega.vimarket.R;
 import com.sega.vimarket.SliderTypes.BaseSliderView;
 import com.sega.vimarket.Tricks.ViewPagerEx;
-import com.kosalgeek.android.photoutil.GalleryPhoto;
-import com.kosalgeek.android.photoutil.ImageLoader;
-import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.Fullscreen;
-import com.sega.vimarket.util.Constants;
-import com.sega.vimarket.service.GeocodeAddressIntentService;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.Product;
 import com.sega.vimarket.model.User;
+import com.sega.vimarket.service.GeocodeAddressIntentService;
+import com.sega.vimarket.util.Constants;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.widget.RobotoLightTextView;
@@ -59,7 +56,6 @@ import com.sega.vimarket.widget.RobotoLightTextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,8 +68,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import static android.app.Activity.RESULT_OK;
 
 public class ProductDetailFragmentUser extends Fragment implements OnMenuItemClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
@@ -125,25 +119,25 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
     @BindView(R.id.product_detail_holder)
     NestedScrollView productHolder;
 
-    @BindView(R.id.poster_image1)
-    NetworkImageView posterImage1;
-    @BindView(R.id.poster_image_default1)
-    ImageView posterImageDefault1;
-
-    @BindView(R.id.poster_image2)
-    NetworkImageView posterImage2;
-    @BindView(R.id.poster_image_default2)
-    ImageView posterImageDefault2;
-
-    @BindView(R.id.poster_image3)
-    NetworkImageView posterImage3;
-    @BindView(R.id.poster_image_default3)
-    ImageView posterImageDefault3;
-
-    @BindView(R.id.poster_image4)
-    NetworkImageView posterImage4;
-    @BindView(R.id.poster_image_default4)
-    ImageView posterImageDefault4;
+//    @BindView(R.id.poster_image1)
+//    NetworkImageView posterImage1;
+//    @BindView(R.id.poster_image_default1)
+//    ImageView posterImageDefault1;
+//
+//    @BindView(R.id.poster_image2)
+//    NetworkImageView posterImage2;
+//    @BindView(R.id.poster_image_default2)
+//    ImageView posterImageDefault2;
+//
+//    @BindView(R.id.poster_image3)
+//    NetworkImageView posterImage3;
+//    @BindView(R.id.poster_image_default3)
+//    ImageView posterImageDefault3;
+//
+//    @BindView(R.id.poster_image4)
+//    NetworkImageView posterImage4;
+//    @BindView(R.id.poster_image_default4)
+//    ImageView posterImageDefault4;
     // Image views
     @BindView(R.id.product_overview_value)
     TextView productoverview;
@@ -429,29 +423,29 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
         // Add share button to toolbar
     /*    backdropImage.setImageUrl(product.productimage,
                                   VolleySingleton.getInstance(getActivity()).imageLoader);*/
-        posterImageDefault1.setVisibility(View.GONE);
-
-        posterImage1.setImageUrl(product.productimage.get(0).toString(),
-                VolleySingleton.getInstance(getActivity()).imageLoader);
-        posterImage1.setErrorImageResId(R.drawable.empty_photo);
-
-        posterImageDefault2.setVisibility(View.GONE);
-
-        posterImage2.setImageUrl(product.productimage.get(1).toString(),
-                VolleySingleton.getInstance(getActivity()).imageLoader);
-        posterImage2.setErrorImageResId(R.drawable.empty_photo);
-
-        posterImageDefault3.setVisibility(View.GONE);
-
-        posterImage3.setImageUrl(product.productimage.get(2).toString(),
-                VolleySingleton.getInstance(getActivity()).imageLoader);
-        posterImage3.setErrorImageResId(R.drawable.empty_photo);
-
-        posterImageDefault4.setVisibility(View.GONE);
-
-        posterImage4.setImageUrl(product.productimage.get(3).toString(),
-                VolleySingleton.getInstance(getActivity()).imageLoader);
-        posterImage4.setErrorImageResId(R.drawable.empty_photo);
+//        posterImageDefault1.setVisibility(View.GONE);
+//
+//        posterImage1.setImageUrl(product.productimage.get(0).toString(),
+//                VolleySingleton.getInstance(getActivity()).imageLoader);
+//        posterImage1.setErrorImageResId(R.drawable.empty_photo);
+//
+//        posterImageDefault2.setVisibility(View.GONE);
+//
+//        posterImage2.setImageUrl(product.productimage.get(1).toString(),
+//                VolleySingleton.getInstance(getActivity()).imageLoader);
+//        posterImage2.setErrorImageResId(R.drawable.empty_photo);
+//
+//        posterImageDefault3.setVisibility(View.GONE);
+//
+//        posterImage3.setImageUrl(product.productimage.get(2).toString(),
+//                VolleySingleton.getInstance(getActivity()).imageLoader);
+//        posterImage3.setErrorImageResId(R.drawable.empty_photo);
+//
+//        posterImageDefault4.setVisibility(View.GONE);
+//
+//        posterImage4.setImageUrl(product.productimage.get(3).toString(),
+//                VolleySingleton.getInstance(getActivity()).imageLoader);
+//        posterImage4.setErrorImageResId(R.drawable.empty_photo);
 
         productTitle.setText(product.productname);
 //        tvusername.setText(product.username);
@@ -626,30 +620,30 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
         progressCircle.setVisibility(View.VISIBLE);
      /*   downloadproductDetails(id);*/
     }
-
-    @OnClick(R.id.poster_image1)
-    public void onPoster1() {
-        galleryPhoto = new GalleryPhoto(getActivity());
-        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
-    }
-
-    @OnClick(R.id.poster_image2)
-    public void onPoster2() {
-        galleryPhoto = new GalleryPhoto(getActivity());
-        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST2);
-    }
-
-    @OnClick(R.id.poster_image3)
-    public void onPoster3() {
-        galleryPhoto = new GalleryPhoto(getActivity());
-        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST3);
-    }
-
-    @OnClick(R.id.poster_image4)
-    public void onPoster4() {
-        galleryPhoto = new GalleryPhoto(getActivity());
-        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST4);
-    }
+//
+//    @OnClick(R.id.poster_image1)
+//    public void onPoster1() {
+//        galleryPhoto = new GalleryPhoto(getActivity());
+//        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
+//    }
+//
+//    @OnClick(R.id.poster_image2)
+//    public void onPoster2() {
+//        galleryPhoto = new GalleryPhoto(getActivity());
+//        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST2);
+//    }
+//
+//    @OnClick(R.id.poster_image3)
+//    public void onPoster3() {
+//        galleryPhoto = new GalleryPhoto(getActivity());
+//        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST3);
+//    }
+//
+//    @OnClick(R.id.poster_image4)
+//    public void onPoster4() {
+//        galleryPhoto = new GalleryPhoto(getActivity());
+//        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST4);
+//    }
 
     @OnClick(R.id.edit_productname)
     public void onEditProductname() {
@@ -1109,61 +1103,61 @@ public class ProductDetailFragmentUser extends Fragment implements OnMenuItemCli
                 downloadproductDetails(id);
             }
         }
-        if (resultCode == RESULT_OK) {
-            if (requestCode == GALLERY_REQUEST) {
-                Uri uri = data.getData();
-
-                galleryPhoto.setPhotoUri(uri);
-                String photoPath = galleryPhoto.getPath();
-                selectedPhoto = photoPath;
-                try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
-                    posterImage1.setImageBitmap(getRotatedBitmap(bitmap));
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getActivity(),
-                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == GALLERY_REQUEST2) {
-                Uri uri = data.getData();
-
-                galleryPhoto.setPhotoUri(uri);
-                String photoPath2 = galleryPhoto.getPath();
-                selectedPhoto2 = photoPath2;
-                try {
-                    Bitmap bitmap2 = ImageLoader.init().from(photoPath2).requestSize(512, 512).getBitmap();
-                    posterImage2.setImageBitmap(getRotatedBitmap(bitmap2));
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getActivity(),
-                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == GALLERY_REQUEST3) {
-                Uri uri = data.getData();
-
-                galleryPhoto.setPhotoUri(uri);
-                String photoPath3 = galleryPhoto.getPath();
-                selectedPhoto3 = photoPath3;
-                try {
-                    Bitmap bitmap3 = ImageLoader.init().from(photoPath3).requestSize(512, 512).getBitmap();
-                    posterImage3.setImageBitmap(getRotatedBitmap(bitmap3));
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getActivity(),
-                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == GALLERY_REQUEST4) {
-                Uri uri = data.getData();
-
-                galleryPhoto.setPhotoUri(uri);
-                String photoPath4 = galleryPhoto.getPath();
-                selectedPhoto4 = photoPath4;
-                try {
-                    Bitmap bitmap3 = ImageLoader.init().from(photoPath4).requestSize(512, 512).getBitmap();
-                    posterImage4.setImageBitmap(getRotatedBitmap(bitmap3));
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getActivity(),
-                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == GALLERY_REQUEST) {
+//                Uri uri = data.getData();
+//
+//                galleryPhoto.setPhotoUri(uri);
+//                String photoPath = galleryPhoto.getPath();
+//                selectedPhoto = photoPath;
+//                try {
+//                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
+//                    posterImage1.setImageBitmap(getRotatedBitmap(bitmap));
+//                } catch (FileNotFoundException e) {
+//                    Toast.makeText(getActivity(),
+//                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
+//                }
+//            } else if (requestCode == GALLERY_REQUEST2) {
+//                Uri uri = data.getData();
+//
+//                galleryPhoto.setPhotoUri(uri);
+//                String photoPath2 = galleryPhoto.getPath();
+//                selectedPhoto2 = photoPath2;
+//                try {
+//                    Bitmap bitmap2 = ImageLoader.init().from(photoPath2).requestSize(512, 512).getBitmap();
+//                    posterImage2.setImageBitmap(getRotatedBitmap(bitmap2));
+//                } catch (FileNotFoundException e) {
+//                    Toast.makeText(getActivity(),
+//                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
+//                }
+//            } else if (requestCode == GALLERY_REQUEST3) {
+//                Uri uri = data.getData();
+//
+//                galleryPhoto.setPhotoUri(uri);
+//                String photoPath3 = galleryPhoto.getPath();
+//                selectedPhoto3 = photoPath3;
+//                try {
+//                    Bitmap bitmap3 = ImageLoader.init().from(photoPath3).requestSize(512, 512).getBitmap();
+//                    posterImage3.setImageBitmap(getRotatedBitmap(bitmap3));
+//                } catch (FileNotFoundException e) {
+//                    Toast.makeText(getActivity(),
+//                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
+//                }
+//            } else if (requestCode == GALLERY_REQUEST4) {
+//                Uri uri = data.getData();
+//
+//                galleryPhoto.setPhotoUri(uri);
+//                String photoPath4 = galleryPhoto.getPath();
+//                selectedPhoto4 = photoPath4;
+//                try {
+//                    Bitmap bitmap3 = ImageLoader.init().from(photoPath4).requestSize(512, 512).getBitmap();
+//                    posterImage4.setImageBitmap(getRotatedBitmap(bitmap3));
+//                } catch (FileNotFoundException e) {
+//                    Toast.makeText(getActivity(),
+//                            "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
     }
 
     private Bitmap getRotatedBitmap(Bitmap source) {

@@ -41,12 +41,22 @@
             android:orientation="vertical"
             android:layout_marginTop="105dp"
             >
-
+            <TextView
+                android:id="@+id/myaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADDRESS"
+                android:textColor="@android:color/white"
+                android:layout_gravity="top|left"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="14sp"
+                />
             <TextView
                 android:id="@+id/productdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ACTOR"
+                android:text="MAIL"
                 android:textColor="@android:color/white"
                 android:layout_gravity="top|left"
                 android:textStyle="bold"
@@ -58,7 +68,7 @@
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PRODUCER"
+                android:text="PHONE"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:layout_gravity="top|left"
@@ -86,7 +96,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:id="@+id/view2" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -124,41 +134,46 @@
             <!--android:layout_marginLeft="10dp"-->
             <!--android:textSize="14sp"/>-->
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/rate"-->
-                <!--android:textColor="#3E3E3E"-->
-                <!--android:id="@+id/textView"/>-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/rate"-->
+            <!--android:textColor="#3E3E3E"-->
+            <!--android:id="@+id/textView"/>-->
+            <ImageButton
+                android:id="@+id/editbutton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit2"/>
 
             <FrameLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <!--<com.like.LikeButton-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:id="@+id/thumb_button"-->
-                    <!--android:layout_width="50dp"-->
-                    <!--android:layout_height="50dp"-->
-                    <!--app:circle_end_color="@android:color/holo_red_dark"-->
-                    <!--app:circle_start_color="@android:color/holo_blue_bright"-->
-                    <!--app:dots_primary_color="@android:color/holo_red_light"-->
-                    <!--app:dots_secondary_color="@android:color/holo_red_dark"-->
-                    <!--app:icon_size="30dp"-->
-                    <!--app:like_drawable="@drawable/like"-->
-                    <!--app:unlike_drawable="@drawable/unlike" />-->
+                <!--android:layout_gravity="center"-->
+                <!--android:id="@+id/thumb_button"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--app:circle_end_color="@android:color/holo_red_dark"-->
+                <!--app:circle_start_color="@android:color/holo_blue_bright"-->
+                <!--app:dots_primary_color="@android:color/holo_red_light"-->
+                <!--app:dots_secondary_color="@android:color/holo_red_dark"-->
+                <!--app:icon_size="30dp"-->
+                <!--app:like_drawable="@drawable/like"-->
+                <!--app:unlike_drawable="@drawable/unlike" />-->
 
                 <!--<TextView-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:id="@+id/username"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="3.5K"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="#3E3E3E"-->
-                    <!--android:fontFamily="sans-serif-condensed"-->
-                    <!--android:layout_marginLeft="70dp"-->
-                    <!--android:textSize="14sp"/>-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:id="@+id/username"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="3.5K"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#3E3E3E"-->
+                <!--android:fontFamily="sans-serif-condensed"-->
+                <!--android:layout_marginLeft="70dp"-->
+                <!--android:textSize="14sp"/>-->
             </FrameLayout>
 
 

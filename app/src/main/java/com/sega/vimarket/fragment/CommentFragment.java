@@ -11,24 +11,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.sega.vimarket.model.Comments;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.adapter.CommentsAdapter;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
+import com.sega.vimarket.model.Comments;
 import com.sega.vimarket.util.VolleySingleton;
 
 import org.json.JSONArray;
@@ -39,7 +36,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**a
@@ -58,8 +54,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
     TextView toolbarSubtitle;
     @BindView(R.id.comments_list)
     RecyclerView commentView;
-    @BindView(R.id.writecomment)
-    EditText writecomment;
+
 
     // Fragment lifecycle
     @Override
@@ -71,7 +66,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
         String userName = getArguments().getString(ViMarket.user_name);
         toolbar.setTitle("");
         if (commentType == ViMarket.COMMENT_TYPE_CAST) {
-            toolbarTitle.setText(R.string.cast_title);
+            toolbarTitle.setText(R.string.ratetext);
         }
         session = new SessionManager(getActivity());
         toolbarSubtitle.setText(userName);
@@ -114,40 +109,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
         // TODO
     }
 
-    @OnClick(R.id.buttoncomment)
-    public void onWriteCommentClicked() {
-        final String TAG = CommentFragment.class.getSimpleName();
-        // Hide all views
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_STORECOMMENT, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response);
-                downloadComment();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getActivity(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<>();
-                params.put("userid", session.getLoginId() + "");
-                params.put("contentcomment", writecomment.getText().toString());
-                params.put("userid", userid + "");
-                return params;
-            }
-        };
 
-        // Adding request to request queue
-        strReq.setTag(this.getClass().getName());
-        VolleySingleton.getInstance(getActivity()).requestQueue.add(strReq);
-    }
 
     private void downloadComment() {
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -168,7 +130,7 @@ public class CommentFragment extends Fragment implements CommentsAdapter.OnComme
                     // Load detail fragment if in tablet mode
                     commentView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    writecomment.setText("");
+
                 } catch (Exception ex) {
                     // JSON parsing error
                     ex.printStackTrace();

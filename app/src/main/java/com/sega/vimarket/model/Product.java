@@ -37,7 +37,7 @@ public class Product implements Parcelable {
     public String productdate;
     public String description;
     public  String sharecount;
-    public ArrayList productimage = new ArrayList<String>();
+    public ArrayList<String> productimage = new ArrayList<>();
     public double price;
     public LatLng location;
 
@@ -52,7 +52,7 @@ public class Product implements Parcelable {
         areaproduct = in.readString();
         productstatus = in.readString();
         productdate = in.readString();
-        productimage = in.readArrayList(ArrayList.class.getClassLoader());
+      in.readStringList(productimage);
         price = in.readDouble();
         description=in.readString();
         sharecount=in.readString();
@@ -107,7 +107,7 @@ public class Product implements Parcelable {
         parcel.writeString(areaproduct);
         parcel.writeString(productstatus);
         parcel.writeString(productdate);
-        parcel.writeList(productimage);
+        parcel.writeStringList(productimage);
         parcel.writeDouble(price);
         parcel.writeString(description);
         parcel.writeString(sharecount);

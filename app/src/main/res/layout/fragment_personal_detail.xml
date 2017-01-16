@@ -85,19 +85,10 @@
                             android:text="@string/productsofuser" />
 
                     </LinearLayout>
-                    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
-                                  xmlns:android="http://schemas.android.com/apk/res/android"
-                                  style="@style/MovieSeeAllHolderStyle"
-                                  android:foregroundGravity="top"
-                                  android:gravity="right|center_vertical">
 
-                        <com.sega.vimarket.widget.RobotoBoldTextView
-                            style="@style/MovieSeeAllTextStyle" />
-
-                        <ImageView
-                            style="@style/MovieSeeAllArrowStyle"
-                            tools:ignore="contentDescription"/>
-                    </LinearLayout>
+                    <include
+                        layout="@layout/layout_detail_see_all"
+                        android:id="@+id/product_see_all"/>
                 </LinearLayout>
 
                 <!-- To show when unable to load data -->

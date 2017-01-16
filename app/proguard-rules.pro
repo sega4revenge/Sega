@@ -94,3 +94,6 @@
 
 -keep class com.daimajia.androidanimations.library.** { *; }
 -dontwarn com.daimajia.androidanimations.library.**
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}

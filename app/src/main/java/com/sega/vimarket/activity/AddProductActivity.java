@@ -1,18 +1,14 @@
 package com.sega.vimarket.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -55,10 +51,7 @@ import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
-import com.sega.vimarket.model.ChatModel;
 import com.sega.vimarket.model.Image;
-import com.sega.vimarket.model.MapModel;
-import com.sega.vimarket.service.GeocodeAddressIntentService;
 import com.sega.vimarket.util.Constants;
 
 import java.io.File;
@@ -67,7 +60,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,9 +95,9 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     EditText ten,gia,addressEdit,des,edtcategory,edtarea;
 
 
-    double latitude,longitude;
-    AlertDialog.Builder Categorybuilder,Typebuilder,Areabuilder;
-    AlertDialog CategoryDialog,TypeDialog,AreaDialog ;
+
+    AlertDialog.Builder Categorybuilder,Areabuilder;
+    AlertDialog CategoryDialog,AreaDialog ;
     RequestQueue requestQueue;
     String productname;
     String price;
@@ -116,7 +108,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     String productstatus ;
     String description;
     String[] productimage;
-    String[] slideimage;
     String lat,lot,add;
     private ArrayList<Image> images = new ArrayList<>();
     @BindView(R.id.toolbar)

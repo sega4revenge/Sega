@@ -263,21 +263,22 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!load) {
-                    Messenger temp2 = null;
+
 
                     Iterator it = dataSnapshot.getChildren().iterator();
                     try {
                         ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
-                        System.out.println(a.getUserModel().getName());
-                        System.out.println(session.getLoginName());
+
                         message = a.getMessage();
                         timestamp = a.getTimeStamp();
                         String[] temp = key.split("-");
                         if (temp[0].equals(session.getLoginId() + "")) {
                             arrayAdapter.MessengerList.add(messenger(temp[1]));
+                            System.out.println("1212");
                         }
-                        else {
+                        else if(temp[1].equals(session.getLoginId() + "")) {
                             arrayAdapter.MessengerList.add(messenger(temp[0]));
+                            System.out.println("1212");
                         }
 
                       /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());

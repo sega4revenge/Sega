@@ -31,7 +31,7 @@
           android:title="@string/myaccount"
           app:showAsAction="never" />
     <item android:id="@+id/myinbox"
-          android:title="@string/myaccount"
+          android:title="@string/inbox"
           app:showAsAction="never" />
 
     <item android:id="@+id/setting"

@@ -260,6 +260,7 @@
     <string name="toast_hinh">Please select enough image</string>
     <string name="toast_thongtin">Please fill enough information</string>
     <string name="error_server">Cannot connect to server</string>
+    <string name="inbox">inbox</string>
 
 </resources>
 

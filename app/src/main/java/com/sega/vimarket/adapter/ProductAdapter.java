@@ -14,17 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.sega.vimarket.model.Product;
-import com.sega.vimarket.model.Utils;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
+import com.sega.vimarket.model.Product;
+import com.sega.vimarket.model.Utils;
 import com.sega.vimarket.service.GPSTracker;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.widget.AutoResizeTextView;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private int imageWidth;
-    private NumberFormat format;
+    private String format;
     private SharedPreferences sharedPref;
     public ArrayList<Product> productList;
     DecimalFormat formatprice;
@@ -44,18 +44,14 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
         this.productList = new ArrayList<>();
         this.onproductClickListener = onproductClickListener;
-        formatprice = new DecimalFormat("#00,000");
+        formatprice = new DecimalFormat("#0,000");
 
         sharedPref = context.getSharedPreferences(ViMarket.TABLE_USER, Context.MODE_PRIVATE);
         imageWidth = sharedPref.getInt(ViMarket.THUMBNAIL_SIZE,
                                        0);   // Load image width for grid view
-        Locale current = context.getResources().getConfiguration().locale;
-        if (current.getCountry().equals("VN")) {
-            format = NumberFormat.getCurrencyInstance();
-        }
-        else {
-            format = NumberFormat.getCurrencyInstance(Locale.US);
-        }
+        Locale current = new Locale("vi","VN");
+        Currency cur = Currency.getInstance(current);
+        format = cur.getSymbol();
     }
 
     // RecyclerView methods
@@ -125,7 +121,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ProductGridViewHolder productViewHolder = (ProductGridViewHolder) viewHolder;
 
 
-            productViewHolder.price.setText(formatprice.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price)+format);
             // Title and year
             productViewHolder.area.setText(product.areaproduct);
             productViewHolder.productName.setText(product.productname);
@@ -172,7 +168,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // LIST MODE
             ProductListViewHolder productViewHolder = (ProductListViewHolder) viewHolder;
 
-            productViewHolder.price.setText(formatprice.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price)+format);
             // Title, year and overview
             CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
                     Long.parseLong(product.productdate),
@@ -228,7 +224,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.productRating.setText(product.sharecount);
             productViewHolder.area.setText(product.areaproduct);
 
-            productViewHolder.price.setText(formatprice.format(product.price));
+            productViewHolder.price.setText(formatprice.format(product.price)+format);
             String distance =
                     Utils.formatDistanceBetween(GPSTracker.mLastestLocation, product.location);
             if (android.text.TextUtils.isEmpty(distance)) {

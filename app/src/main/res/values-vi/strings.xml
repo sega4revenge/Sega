@@ -300,4 +300,6 @@
     <string name="toast_hinh">Vui lòng chọn đủ hình ảnh</string>
     <string name="toast_thongtin">Xin vui lòng điền đầy đủ thông tin</string>
     <string name="error_server">Không thể kết nối với máy chủ</string>
+    <string name="username">Tên người dùng</string>
+    <string name="inbox">Hộp thư</string>
 </resources>

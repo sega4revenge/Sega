@@ -56,6 +56,16 @@ public class SessionManager {
         editor.putString(KEY_UNIQUEPIC, userpic);
         editor.commit();
     }
+    public void setNameUser(String username){
+        editor.remove(KEY_USERNAME).commit();
+        editor.putString(KEY_USERNAME, username);
+        editor.commit();
+    }
+    public void setAddressUser(String address){
+        editor.remove(KEY_ADDRESS).commit();
+        editor.putString(KEY_ADDRESS, address);
+        editor.commit();
+    }
     public void setCurrency(Double currency){
         editor.putString("currency", Double.toString(currency));
         editor.commit();

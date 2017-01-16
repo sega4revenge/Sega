@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <!-- Header Image -->
-            <include layout="@layout/layout_detail_header_user" />
+            <!--<include layout="@layout/layout_detail_header_user" />-->
 
 
             <!-- Section 1: Basic Info -->

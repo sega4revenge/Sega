@@ -49,6 +49,7 @@ import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.CommentActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivity;
+import com.sega.vimarket.activity.ProfileProduct;
 import com.sega.vimarket.adapter.ProductAdapter;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
@@ -839,6 +840,23 @@ CollapsingToolbarLayout  toolbar2;
             intent.putExtra(ViMarket.COMMENT_LIST, commentslist);
             startActivityForResult(intent, 1);
         }
+    @OnClick(R.id.product_see_all)
+    public void onProduct() {
+    /*    Intent i = new Intent(getActivity(), ProfileProduct.class);
+
+
+
+        i.putExtra(ViMarket.seller_ID, seller.userid);
+        i.putExtra(ViMarket.product_LIST, adapter.productList);
+        startActivityForResult(i, 1);*/
+        Intent intent = new Intent(getActivity(), ProfileProduct.class);
+
+        intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
+        intent.putExtra(ViMarket.user_name, seller.username);
+        intent.putExtra(ViMarket.seller_ID, seller.userid+"");
+
+        startActivityForResult(intent, 1);
+    }
 
     private void onDownloadFailed() {
        /* errorMessage.setVisibility(View.VISIBLE);

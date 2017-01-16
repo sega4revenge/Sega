@@ -113,7 +113,6 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
             int userid =  getIntent().getIntExtra(ViMarket.user_ID,-1);
            sellerid =  getIntent().getIntExtra(ViMarket.seller_ID,-1);
             urlPhotoUser = getIntent().getStringExtra("sellerpic");
-            System.out.println(urlPhotoUser);
             nameUser = getIntent().getStringExtra(ViMarket.seller_name);
             if(userid<sellerid)
                 room = userid+"-"+sellerid;
@@ -401,13 +400,19 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
                 params.put("room",room);
                 params.put("roomname",nameUser);
                 params.put("roompic",urlPhotoUser);
+                System.out.println(session.getLoginId());
+                System.out.println(sellerid+"");
+                System.out.println(room);
+                System.out.println(nameUser);
+                System.out.println(urlPhotoUser);
                 return params;
+
             }
         };
 
         // Adding request to request queue
         strReq.setTag(this.getClass().getName());
-        VolleySingleton.getInstance(this).requestQueue.add(strReq);
+        VolleySingleton.getInstance(this).getRequestQueue().add(strReq);
 
     }
 

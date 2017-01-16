@@ -65,6 +65,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.Locale;
 
 import butterknife.BindBool;
@@ -170,6 +171,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     HorizontalBarChart chart;
     LinearLayout maps;
     private Unbinder unbinder;
+    private String formatString;
 
 
     // Fragment lifecycle
@@ -186,6 +188,9 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         final Uri data = getActivity().getIntent().getData();
         sellername = (RobotoLightTextView)v.findViewById(R.id.sellername);
         mDemoSlider = (SliderLayout) v.findViewById(R.id.slider);
+        Locale current = new Locale("vi","VN");
+        Currency cur = Currency.getInstance(current);
+        formatString = cur.getSymbol();
        unbinder = ButterKnife.bind(this, v);
         toolbar.inflateMenu(R.menu.menu_share);
         if(session.getColor()==-1)
@@ -198,12 +203,8 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
             floatingActionsMenu.setMenuButtonColorNormal(session.getColor());
             floatingActionsMenu.setMenuButtonColorPressed(session.getColor2());
         }
-        formatprice = new DecimalFormat("#00,000");
-        Locale current = getActivity().getResources().getConfiguration().locale;
-        if (current.getCountry().equals("VN"))
-            format = NumberFormat.getCurrencyInstance();
-        else
-            format = NumberFormat.getCurrencyInstance(Locale.US);
+        formatprice = new DecimalFormat("#0,000");
+
 
         // Setup toolbar
         toolbar.setTitle(R.string.loading);
@@ -343,7 +344,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                                        getResources().getString(R.string.add_product_name) +": "+ product.productname +
                                                "\n" + getResources().getString(R.string.sellername) +": "+ product.username +
-                                               "\n" + getResources().getString(R.string.add_price) + ": " +format.format(product.price) +
+                                               "\n" + getResources().getString(R.string.add_price) + ": " +formatprice.format(product.price)+formatString +
                                                "\n" + getResources().getString(R.string.add_description) + ": "+ product.description +
                                                "\n" + product.productimage.get(0) +
                                                "\n" + getResources().getString(R.string.linkshare)+ ": "+"http://freemarkets.ga/link.php?productid="+product.productid+"&userid="+seller.userid);
@@ -577,7 +578,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         }
         productTitle.setText(product.productname);
 
-        tvprice.setText(formatprice.format(product.price));
+        tvprice.setText(formatprice.format(product.price)+formatString);
         CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
                 Long.parseLong(product.productdate),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);

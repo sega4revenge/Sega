@@ -2,6 +2,7 @@ package com.sega.vimarket.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.maps.android.SphericalUtil;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
@@ -183,7 +192,13 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     GalleryPhoto galleryPhoto;
     String userimage;
     Bitmap bitmap;
-
+    ImageButton editbutton;
+    String newname, newphone, newaddress;
+    private static final int PLACE_PICKER_REQUEST = 3;
+    EditText edt3;
+    String add;
+    @BindView(R.id.myaddress)
+    TextView myaddress;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -205,6 +220,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);
         posterImage = (CircleImageView) v.findViewById(R.id.poster_image);
+        editbutton = (ImageButton) v.findViewById(R.id.editbutton);
         unbinder = ButterKnife.bind(this, v);
 
         toolbar.setOnMenuItemClickListener(this);
@@ -356,7 +372,85 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 onDownloadSuccessful();
             }
         }
+        editbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.edit_user, null);
+                dialogBuilder.setView(dialogView);
+
+                final EditText edt1 = (EditText) dialogView.findViewById(R.id.edtedit1);
+                //                final EditText edt2=(EditText) dialogView.findViewById(R.id.edtedit2);
+                edt3 = (EditText) dialogView.findViewById(R.id.edtedit3);
+                final ImageView img = (ImageView) dialogView.findViewById(R.id.ld_icon);
+                img.setImageResource(R.drawable.ic_group_black_24dp);
+
+                edt1.setText(session.getLoginName());
+                //                edt2.setText(session.getLoginPhone());
+                edt3.setText(session.getLoginAddress());
+                edt3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        locationPlacesIntent();
+                    }
+                });
+                dialogBuilder.setPositiveButton(R.string.btneditok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //do something with edt.getText().toString();
+                        newname = String.valueOf(edt1.getText());
+                        //                        newphone = String.valueOf(edt2.getText());
+                        newaddress = String.valueOf(edt3.getText());
+                        //name.setText(newname);
+                        //                        phone.setText(newphone);
+                        //address.setText(newaddress);
+                        //                Log.e("Test",name + " " + phone + " "+ address);
+                        requestQueue = Volley.newRequestQueue(getActivity());
+
+                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_EDITUSER, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                                session.setNameUser(newname);
+                                session.setAddressUser(newaddress);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> param = new HashMap<>();
+                                param.put("userid", String.valueOf(session.getLoginId()));
+                                param.put("name", newname);
+                                param.put("address", newaddress);
+
+                                return param;
+
+                            }
+
+                        };
+
+                        requestQueue.add(request);
+                    }
+                });
+                dialogBuilder.setNegativeButton(R.string.btneditcancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                        dialog.cancel();
+
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+            }
+
+
+        });
         return v;
     }
 
@@ -656,7 +750,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         tvprice.setText(session.getLoginPhone());
 
         tvproductdate.setText(session.getLoginEmail());
-
+        myaddress.setText(session.getLoginAddress());
         isLoading = false;
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.GONE);
@@ -819,7 +913,22 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(getContext(), data);
+                if (place != null) {
+                    //                    LatLng latLng = place.getLatLng();
+                    //                    lot = String.valueOf(latLng.latitude);
+                    //                    lat = String.valueOf(latLng.longitude);
+                    add = (String) place.getAddress();
+                    edt3.setText(add);
+                    //                    MapModel mapModel = new MapModel(latLng.latitude+"", latLng.longitude+"");
 
+                    //                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime()+"", mapModel);
+                    //                    mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
+                }
+            }
+        }
         if (requestCode == 1) {
 
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -828,6 +937,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 downloadRate();
             }
         }
+
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
             images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
 
@@ -955,6 +1065,15 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
     }
 
+    private void locationPlacesIntent() {
+
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getNumberOfColumns() {
         // Get screen width
