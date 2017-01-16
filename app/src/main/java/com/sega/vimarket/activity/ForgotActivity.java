@@ -27,8 +27,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class ForgotActivity extends AppCompatActivity {
@@ -62,17 +60,11 @@ public class ForgotActivity extends AppCompatActivity {
                email = et_email.getText().toString().trim();
 
                 // Check for empty data in the form
-                if (!isValidEmail(email)) {
-                    //Set error message for email field
-                    et_email.setError("Invalid Email");
-                }
 
-
-                else{
                     progress.setVisibility(View.VISIBLE);
 
                     initiateResetPasswordProcess(email);
-                }
+
 
 
 
@@ -126,8 +118,10 @@ public class ForgotActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    System.out.println("ok");
+                    response = response.replaceAll("NULL", "");
+                    response = response.trim();
                     JSONObject json = new JSONObject(response);
+                    System.out.println(response);
                     String result = json.getString("result");
                     Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
                     if (result.equals(ViMarket.SUCCESS)) {
@@ -163,7 +157,7 @@ public class ForgotActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email + "");
+                params.put("phone", email + "");
                 return params;
             }
         };
@@ -211,7 +205,7 @@ public class ForgotActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email + "");
+                params.put("phone", email + "");
                 params.put("code", code + "");
                 params.put("password", password + "");
                 return params;
@@ -220,12 +214,5 @@ public class ForgotActivity extends AppCompatActivity {
         strReq.setTag(this.getClass().getName());
         VolleySingleton.getInstance(this).requestQueue.add(strReq);
     }
-    private boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 }
