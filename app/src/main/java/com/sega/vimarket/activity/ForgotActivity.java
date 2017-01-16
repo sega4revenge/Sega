@@ -125,7 +125,6 @@ public class ForgotActivity extends AppCompatActivity {
                     String result = json.getString("result");
                     Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
                     if (result.equals(ViMarket.SUCCESS)) {
-
                         Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
                         et_email.setVisibility(View.GONE);
                         layoutemail.setVisibility(View.GONE);
