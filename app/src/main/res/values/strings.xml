@@ -81,7 +81,7 @@
     <string name="edtaddress">Address</string>
     <string name="edtemail">Email</string>
     <string name="edtarea">Area</string>
-    <string name="edtuser">Email</string>
+    <string name="edtuser">User name</string>
     <string name="edtpass">Password</string>
     <string name="btn_accept">Confirm</string>
     <string name="btn_forgot">Forgot password ?</string>
@@ -284,19 +284,19 @@
     <string name="sendcomment">Send</string>
     <string name="edtrepassword">Re-password</string>
     <string name="verifycode">Verification code</string>
-    <string name="verifytext">An verification code has been send to phone number </string>
+    <string name="verifytext">"A verification code has been send to phone number "</string>
     <string name="image">Upload image </string>
     <string name="rate">Like this seller</string>
     <string name="personalpage">Personal Page</string>
     <string name="productsofuser">Products</string>
-    <string name="verifytextforgot">An verification code has been send to email </string>
+    <string name="verifytextforgot">"A verification code has been send to email "</string>
     <string name="forgottext">Please input email linked your account </string>
     <string name="addcomment">Write your comments here</string>
     <string name="ratetext">Rate this seller:</string>
     <string name="ratetextcomplete">You have already rated this seller</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
-    <string name="About">Free Market is a supporting sale app ,allowing buyers and sellers to connect and transact safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . The application supports to search sale products extremely quickly in all the different categories likes : real estate, mobile phone, motorbike, pet .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \"</string>
+    <string name="About">Free Market is supporting your sales ,allowing buyers and sellers to connect and transaction safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . The application supports to search sale products extremely quickly in all the different categories such as Vehicles, Furnitures, Fashions, Second hands .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \"</string>
     <string name="about_version">Version 1.0</string>
     <string name="registersusscess">Regrister Susscess</string>
     <string name="toast_hinh">Please select enough image</string>
@@ -304,4 +304,10 @@
     <string name="error_server">Cannot connect to server</string>
     <string name="username">Username</string>
     <string name="inbox">Inbox</string>
+    <string name="toast_error">An error occured, please try again later</string>
+    <string name="connect">Can\'t connect to server</string>
+    <string name="pass1">Password do not match</string>
+    <string name="pass2">Password must have 6 characters</string>
+    <string name="code">Code cannot be empty</string>
+    <string name="field">Fields are empty !</string>
 </resources>

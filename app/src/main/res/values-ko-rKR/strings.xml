@@ -55,7 +55,6 @@
     <string name="edtaddress">주소</string>
     <string name="edtemail">이메일</string>
     <string name="edtarea">지역</string>
-    <string name="edtuser">계정이름</string>
     <string name="edtpass">비밀번호</string>
     <string name="btn_accept">확인</string>
     <string name="notfilldata">정보입력  부족합니다</string>
@@ -261,6 +260,7 @@
     <string name="toast_thongtin">Please fill enough information</string>
     <string name="error_server">Cannot connect to server</string>
     <string name="inbox">inbox</string>
+    <string name="toast_error"></string>
 
 </resources>
 

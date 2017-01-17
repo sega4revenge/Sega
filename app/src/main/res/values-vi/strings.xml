@@ -56,7 +56,7 @@
     <string name="edtaddress">Địa chỉ</string>
     <string name="edtemail">Email</string>
     <string name="edtarea">Khu vực</string>
-    <string name="edtuser">Email</string>
+    <string name="edtuser">Tên người dùng</string>
     <string name="btn_accept">Xác nhận</string>
     <string name="notfilldata">Chưa nhập đủ dữ liệu</string>
     <string name="slide_1_title">FreeMarket</string>
@@ -293,7 +293,7 @@
     <string name="ratetextcomplete">Bạn đã đánh giá người bán này</string>
     <string name="search_content_description">Nội dung mô tả</string>
     <string name="title_folder">Thư mục</string>
-    <string name="title_select_image">Chọn hình ảnh</string>
+    <string name="title_select_image">Nhấn để chọn hình ảnh</string>
     <string name="About">Free Market là ứng dụng hỗ trợ mua bán, cho phép người mua và người bán kết nối và giao dịch an toàn, dễ dàng, nhanh chóng và tiện lợi. Đăng tin rao bán hoàn toàn miễn phí. Ứng dụng hỗ trợ tìm kiếm nhanh các sản phẩm rao bán vô cùng nhanh chóng ở tất cả các danh mục khác nhau từ bất động sản, điện thoại, xe máy, vật nuôi.... Ở Free Market bạn có thể mua bán hàng thật phong phú, đa dạng và độc đáo. Hãy đến với Free Market để cảm nhận sự khác biệt khi mua bán hàng hóa online.</string>
     <string name="about_version">Phiên bản 1.0</string>
     <string name="registersusscess">Đăng ký thành công</string>
@@ -302,4 +302,10 @@
     <string name="error_server">Không thể kết nối với máy chủ</string>
     <string name="username">Tên người dùng</string>
     <string name="inbox">Hộp thư</string>
+    <string name="toast_error">Đã xảy ra lỗi, Xin vui lòng thử lại sau</string>
+    <string name="connect">Không thể kết nối với máy chủ</string>
+    <string name="pass1">Mật khẩu không trùng khớp</string>
+    <string name="pass2">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="code">Mã xác nhận không được để trống</string>
+    <string name="field">Trường đang trống</string>
 </resources>

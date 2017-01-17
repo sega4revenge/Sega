@@ -29,7 +29,7 @@ public class IntroActivity extends CActivity {
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.drawable.logofree)
+                .setImage(R.drawable.logo)
                 .addItem(new Element().setTitle("Version 1.0"))
                 .addItem(adsElement)
                 .addGroup("Connect with us")

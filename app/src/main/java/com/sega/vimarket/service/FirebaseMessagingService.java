@@ -31,7 +31,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setAutoCancel(true)
                 .setContentTitle("FreeMarket")
                 .setContentText(message)
-                .setSmallIcon(R.drawable.logofree)
+                .setSmallIcon(R.drawable.logo)
                 .setContentIntent(pendingIntent);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

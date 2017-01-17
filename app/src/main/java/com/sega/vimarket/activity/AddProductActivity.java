@@ -334,10 +334,10 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 || selectedPhoto2 == null || selectedPhoto2.equals("")
                 || selectedPhoto3 == null || selectedPhoto3.equals("")
                 || selectedPhoto4 == null || selectedPhoto4.equals("")){
-            Toast.makeText(getApplicationContext(), "Vui lòng chọn đủ hình.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.toast_hinh, Toast.LENGTH_SHORT).show();
             return;}
         else if (productname.equals("") || price.equals("") || productaddress.equals("") || description.equals("")){
-            Toast.makeText(getApplicationContext(), "Vui lòng điển đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.toast_thongtin, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -410,7 +410,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     }
                 }){
                     @Override
@@ -444,7 +444,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         task.setEachExceptionsHandler(new EachExceptionsHandler() {
             @Override
             public void handleIOException(IOException e) {
-                Toast.makeText(getApplicationContext(), "Cannot Connect to Server.",
+                Toast.makeText(getApplicationContext(),R.string.connect,
                         Toast.LENGTH_SHORT).show();
             }
 

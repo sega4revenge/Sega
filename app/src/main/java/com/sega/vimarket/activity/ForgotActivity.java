@@ -78,21 +78,21 @@ public class ForgotActivity extends AppCompatActivity {
                 String password = et_password.getText().toString();
                 String repassword = et_repassword.getText().toString();
                 if (repassword.isEmpty() || !repassword.equals(password)) {
-                    et_repassword.setError("Password do not match");
-                    et_password.setError("Password do not match");
+                    et_repassword.setError(getResources().getString(R.string.pass1));
+                    et_password.setError(getResources().getString(R.string.pass1));
                 }
                 if (password.isEmpty() || password.length() < 6) {
-                    et_password.setError("Password must have 6 characters");
+                    et_password.setError(getResources().getString(R.string.pass2));
                 }
                 if (code.isEmpty()) {
-                    et_code.setError("Code cannot be empty");
+                    et_code.setError(getResources().getString(R.string.code));
                 }
                 if (!code.isEmpty() && !password.isEmpty()&&password.length() >= 6 && password.equals(repassword)) {
 
                     finishResetPasswordProcess(email, code, password);
                 } else {
 
-                    Snackbar.make(findViewById(R.id.base), "Fields are empty !", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.base),R.string.field, Snackbar.LENGTH_LONG).show();
                 }
             }
         });
