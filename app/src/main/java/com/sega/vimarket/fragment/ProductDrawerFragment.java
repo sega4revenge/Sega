@@ -35,14 +35,12 @@ import com.sega.vimarket.activity.ProfilePage;
 import com.sega.vimarket.color.Colorful;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
-import com.sega.vimarket.provider.SQLiteHandler;
 import com.sega.vimarket.search.SearchAdapter;
 import com.sega.vimarket.search.SearchHistoryTable;
 import com.sega.vimarket.search.SearchItem;
 import com.sega.vimarket.search.SearchView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,11 +52,10 @@ import static com.sega.vimarket.search.SearchView.SPEECH_REQUEST_CODE;
 public class ProductDrawerFragment extends Fragment implements OnMenuItemClickListener {
 
 
-    private Fragment fragment;
-    private Unbinder unbinder;
-    private SharedPreferences preferences;
-    private SQLiteHandler db;
-    private SessionManager session;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    public static boolean money = false;
+    public String category = "0", area = "", fitter = "0", search = "";
+    protected SearchView mSearchView = null;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     Boolean isTablet;
@@ -68,13 +65,14 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
     @BindView(R.id.filter)
     Spinner filter;
     int areaposition;
-    public String category="0",area="",fitter="0",search = "";
-    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    protected SearchView mSearchView = null;
+    String[] permissions = new String[]{
+            Manifest.permission.RECORD_AUDIO,
+    };
+    private Fragment fragment;
+    private Unbinder unbinder;
+    private SharedPreferences preferences;
+    private SessionManager session;
     private SearchHistoryTable mHistoryDatabase;
-
-
-    public static boolean money=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -102,9 +100,9 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         toolbar.setBackground(transition);
         transition.startTransition(300);*/
         customSearchView();
-        db = new SQLiteHandler(getActivity());
 
-        HashMap<String, String> usermap = db.getUserDetails(id);
+
+
 
 /*        userobj = new User(Integer.parseInt(usermap.get("userid")), usermap.get("username"), usermap.get("email"), usermap.get("phonenumber")
                 , usermap.get("address"), usermap.get("area"), usermap.get("userpic"), usermap.get("datecreate"), usermap.get("rate"), usermap.get("count"));*/
@@ -244,6 +242,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
 
         return v;
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         System.out.println(search);
@@ -317,7 +316,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 return true;
             case R.id.logout:
                 session.deleteLogin();
-                db.deleteUsers();
+
                 // Launching the login activity
                 Colorful.config(getActivity())
                         .primaryColor(Colorful.ThemeColor.RED)
@@ -334,8 +333,6 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
                 return false;
         }
     }
-
-
 
     private void onRefreshToolbarMenu() {
         int viewMode = preferences.getInt(ViMarket.VIEW_MODE, ViMarket.VIEW_MODE_COMPACT);
@@ -362,6 +359,8 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
         }
     }
 
+    // Drawer item selection
+
     private void onRefreshFragmentLayout() {
         if (fragment instanceof ProductListFragment) {
             ((ProductListFragment) fragment).refreshLayout();
@@ -369,10 +368,6 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
             ((productSavedFragment) fragment).refreshLayout();
         }*/
     }
-
-    // Drawer item selection
-
-
 
   private void setSelectedDrawerItem() {
 
@@ -399,10 +394,6 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
       editor.apply();
 
   }
-
-    String[] permissions = new String[]{
-            Manifest.permission.RECORD_AUDIO,
-           };
 
     private boolean checkPermissions() {
         int result;

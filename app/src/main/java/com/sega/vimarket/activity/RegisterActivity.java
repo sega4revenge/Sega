@@ -25,6 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sega.vimarket.R;
 import com.sega.vimarket.config.AppConfig;
+import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.util.VolleySingleton;
 
 import org.json.JSONException;
@@ -43,18 +44,22 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private CountDownTimer countDownTimer;
     Spinner spinarea;
     TextInputLayout layoutuser, layoutcode, layoutpass, layoutrepass, layoutemail, layoutphone, layoutaddress;
     EditText edtuser, edtpassword, edtrepassword, edtemail, edtphone, edtaddress, edtcode;
     Button register, confirm, cancel, cancelcode;
     TextView verifytext,countdown;
     String name,email,phone,address,area,password,repass;
+    String uniqueId;
+    private CountDownTimer countDownTimer;
+    private SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register);
+        session = new SessionManager(getApplicationContext());
         edtuser = (EditText) findViewById(R.id.username);
         edtpassword = (EditText) findViewById(R.id.password);
         edtrepassword = (EditText) findViewById(R.id.repassword);
@@ -279,13 +284,47 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(response);
                     String result = json.getString("error");
-                    System.out.println(result);
+                    System.out.println(response);
                     if (result.equals("false")) {
                      Toast.makeText(getApplicationContext(),R.string.registersusscess,Toast.LENGTH_LONG).show();
                         countDownTimer.cancel();
 
-                        Intent i = new Intent(RegisterActivity.this,ProductActivity.class);
+                     /*   Intent i = new Intent(RegisterActivity.this,ProductActivity.class);
                         startActivity(i);
+                        finish();*/
+                        JSONObject user = json.getJSONObject("user");
+                        int userid = user.getInt("userid");
+                        String username = user.getString("username");
+                        String email = user.getString("email");
+                        String phonenumber = user.getString("phone");
+                        String address = user.getString("address");
+                        String area = user.getString("area");
+                        String userpic = user.getString("userpic");
+                        String datecreate = user
+                                .getString("datecreate");
+                        String rate = user.getString("rate");
+                        String count = user.getString("count");
+
+                        SharedPreferences sharedPreferences = getSharedPreferences(AppConfig.SHARED_PREF, MODE_PRIVATE);
+
+                        //Opening the shared preferences editor to save values
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        //Storing the unique id
+                        editor.putString(AppConfig.UNIQUE_ID, uniqueId);
+                        editor.putString(AppConfig.USERID_ID, userid + "");
+
+                        //Saving the boolean as true i.e. the device is registered
+                        editor.putBoolean(AppConfig.REGISTERED, true);
+
+                        //Applying the changes on sharedpreferencs
+                        editor.apply();
+                        session.setLogin(true, userid, username, uniqueId, userpic, email, rate, phonenumber, address, area);
+                        // Launch main activity
+                        Intent intent = new Intent(RegisterActivity.this,
+                                                   ProductActivity.class);
+
+                        startActivity(intent);
                         finish();
 
                     }

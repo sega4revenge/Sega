@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/base"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/base"
                 android:background="@drawable/login"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
@@ -20,19 +20,19 @@
                 android:id="@+id/forgottext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="180dp"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:layout_marginTop="150dp"
                 android:gravity="center"
-                android:text="@string/forgottext"/>
+                android:text="@string/forgottext"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"/>
 
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/layoutemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_below="@id/forgottext"
+                android:layout_marginTop="20dp"
                 android:textColorHint="#FFF"
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                 >
@@ -42,12 +42,12 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+
                     android:drawablePadding="15dp"
-                    android:drawableStart="@drawable/email"
+                    android:drawableStart="@drawable/telephonee"
                     android:ems="10"
 
-                    android:hint="@string/edtemail"
+                    android:hint="@string/edtphone"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
                     android:paddingLeft="0dp"
@@ -86,6 +86,7 @@
                 android:textColor="#FFF"/>
 
             <LinearLayout
+                android:id="@+id/layoutverification"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
@@ -94,7 +95,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="120dp"
                 android:orientation="vertical"
-                android:id="@+id/layoutverification"
                 android:visibility="gone">
 
                 <TextView
@@ -102,9 +102,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:gravity="center"/>
+                    android:textSize="20sp"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layoutcode"
@@ -221,14 +221,14 @@
 
             </LinearLayout>
             <ProgressBar
-                style="@style/Base.Widget.AppCompat.ProgressBar"
                 android:id="@+id/progress"
-                android:visibility="invisible"
-                android:layout_marginTop="10dp"
-                android:layout_centerInParent="true"
+                style="@style/Base.Widget.AppCompat.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:indeterminate="true" />
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:indeterminate="true"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
     </ScrollView>

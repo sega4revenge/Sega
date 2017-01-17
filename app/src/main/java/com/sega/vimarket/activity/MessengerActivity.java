@@ -50,14 +50,33 @@ import okhttp3.RequestBody;
 public class MessengerActivity extends CActivity implements MessengerAdapter.OnMessengerClickListener {
 
 
-    private MessengerAdapter arrayAdapter;
     ArrayList<Room> roomlist = new ArrayList<>();
     String sellername, sellerpic, message, timestamp;
     SessionManager session;
-    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     boolean load = false;
     ArrayList<String> pic = new ArrayList<>();
     ArrayList<String> name = new ArrayList<>();
+    private MessengerAdapter arrayAdapter;
+    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
+    ValueEventListener listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            for (DataSnapshot o : dataSnapshot.getChildren()) {
+                searchroom(o.getKey());
+                System.out.println("loi");
+            }
+
+
+            arrayAdapter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +106,6 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             }
         });*/
     }
-
 
     @Override
     public void onMessengerClicked(int position) {
@@ -192,24 +210,8 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             });*/
 
 
-        root.orderByKey().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator i = dataSnapshot.getChildren().iterator();
+        root.orderByKey().addValueEventListener(listener);
 
-                while (i.hasNext()) {
-                    searchroom(((DataSnapshot) i.next()).getKey());
-                }
-
-
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
  /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -259,48 +261,60 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     }
 
     private void searchroom(final String key) {
-        root.child(key).orderByChild("name").limitToLast(1).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!load) {
+
+        String[] temp = key.split("-");
+        if (temp[0].equals(session.getLoginId() + "") || (temp[1].equals(session.getLoginId() + ""))) {
+            root.child(key).limitToLast(1).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!load) {
 
 
-                    Iterator it = dataSnapshot.getChildren().iterator();
-                    try {
-                        ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
+                        Iterator it = dataSnapshot.getChildren().iterator();
+                        try {
+                            ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
+                            System.out.println("loi23");
+                            message = a.getMessage();
+                            timestamp = a.getTimeStamp();
+                            String[] temp = key.split("-");
+                            if (temp[0].equals(session.getLoginId() + "")) {
+                                Messenger tempmes = messenger(temp[1]);
+                                if (!arrayAdapter.MessengerList.contains(tempmes)) {
+                                    arrayAdapter.MessengerList.add(tempmes);
+                                }
 
-                        message = a.getMessage();
-                        timestamp = a.getTimeStamp();
-                        String[] temp = key.split("-");
-                        if (temp[0].equals(session.getLoginId() + "")) {
-                            arrayAdapter.MessengerList.add(messenger(temp[1]));
-                            System.out.println("1212");
-                        }
-                        else if(temp[1].equals(session.getLoginId() + "")) {
-                            arrayAdapter.MessengerList.add(messenger(temp[0]));
-                            System.out.println("1212");
-                        }
+                            }
+                            else if (temp[1].equals(session.getLoginId() + "")) {
+                                Messenger tempmes = messenger(temp[0]);
+                                if (!arrayAdapter.MessengerList.contains(tempmes)) {
+                                    arrayAdapter.MessengerList.add(tempmes);
+                                }
+
+                            }
 
                       /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());
                         arrayAdapter.MessengerList.add(temp2);*/
 
 
-                    } catch (NoSuchElementException e) {
-                        Toast.makeText(getApplicationContext(), "no chat", Toast.LENGTH_SHORT).show();
+                        } catch (NoSuchElementException e) {
+                            Toast.makeText(getApplicationContext(), "no chat", Toast.LENGTH_SHORT).show();
+                        }
+
+                        arrayAdapter.notifyDataSetChanged();
+                        load = true;
+                        root.removeEventListener(listener);
                     }
 
-                    arrayAdapter.notifyDataSetChanged();
 
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
+                }
+            });
+        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public Messenger messenger(String id) {
@@ -351,4 +365,6 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
         return new Messenger(sellername, timestamp, message, sellerpic);
 
     }
+
+
 }

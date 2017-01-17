@@ -75,27 +75,27 @@ import static android.R.drawable.ic_menu_camera;
 
 public class AddProductActivity extends CActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
-    ImageView ivImage,ivImage2,ivImage3,ivImage4;
-    LinearLayout ivGallery;
-
-    GalleryPhoto galleryPhoto;
-
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final int PLACE_PICKER_REQUEST = 3;
+    private static final String TAG = "MAIN_ACTIVITY";
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
     final int GALLERY_REQUEST = 22131;
     final int GALLERY_REQUEST2 = 23312;
     final int GALLERY_REQUEST3 = 23313;
-    final int GALLERY_REQUEST4 = 23314;
-
-
-    String selectedPhoto,selectedPhoto2,selectedPhoto3,selectedPhoto4;
 
 
     //////////////////////////////////////////////////
 //    AddressResultReceiver mResultReceiver;
-
+    final int GALLERY_REQUEST4 = 23314;
+    ImageView ivImage, ivImage2, ivImage3, ivImage4;
+    LinearLayout ivGallery;
+    GalleryPhoto galleryPhoto;
+    String selectedPhoto, selectedPhoto2, selectedPhoto3, selectedPhoto4;
     EditText ten,gia,addressEdit,des,edtcategory,edtarea;
-
-
-
     AlertDialog.Builder Categorybuilder,Areabuilder;
     AlertDialog CategoryDialog,AreaDialog ;
     RequestQueue requestQueue;
@@ -109,22 +109,46 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     String description;
     String[] productimage;
     String lat,lot,add;
-    private ArrayList<Image> images = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private int REQUEST_CODE_PICKER = 2000;
-    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
     SliderLayout slide;
     boolean fetchAddress;
     int fetchType = Constants.USE_ADDRESS_LOCATION;
     SessionManager session;
-    private static final int PLACE_PICKER_REQUEST = 3;
-    private static final String TAG = "MAIN_ACTIVITY";
+    private ArrayList<Image> images = new ArrayList<>();
+    private int REQUEST_CODE_PICKER = 2000;
+
+    public static Bitmap getReducedBitmap(String imgPath, int MaxWidth, long MaxFileSize) {
+        // MaxWidth = maximum image width
+        // MaxFileSize = maximum image file size
+        File file = new File(imgPath);
+        long length = file.length();
+        if (length == 0) {
+            return null;
+        }
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            // read image file
+            BitmapFactory.decodeFile(imgPath, options);
+            int srcWidth = options.outWidth;
+            int scale = 1;
+            while ((srcWidth > MaxWidth) || (length > MaxFileSize)) {
+                srcWidth /= 2;
+                scale *= 2;
+                length = length / 2;
+            }
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = scale;
+            options.inScaled = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            // read again image file with new constraints
+            return (BitmapFactory.decodeFile(imgPath, options));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +192,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             }
         });
     }
-
 
     public void start() {
         ImagePicker.create(this)
@@ -317,163 +340,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
     }
-    public void onButtonClicked(View view) {
-
-        productname = ten.getText().toString();
-        price = gia.getText().toString();
-        productaddress = addressEdit.getText().toString();
-        description = des.getText().toString();
-        //   areaproduct = productarea.getSelectedItem().toString();
-        //        if (productname == "" || price == "" || productaddress == "" || description == ""){
-        //            Toast.makeText(getApplicationContext(),"THIẾU",Toast.LENGTH_LONG).show();
-        //        }
-        //        else {
-        //        }
-        ///////////////////////////////////////IMAGE/////////////////////////////////
-        if      (selectedPhoto == null || selectedPhoto.equals("")
-                || selectedPhoto2 == null || selectedPhoto2.equals("")
-                || selectedPhoto3 == null || selectedPhoto3.equals("")
-                || selectedPhoto4 == null || selectedPhoto4.equals("")){
-            Toast.makeText(getApplicationContext(),R.string.toast_hinh, Toast.LENGTH_SHORT).show();
-            return;}
-        else if (productname.equals("") || price.equals("") || productaddress.equals("") || description.equals("")){
-            Toast.makeText(getApplicationContext(),R.string.toast_thongtin, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
-        Bitmap bitmap2 = getReducedBitmap(selectedPhoto2,1024,600000);
-        Bitmap bitmap3 = getReducedBitmap(selectedPhoto3,1024,600000);
-        Bitmap bitmap4 = getReducedBitmap(selectedPhoto4,1024,600000);
-
-        assert bitmap != null;
-        String encodedImage = ImageBase64.encode(bitmap);
-        assert bitmap2 != null;
-        String encodedImage2 = ImageBase64.encode(bitmap2);
-        assert bitmap3 != null;
-        String encodedImage3 = ImageBase64.encode(bitmap3);
-        assert bitmap4 != null;
-        String encodedImage4 = ImageBase64.encode(bitmap4);
-
-
-        //            Log.d(TAG2, encodedImage);
-        //            Log.d(TAG2, encodedImage2);
-
-
-        HashMap<String, String> postData = new HashMap<>();
-        postData.put("image", encodedImage);
-        postData.put("image2", encodedImage2);
-        postData.put("image3", encodedImage3);
-        postData.put("image4", encodedImage4);
-
-        PostResponseAsyncTask task = new PostResponseAsyncTask(AddProductActivity.this, postData, new AsyncResponse() {
-
-            @Override
-            public void processFinish(String s) {
-                Log.e("Image", s);
-                //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
-                //                    Log.e(TAG,s.substring(1,60));
-                //                  productimage = s.substring(1, s.length() - 1);
-                productimage = s.split(String.valueOf('"'));
-                //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
-                productname = ten.getText().toString();
-                price = gia.getText().toString();
-                userid = session.getLoginId()+"";
-                // cateid = category.getSelectedItem().toString();
-
-
-                productaddress = addressEdit.getText().toString();
-                productstatus = "Đang bán";
-                description = des.getText().toString();
-                final String latlot = productaddress + " " + areaproduct;
-                requestQueue = Volley.newRequestQueue(getApplicationContext());
-//                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
-//                intent.putExtra(Constants.RECEIVER, mResultReceiver);
-//                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
-//                if (fetchType == Constants.USE_ADDRESS_NAME) {
-//                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
-//                }
-//
-//                Log.e(TAG, "Starting Service");
-//                startService(intent);
-                //                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
-                //                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
-                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-
-                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> param = new HashMap<>();
-
-                        param.put("productname", productname);
-                        param.put("price", price);
-                        param.put("userid", userid);
-                        param.put("categoryid", categoryid);
-                        param.put("productaddress", productaddress);
-                        param.put("areaproduct", areaproduct);
-                        param.put("productstatus",productstatus);
-                        param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
-                        param.put("description",description);
-                        param.put("lot",lat+"");
-                        param.put("lat",lot+"");
-
-                        return  param;
-
-                    }
-
-                };
-
-                requestQueue.add(request);
-            }
-        });
-
-        task.execute(AppConfig.URL_IMAGE);
-
-        task.setEachExceptionsHandler(new EachExceptionsHandler() {
-            @Override
-            public void handleIOException(IOException e) {
-                Toast.makeText(getApplicationContext(),R.string.connect,
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void handleMalformedURLException(MalformedURLException e) {
-                Toast.makeText(getApplicationContext(), "URL Error.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void handleProtocolException(ProtocolException e) {
-                Toast.makeText(getApplicationContext(), "Protocol Error.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
-                Toast.makeText(getApplicationContext(), "Encoding Error.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        /////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-    }
        /* public static Bitmap getReducedBitmap(String imagePath)
         {
              final float maxHeight = 1280.0f;
@@ -591,6 +457,166 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
             return BitmapFactory.decodeByteArray(out.toByteArray(), 0, out.toByteArray().length);
         }*/
+
+    public void onButtonClicked(View view) {
+
+        productname = ten.getText().toString();
+        price = gia.getText().toString();
+        productaddress = addressEdit.getText().toString();
+        description = des.getText().toString();
+        //   areaproduct = productarea.getSelectedItem().toString();
+        //        if (productname == "" || price == "" || productaddress == "" || description == ""){
+        //            Toast.makeText(getApplicationContext(),"THIẾU",Toast.LENGTH_LONG).show();
+        //        }
+        //        else {
+        //        }
+        ///////////////////////////////////////IMAGE/////////////////////////////////
+        if      (selectedPhoto == null || selectedPhoto.equals("")
+                || selectedPhoto2 == null || selectedPhoto2.equals("")
+                || selectedPhoto3 == null || selectedPhoto3.equals("")
+                || selectedPhoto4 == null || selectedPhoto4.equals("")){
+            Toast.makeText(getApplicationContext(),R.string.toast_hinh, Toast.LENGTH_SHORT).show();
+            return;}
+        else if (productname.equals("") || price.equals("") || productaddress.equals("") || description.equals("")){
+            Toast.makeText(getApplicationContext(),R.string.toast_thongtin, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
+        Bitmap bitmap2 = getReducedBitmap(selectedPhoto2,1024,600000);
+        Bitmap bitmap3 = getReducedBitmap(selectedPhoto3,1024,600000);
+        Bitmap bitmap4 = getReducedBitmap(selectedPhoto4,1024,600000);
+
+        assert bitmap != null;
+        String encodedImage = ImageBase64.encode(bitmap);
+        assert bitmap2 != null;
+        String encodedImage2 = ImageBase64.encode(bitmap2);
+        assert bitmap3 != null;
+        String encodedImage3 = ImageBase64.encode(bitmap3);
+        assert bitmap4 != null;
+        String encodedImage4 = ImageBase64.encode(bitmap4);
+
+
+        //            Log.d(TAG2, encodedImage);
+        //            Log.d(TAG2, encodedImage2);
+
+
+        HashMap<String, String> postData = new HashMap<>();
+        postData.put("image", encodedImage);
+        postData.put("image2", encodedImage2);
+        postData.put("image3", encodedImage3);
+        postData.put("image4", encodedImage4);
+
+        PostResponseAsyncTask task = new PostResponseAsyncTask(AddProductActivity.this, postData, new AsyncResponse() {
+
+            @Override
+            public void processFinish(String s) {
+                Log.e("Image", s);
+                //                    Toast.makeText(getApplicationContext(),s.substring(1,60),Toast.LENGTH_LONG).show();
+                //                    Log.e(TAG,s.substring(1,60));
+                //                  productimage = s.substring(1, s.length() - 1);
+                productimage = s.split(String.valueOf('"'));
+                //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
+                productname = ten.getText().toString();
+                price = gia.getText().toString();
+                userid = session.getLoginId()+"";
+                // cateid = category.getSelectedItem().toString();
+
+
+                productaddress = addressEdit.getText().toString();
+                productstatus = "Đang bán";
+                description = des.getText().toString();
+                final String latlot = productaddress + " " + areaproduct;
+                requestQueue = Volley.newRequestQueue(getApplicationContext());
+//                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
+//                intent.putExtra(Constants.RECEIVER, mResultReceiver);
+//                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
+//                if (fetchType == Constants.USE_ADDRESS_NAME) {
+//                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
+//                }
+//
+//                Log.e(TAG, "Starting Service");
+//                startService(intent);
+                //                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
+                //                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
+                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
+                StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                        Log.e("ADD", response);
+                        System.out.println(userid);
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> param = new HashMap<>();
+
+                        param.put("productname", productname);
+                        param.put("price", price);
+                        param.put("userid", userid);
+                        param.put("categoryid", categoryid);
+                        param.put("productaddress", productaddress);
+                        param.put("areaproduct", areaproduct);
+                        param.put("productstatus",productstatus);
+                        param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
+                        param.put("description",description);
+                        param.put("lot",lat+"");
+                        param.put("lat",lot+"");
+
+                        return  param;
+
+                    }
+
+                };
+
+                requestQueue.add(request);
+            }
+        });
+
+        task.execute(AppConfig.URL_IMAGE);
+
+        task.setEachExceptionsHandler(new EachExceptionsHandler() {
+            @Override
+            public void handleIOException(IOException e) {
+                Toast.makeText(getApplicationContext(),R.string.connect,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleMalformedURLException(MalformedURLException e) {
+                Toast.makeText(getApplicationContext(), "URL Error.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleProtocolException(ProtocolException e) {
+                Toast.makeText(getApplicationContext(), "Protocol Error.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
+                Toast.makeText(getApplicationContext(), "Encoding Error.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -712,6 +738,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     public void onPageScrollStateChanged(int state) {
 
     }
+
     public void showAnimationBanner() {
         slide.removeAllSliders();
         for (int i = 0; i < images.size(); i++) {
@@ -747,6 +774,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             e.printStackTrace();
         }
     }
+
     //    @SuppressLint("ParcelCreator")
 //    class AddressResultReceiver extends ResultReceiver {
 //        AddressResultReceiver(Handler handler) {
@@ -842,6 +870,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             init();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -850,42 +879,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     init();
                 }
-        }
-    }
-
-
-    public static Bitmap getReducedBitmap(String imgPath, int MaxWidth, long MaxFileSize)
-    {
-        // MaxWidth = maximum image width
-        // MaxFileSize = maximum image file size
-        File file = new File(imgPath);
-        long length = file.length();
-        if (length == 0)
-            return null ;
-        try
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            // read image file
-            BitmapFactory.decodeFile(imgPath, options);
-            int srcWidth = options.outWidth;
-            int scale = 1;
-            while ((srcWidth > MaxWidth) || (length > MaxFileSize))
-            {
-                srcWidth /= 2;
-                scale *= 2;
-                length = length / 2 ;
-            }
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = scale;
-            options.inScaled = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            // read again image file with new constraints
-            return(BitmapFactory.decodeFile(imgPath, options)) ;
-        }
-        catch (Exception e)
-        {
-            return null ;
         }
     }
 }

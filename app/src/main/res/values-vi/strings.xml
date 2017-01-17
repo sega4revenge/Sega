@@ -264,8 +264,8 @@
     <string name="rate">Bình chọn cho người bán này</string>
     <string name="personalpage">Trang cá nhân</string>
     <string name="productsofuser">Các sản phẩm</string>
-    <string name="verifytextforgot">Một mã xác nhận đã được gửi đến email </string>
-    <string name="forgottext">Điền email đã liên kết với tài khoản của bạn </string>
+    <string name="verifytextforgot">"Một mã xác nhận đã được gửi đến số điện thoại của bạnrr "</string>
+    <string name="forgottext">Vui lòng điền số điện thoại của bạn</string>
     <string name="addcomment">Viết bình luận của bạn ở đây</string>
     <string name="ratetext">Đánh giá người bán này:</string>
     <string name="myaccount">Hồ sơ của tôi</string>
@@ -308,4 +308,7 @@
     <string name="pass2">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="code">Mã xác nhận không được để trống</string>
     <string name="field">Trường đang trống</string>
+    <string name="productsell">Đang bán</string>
+    <string name="productsold">Đã bán</string>
+    <string name="favorites">Lượt yêu thích</string>
 </resources>
