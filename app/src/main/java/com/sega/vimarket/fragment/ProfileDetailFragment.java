@@ -272,6 +272,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                     if (pageToDownload < TOTAL_PAGES) {
                         loadingMore.setVisibility(View.VISIBLE);
                         downloadproductsList();
+                        System.out.println("dang load");
                         //                        downloadRate();
                     }
                 }
@@ -812,7 +813,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
             public void onResponse(String response) {
                 try {
 
-
+                    System.out.println("ok");
                     rate = session.getCurrency();
 
                     JSONObject jObj = new JSONObject(response);

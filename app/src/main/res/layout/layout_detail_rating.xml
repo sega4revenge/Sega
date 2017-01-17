@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="5.0"
                     android:id="@+id/txtrate"
-                    android:textSize="50sp"
+                    android:textSize="55sp"
                     android:gravity="center|start"
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -95,7 +95,8 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingTop="5dp">
 
                     <com.sega.vimarket.widget.SimpleRatingBar
                         android:id="@+id/ratingDetail"

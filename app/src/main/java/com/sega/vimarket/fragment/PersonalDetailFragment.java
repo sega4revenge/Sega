@@ -50,6 +50,7 @@ import com.sega.vimarket.activity.CommentActivity;
 import com.sega.vimarket.activity.ProductActivity;
 import com.sega.vimarket.activity.ProductDetailActivity;
 import com.sega.vimarket.activity.ProfileProduct;
+import com.sega.vimarket.activity.ProfileProductSold;
 import com.sega.vimarket.adapter.ProductAdapter;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
@@ -192,6 +193,7 @@ CollapsingToolbarLayout  toolbar2;
       List<TextView> usercommentrate;
     MaterialStyledDialog.Builder dialogHeader_4;
     View customView;
+    String favoritecount;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -537,6 +539,7 @@ CollapsingToolbarLayout  toolbar2;
                                 break;
 
                         }
+                        favoritecount = jObj.getString("count");
                         Comments comment = new Comments(feedObj.getString("userid"), feedObj.getString("username"),feedObj.getString("time"),
                                                         feedObj.getString("contentcomment"), feedObj.getString("userpic"), feedObj.getString("point"));
                         commentslist.add(comment);
@@ -603,6 +606,7 @@ CollapsingToolbarLayout  toolbar2;
         chart.setPinchZoom(true);
 
         leftAxis.setDrawLabels(true);
+        tvusername.setText(favoritecount +" "+ getString(R.string.favorites));
 
 
         if (commentslist.size() == 0) {
@@ -810,7 +814,6 @@ CollapsingToolbarLayout  toolbar2;
         Glide.with(getContext()).load(seller.userpic).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
 
         productTitle.setText(product.username);
-        tvusername.setText(seller.rate);
         tvprice.setText(seller.phone);
 
         tvproductdate.setText(seller.email);
@@ -840,7 +843,7 @@ CollapsingToolbarLayout  toolbar2;
             intent.putExtra(ViMarket.COMMENT_LIST, commentslist);
             startActivityForResult(intent, 1);
         }
-    @OnClick(R.id.product_see_all)
+    @OnClick(R.id.product_sell)
     public void onProduct() {
     /*    Intent i = new Intent(getActivity(), ProfileProduct.class);
 
@@ -857,7 +860,23 @@ CollapsingToolbarLayout  toolbar2;
 
         startActivityForResult(intent, 1);
     }
+    @OnClick(R.id.product_sold)
+    public void onProductSold() {
+    /*    Intent i = new Intent(getActivity(), ProfileProduct.class);
 
+
+
+        i.putExtra(ViMarket.seller_ID, seller.userid);
+        i.putExtra(ViMarket.product_LIST, adapter.productList);
+        startActivityForResult(i, 1);*/
+        Intent intent = new Intent(getActivity(), ProfileProductSold.class);
+
+        intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
+        intent.putExtra(ViMarket.user_name, seller.username);
+        intent.putExtra(ViMarket.seller_ID, seller.userid+"");
+
+        startActivityForResult(intent, 1);
+    }
     private void onDownloadFailed() {
        /* errorMessage.setVisibility(View.VISIBLE);
         progressCircle.setVisibility(View.GONE);*/
@@ -1084,6 +1103,8 @@ CollapsingToolbarLayout  toolbar2;
             public void onResponse(String response) {
                 //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
                 System.out.println(response);
+                downloadRate();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -1114,6 +1135,7 @@ CollapsingToolbarLayout  toolbar2;
             public void onResponse(String response) {
                 //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
                 System.out.println(response);
+                downloadRate();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -1131,7 +1153,6 @@ CollapsingToolbarLayout  toolbar2;
             }
 
         };
-
         requestQueue.add(request);
     }
 }

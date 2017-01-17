@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:diagonal="http://schemas.android.com/apk/res-auto"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:diagonal="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#EEEEEE">
@@ -9,28 +9,30 @@
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        diagonal:diagonal_angle="10"
-        android:paddingBottom="16dp"
-        diagonal:diagonal_gravity="left"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="16dp"
+        diagonal:diagonal_angle="10"
+        diagonal:diagonal_gravity="left"
         >
+
         <com.flaviofaria.kenburnsview.KenBurnsView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/background" />
+            android:src="@drawable/background"/>
+
         <TextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hugh Jackman"
-            android:textColor="@android:color/white"
             android:layout_gravity="top|left"
-            android:fontFamily="sans-serif-light"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="70dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Hugh Jackman"
+            android:textColor="@android:color/white"
             android:textSize="25sp"
             />
 
@@ -38,32 +40,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:orientation="vertical"
             android:layout_marginTop="105dp"
+            android:orientation="vertical"
             >
 
             <TextView
                 android:id="@+id/productdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:fontFamily="sans-serif-condensed"
                 android:text="ACTOR"
                 android:textColor="@android:color/white"
-                android:layout_gravity="top|left"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 />
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PRODUCER"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
                 android:layout_gravity="top|left"
                 android:fontFamily="sans-serif-condensed"
+                android:text="PRODUCER"
+                android:textColor="@android:color/white"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 />
         </LinearLayout>
     </com.github.florent37.diagonallayout.DiagonalLayout>
@@ -71,9 +73,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4"
         android:layout_marginTop="210dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
         >
 
         <View
@@ -89,20 +91,11 @@
             />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_gravity="right"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <!--<TextView-->
@@ -124,44 +117,44 @@
             <!--android:layout_marginLeft="10dp"-->
             <!--android:textSize="14sp"/>-->
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rate"
-                android:textColor="#3E3E3E"
-                android:id="@+id/textView"/>
+                android:textColor="#3E3E3E"/>
 
             <FrameLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <com.like.LikeButton
-                    android:layout_gravity="center"
                     android:id="@+id/thumb_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_gravity="center"
                     app:circle_end_color="@android:color/holo_red_dark"
                     app:circle_start_color="@android:color/holo_blue_bright"
                     app:dots_primary_color="@android:color/holo_red_light"
                     app:dots_secondary_color="@android:color/holo_red_dark"
                     app:icon_size="30dp"
                     app:like_drawable="@drawable/like"
-                    app:unlike_drawable="@drawable/unlike" />
+                    app:unlike_drawable="@drawable/unlike"/>
 
-                <TextView
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="3.5K"
-                    android:textStyle="bold"
-                    android:textColor="#3E3E3E"
-                    android:fontFamily="sans-serif-condensed"
-                    android:layout_marginLeft="70dp"
-                    android:textSize="14sp"/>
+
             </FrameLayout>
 
-
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="70dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="3.5K"
+                android:textColor="#3E3E3E"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
 
             <!--<include layout="@layout/layout_detail_rating"/>-->
         </LinearLayout>
@@ -190,13 +183,13 @@
         android:id="@+id/poster_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/circle"
-        android:src="@drawable/hughjackman"
-        android:layout_marginStart="25dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="168dp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/hughjackman"/>
     <!--android:elevation="10dp"-->
 
 </RelativeLayout>

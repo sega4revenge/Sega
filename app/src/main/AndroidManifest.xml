@@ -172,6 +172,10 @@
                   android:theme="@style/AppDetail">
 
         </activity>
+        <activity android:name=".activity.ProfileProductSold"
+                  android:theme="@style/AppDetail">
+
+        </activity>
     </application>
 
 </manifest>

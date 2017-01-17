@@ -20,7 +20,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="12dp"
-        android:src="@color/about_facebook_color"
+        android:src="@color/material_blue400"
         />
 
     <LinearLayout

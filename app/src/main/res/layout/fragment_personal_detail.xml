@@ -15,7 +15,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
-            android:layout_height="441dp"
+            android:layout_height="460dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="@color/primary">
 
@@ -87,8 +87,7 @@
                     </LinearLayout>
 
                     <include
-                        layout="@layout/layout_detail_see_all"
-                        android:id="@+id/product_see_all"/>
+                        layout="@layout/layout_detail_see_all_2"/>
                 </LinearLayout>
 
                 <!-- To show when unable to load data -->

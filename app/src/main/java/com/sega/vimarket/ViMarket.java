@@ -13,9 +13,9 @@ public class ViMarket {
     public static final String SUCCESS = "success";
 
     public static final String FALSE = "false";
-    public static final int VIEW_MODE_GRID = 3;
+    public static final int VIEW_MODE_GRID = 1;
     public static final int VIEW_MODE_LIST = 2;
-    public static final int VIEW_MODE_COMPACT = 1;
+    public static final int VIEW_MODE_COMPACT = 3;
     public static final int VIEW_TYPE_NEW = 1;
     public static final int VIEW_TYPE_NEAR = 2;
 

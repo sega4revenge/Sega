@@ -22,7 +22,6 @@ public class VolleySingleton extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("vao ung dung");
         Colorful.defaults()
                 .primaryColor(Colorful.ThemeColor.RED)
                 .accentColor(Colorful.ThemeColor.DEEP_ORANGE)

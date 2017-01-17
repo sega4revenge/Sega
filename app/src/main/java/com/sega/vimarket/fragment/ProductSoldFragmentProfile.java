@@ -11,10 +11,12 @@ import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,6 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.SphericalUtil;
 import com.sega.vimarket.R;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.AddProductActivity;
@@ -47,8 +48,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -62,12 +61,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ProductListFragment extends Fragment implements ProductAdapter.OnproductClickListener {
+/**
+ * Created by Sega on 17/01/2017.
+ */
+
+public class ProductSoldFragmentProfile extends Fragment implements  ProductAdapter.OnproductClickListener {
     public boolean start = false;
     SessionManager session;
     private Context context;
     public Currency cur;
-    public String category, area, fitter, search;
+
     Double rate;
     private ProductAdapter adapter;
     private GridLayoutManager layoutManager;
@@ -87,7 +90,8 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     AsyncTask<Void, Void, String> asyncTask;
     boolean error = false;
     TextView tryagain ;
-
+    private String sellerid;
+    Toolbar toolbar;
     //    @BindView(R.id.fab_menu)
     //    FloatingActionMenu floatingActionsMenu;
     // Fragment lifecycle
@@ -96,7 +100,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_product_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_product_profile, container, false);
         tryagain = (TextView)v.findViewById(R.id.try_again);
         isTablet =  getResources().getBoolean(R.bool.is_tablet);
         session = new SessionManager(getActivity());
@@ -106,17 +110,16 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);
         floatingActionsMenu = (FloatingActionButton) v.findViewById(R.id.fab_menu_main);
-        if(session.getColor()==-1)
-        {
-            floatingActionsMenu.setColorNormal(getResources().getColor(R.color.primary));
-        floatingActionsMenu.setColorPressed(getResources().getColor(R.color.primary_dark));
-    }
-        else
-        {
-            floatingActionsMenu.setColorNormal(session.getColor());
-            floatingActionsMenu.setColorPressed(session.getColor2());
-        }
-
+        floatingActionsMenu.setVisibility(View.GONE);
+        toolbar = (Toolbar)v.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+        toolbar.setTitle(getResources().getString(R.string.productsold));
         context = getContext();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -125,12 +128,10 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
         // Initialize variables
 
         pageToDownload = 1;
-        viewType = getArguments().getInt(ViMarket.VIEW_TYPE);
+        sellerid = getArguments().getString(ViMarket.seller_ID);
 
-        search = getArguments().getString(ViMarket.search_text);
-        category = getArguments().getString(ViMarket.cate_text);
-        area = getArguments().getString(ViMarket.area_text);
-        fitter = getArguments().getString(ViMarket.fitter_text);
+
+
 
         // Setup RecyclerView
         adapter = new ProductAdapter(context, this);
@@ -145,12 +146,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dx < dy) {
-                    floatingActionsMenu.hideButtonInMenu(true);
-                }
-                else {
-                    floatingActionsMenu.showButtonInMenu(true);
-                }
+
                 // Load more if RecyclerView has reached the end and isn't already loading
                 if (layoutManager.findLastVisibleItemPosition() == adapter.productList.size() - 1 && !isLoadingLocked && !isLoading) {
 
@@ -308,10 +304,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     public void getData(String string){
         try {
             JSONObject jObj = new JSONObject(string);
-            Double usdrate = jObj.getDouble("rate");
-            session.setCurrency(usdrate);
 
-            rate = session.getCurrency();
 
 
             JSONArray feedArray = jObj.getJSONArray("feed");
@@ -339,20 +332,6 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                 ));
 
                 //add product to sqlite
-            }
-            if (fitter.equals("1")) {
-                Collections.sort(adapter.productList,
-                                 new Comparator<Product>() {
-                                     @Override
-                                     public int compare(Product lhs, Product rhs) {
-                                         double lhsDistance = SphericalUtil.computeDistanceBetween(
-                                                 lhs.location, GPSTracker.mLastestLocation);
-                                         double rhsDistance = SphericalUtil.computeDistanceBetween(
-                                                 rhs.location, GPSTracker.mLastestLocation);
-                                         return (int) (lhsDistance - rhsDistance);
-                                     }
-                                 }
-                );
             }
 
             // Load detail fragment if in tablet mode
@@ -496,16 +475,11 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
                     .build();
             RequestBody body = new FormBody.Builder()
                     .add("page", pageToDownload + "")
-                    .add("userid", session.getLoginId() + "")
-                    .add("search", search)
-                    .add("category", category)
-                    .add("area", area)
-                    .add("fitter", fitter)
-                    .add("currency", cur.getCurrencyCode())
+                    .add("userid", sellerid)
                     .build();
 
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url(AppConfig.URL_LOCATIONPRODUCT)
+                    .url(AppConfig.URL_PRODUCTSOLDUSER)
                     .cacheControl(cacheControl)
                     .post(body)
                     .build();
@@ -551,3 +525,4 @@ public class ProductListFragment extends Fragment implements ProductAdapter.Onpr
     }
 
 }
+

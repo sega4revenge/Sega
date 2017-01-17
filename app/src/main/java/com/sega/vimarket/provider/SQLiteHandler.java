@@ -92,7 +92,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_CURRENCYNAME + " TEXT PRIMARY KEY,"
                 + KEY_CURRENCYRATE + " TEXT" + ")";
         db.execSQL(CREATE_CURRENCY_TABLE);
-        Log.d(TAG, "Database tables created");
+
     }
 
     // Upgrading database
@@ -150,7 +150,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         // return user
-        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
         return user;
     }
 

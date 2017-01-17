@@ -338,7 +338,7 @@ public class ProductDrawerFragment extends Fragment implements OnMenuItemClickLi
 
 
     private void onRefreshToolbarMenu() {
-        int viewMode = preferences.getInt(ViMarket.VIEW_MODE, ViMarket.VIEW_MODE_GRID);
+        int viewMode = preferences.getInt(ViMarket.VIEW_MODE, ViMarket.VIEW_MODE_COMPACT);
         if (viewMode == ViMarket.VIEW_MODE_GRID) {
             // Change from grid to list
             Menu menu = toolbar.getMenu();

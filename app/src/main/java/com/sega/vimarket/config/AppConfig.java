@@ -24,6 +24,7 @@ public class AppConfig {
     public static String URL_IMAGE = "http://freemarkets.ga/upload.php";
     public static String URL_IMAGEUSER = "http://freemarkets.ga/uploaduser.php";
     public static String URL_PRODUCTUSER = "http://freemarkets.ga/productuser.php";
+    public static String URL_PRODUCTSOLDUSER = "http://freemarkets.ga/productsolduser.php";
     public static String URL_DELETEPRODUCT = "http://freemarkets.ga/deleteproduct.php";
     public static String URL_DELETENOTIFICATION = "http://freemarkets.ga/deleteNotification.php";
     public static String URL_ADDNOTIFICATION = "http://freemarkets.ga/addNotification.php";
