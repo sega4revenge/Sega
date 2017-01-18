@@ -48,11 +48,15 @@ import com.sega.vimarket.SliderLayout;
 import com.sega.vimarket.SliderTypes.BaseSliderView;
 import com.sega.vimarket.SliderTypes.TextSliderView;
 import com.sega.vimarket.Tricks.ViewPagerEx;
+import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.color.CActivity;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.model.Image;
 import com.sega.vimarket.util.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -545,10 +549,24 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                        Log.e("ADD", response);
-                        System.out.println(userid);
-                        finish();
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            if (!json.getBoolean("error")) {
+                                Intent intent = new Intent(AddProductActivity.this, ProductDetailActivity.class);
+                                intent.putExtra(ViMarket.product_ID, String.valueOf(json.getString("productid")));
+                                intent.putExtra(ViMarket.user_ID, String.valueOf(json.getString("userid")));
+                                startActivity(intent);
+                                Log.e("ADD", response);
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.success), Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                            else {
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }, new Response.ErrorListener() {
                     @Override

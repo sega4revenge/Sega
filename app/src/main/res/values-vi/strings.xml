@@ -315,4 +315,6 @@
     <string name="submit">XÁC NHẬN</string>
     <string name="notnow">KHÔNG PHẢI BÂY GIỜ</string>
     <string name="fab_buy">Mua</string>
+    <string name="success">Đăng bán thành công</string>
+    <string name="failed">Thất bại!</string>
 </resources>

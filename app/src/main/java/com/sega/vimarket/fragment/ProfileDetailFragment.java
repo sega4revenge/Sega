@@ -392,6 +392,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                                 Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                                 session.setNameUser(newname);
                                 session.setAddressUser(newaddress);
+
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -967,26 +968,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 //                    posterImage.setImage
                 }
             }
-        }
-        if (resultCode == RESULT_OK) {
-            if (requestCode == GALLERY_REQUEST) {
-                Uri uri = data != null ? data.getData() : null;
 
-                galleryPhoto.setPhotoUri(uri);
-                String photoPath = galleryPhoto.getPath();
-                selectedPhoto = photoPath;
-//                Log.e("link",selectedPhoto);
-                bitmap = getReducedBitmap(photoPath, 256, 200000);
-//                posterImage.setImageBitmap(bitmap);
-                Glide.with(getActivity())
-                        .load(new File(selectedPhoto)) // Uri of the picture
-
-                        .into(posterImage);
-            }
-        }
-
-//        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
-        if (data != null) {
             assert bitmap != null;
             String encodedImage = ImageBase64.encode(bitmap);
 
@@ -1053,29 +1035,49 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 @Override
                 public void handleIOException(IOException e) {
                     Toast.makeText(getContext(), "Cannot Connect to Server.",
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void handleMalformedURLException(MalformedURLException e) {
                     Toast.makeText(getContext(), "URL Error.",
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void handleProtocolException(ProtocolException e) {
                     Toast.makeText(getContext(), "Protocol Error.",
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
                     Toast.makeText(getContext(), "Encoding Error.",
-                            Toast.LENGTH_SHORT).show();
+                                   Toast.LENGTH_SHORT).show();
                 }
             });
 
+
         }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST) {
+                Uri uri = data != null ? data.getData() : null;
+
+                galleryPhoto.setPhotoUri(uri);
+                String photoPath = galleryPhoto.getPath();
+                selectedPhoto = photoPath;
+                //                Log.e("link",selectedPhoto);
+                bitmap = getReducedBitmap(photoPath, 256, 200000);
+                //                posterImage.setImageBitmap(bitmap);
+                Glide.with(getActivity())
+                        .load(new File(selectedPhoto)) // Uri of the picture
+
+                        .into(posterImage);
+            }
+        }
+
+        //        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
+
 
     }
 

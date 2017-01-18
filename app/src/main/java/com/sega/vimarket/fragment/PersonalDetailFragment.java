@@ -279,8 +279,8 @@ CollapsingToolbarLayout  toolbar2;
                                 };
                                 request.setTag(this.getClass().getName());
                                 VolleySingleton.getInstance(getActivity()).requestQueue.add(request);
-                                downloadRate();
                                 downloadproductDetails(id);
+                                downloadRate();
 
 
                             }

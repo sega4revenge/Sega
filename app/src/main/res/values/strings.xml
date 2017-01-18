@@ -322,4 +322,6 @@
     <string name="about_play_store">Rate us on the Play Store</string>
     <string name="about_youtube">Watch us on Youtube</string>
     <string name="about_website">Visit our website</string>
+    <string name="success">Successfully</string>
+    <string name="failed">Failed</string>
 </resources>

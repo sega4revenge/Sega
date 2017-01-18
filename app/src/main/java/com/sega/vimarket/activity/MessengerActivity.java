@@ -160,7 +160,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
                     // Load detail fragment if in tablet mode
 
-                    getRoomDetail();
+                   /* getRoomDetail();*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -187,24 +187,24 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
     }
 
-    public void getRoomDetail() {
-        /*for(int i = 0;i<roomlist.size();i++)
+  /*  public void getRoomDetail() {
+        *//*for(int i = 0;i<roomlist.size();i++)
         {
 
             System.out.println(roomlist.get(i).room);
             final int finalI = i;
-            arrayAdapter.MessengerList.clear();*/
-         /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
+            arrayAdapter.MessengerList.clear();*//*
+         *//*   root.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator it = dataSnapshot.getChildren().iterator();
                     ChatModel a = ((DataSnapshot)it.next()).getValue(ChatModel.class);
                     System.out.println(a.getMessage());
-                  *//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
+                  *//**//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
                     if (arrayAdapter.MessengerList.contains(temp)) {
                         arrayAdapter.MessengerList.add(temp);
                     }else
-*//*
+*//**//*
 
 
 
@@ -216,22 +216,22 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-            });*/
+            });*//*
 
 
-    /*    root.orderByKey().addValueEventListener(listener);*/
+    *//*    root.orderByKey().addValueEventListener(listener);*//*
 
- /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
+ *//*   root.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator it = dataSnapshot.getChildren().iterator();
                     ChatModel a = ((DataSnapshot)it.next()).getValue(ChatModel.class);
                     System.out.println(a.getMessage());
-                  *//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
+                  *//**//*  Messenger temp = new Messenger(roomlist.get(finalI).username, a.getTimeStamp(), a.getMessage(), roomlist.get(finalI).userpic);
                     if (arrayAdapter.MessengerList.contains(temp)) {
                         arrayAdapter.MessengerList.add(temp);
                     }else
-*//*
+*//**//*
 
 
 
@@ -243,9 +243,9 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-            });*/
+            });*//*
 
-          /*  FirebaseDatabase.getInstance().getReference().orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+          *//*  FirebaseDatabase.getInstance().getReference().orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     System.out.println(dataSnapshot.getKey());
@@ -264,10 +264,10 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
                 }
             });
-*/
+*//*
 
 
-    }
+    }*/
 
     private void searchroom(final String key) {
         listener2 = new ValueEventListener() {
