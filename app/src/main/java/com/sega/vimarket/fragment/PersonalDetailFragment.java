@@ -91,35 +91,12 @@ import butterknife.Unbinder;
  */
 public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ViewPagerEx.OnPageChangeListener, ProductAdapter.OnproductClickListener, OnLikeListener {
 
-    SessionManager session;
-    public static HashMap<String, Double> currency;
-    private Context context;
-    public Currency curr;
-    Double rate;
-    private ProductAdapter adapter;
-    private GridLayoutManager layoutManager;
-    private int pageToDownload;
     private static final int TOTAL_PAGES = 999;
-    private int viewType;
-
-    private boolean isLoading;
-    private boolean isLoadingLocked;
-
-
-/*    @BindView(R.id.loading_more)
-    View loadingMore;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.product_grid)
-    RecyclerView recyclerView;*/
-
-
+    public static HashMap<String, Double> currency;
+    public Currency curr;
+    SessionManager session;
+    Double rate;
     ArrayList<Comments> commentslist = new ArrayList<>();
-
-
-    private String id, sellerid;
-    private Product product;
-    private User seller;
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     // Toolbar
@@ -134,18 +111,22 @@ public class PersonalDetailFragment extends Fragment implements Toolbar.OnMenuIt
     @BindView(R.id.price)
     TextView tvprice;
 
+
+    /*    @BindView(R.id.loading_more)
+        View loadingMore;
+        @BindView(R.id.swipe_refresh)
+        SwipeRefreshLayout swipeRefreshLayout;
+        @BindView(R.id.product_grid)
+        RecyclerView recyclerView;*/
     @BindView(R.id.username)
     TextView tvusername;
-
   /*  @BindView(R.id.progress_circle)
     View progressCircle;
     View errorMessage;*/
     @BindView(R.id.product_detail_holder)
     NestedScrollView productHolder;
-
     @BindView(R.id.poster_image)
     CircleImageView posterImage;
-
     @BindView(R.id.product_name)
     TextView productTitle;
     @BindView(R.id. ratingtext)
@@ -174,7 +155,6 @@ CollapsingToolbarLayout  toolbar2;
     LinearLayout layoutratingbar;
          @BindView(R.id.comments_holder)
       View comments_holder;
-
 //     Comment
     float ratingpoint;
       @BindView(R.id.comments_see_all)
@@ -194,6 +174,17 @@ CollapsingToolbarLayout  toolbar2;
     MaterialStyledDialog.Builder dialogHeader_4;
     View customView;
     String favoritecount;
+    private Context context;
+    private ProductAdapter adapter;
+    private GridLayoutManager layoutManager;
+    private int pageToDownload;
+    private int viewType;
+    private boolean isLoading;
+    private boolean isLoadingLocked;
+    private String id, sellerid;
+    private Product product;
+    private User seller;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -253,8 +244,8 @@ CollapsingToolbarLayout  toolbar2;
                         .setHeaderDrawable(R.drawable.background)
                         .setTitle("Sweet!")
                         .setCancelable(false)
-                        .setDescription("Please rate and leave a feedback!")
-                        .setPositiveText("Summit")
+                        .setDescription(getResources().getString(R.string.addrate))
+                        .setPositiveText(getResources().getString(R.string.submit))
                         .setCustomView(customView,20,20,20,0)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -294,7 +285,7 @@ CollapsingToolbarLayout  toolbar2;
 
                             }
                         })
-                        .setNegativeText("Not now")
+                        .setNegativeText(getResources().getString(R.string.notnow))
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -858,7 +849,7 @@ CollapsingToolbarLayout  toolbar2;
         intent.putExtra(ViMarket.user_name, seller.username);
         intent.putExtra(ViMarket.seller_ID, seller.userid+"");
 
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
     @OnClick(R.id.product_sold)
     public void onProductSold() {
@@ -875,7 +866,7 @@ CollapsingToolbarLayout  toolbar2;
         intent.putExtra(ViMarket.user_name, seller.username);
         intent.putExtra(ViMarket.seller_ID, seller.userid+"");
 
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
     private void onDownloadFailed() {
        /* errorMessage.setVisibility(View.VISIBLE);

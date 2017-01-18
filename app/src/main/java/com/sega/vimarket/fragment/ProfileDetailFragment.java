@@ -1,23 +1,16 @@
 package com.sega.vimarket.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -49,7 +42,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.maps.android.SphericalUtil;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.genasync12.AsyncResponse;
@@ -62,22 +54,19 @@ import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.ImagePicker;
 import com.sega.vimarket.activity.ImagePickerActivity;
-import com.sega.vimarket.activity.ProductActivity;
-import com.sega.vimarket.activity.ProductDetailActivityUser;
+import com.sega.vimarket.activity.ProfileProduct;
+import com.sega.vimarket.activity.ProfileProductSold;
 import com.sega.vimarket.adapter.ProductAdapter;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
 import com.sega.vimarket.loader.MyValueFormatter;
-import com.sega.vimarket.model.Comments;
 import com.sega.vimarket.model.Image;
 import com.sega.vimarket.model.Product;
 import com.sega.vimarket.model.Rate;
 import com.sega.vimarket.model.User;
-import com.sega.vimarket.service.GPSTracker;
 import com.sega.vimarket.util.TextUtils;
 import com.sega.vimarket.util.VolleySingleton;
 import com.sega.vimarket.widget.CircleImageView;
-import com.sega.vimarket.widget.ItemPaddingDecoration;
 import com.sega.vimarket.widget.SimpleRatingBar;
 
 import org.json.JSONArray;
@@ -90,10 +79,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,41 +93,37 @@ import static com.sega.vimarket.activity.AddProductActivity.getReducedBitmap;
 /**
  * Created by HOHOANGLINH on 11-Jan-17.
  */
-public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ViewPagerEx.OnPageChangeListener, ProductAdapter.OnproductClickListener, OnLikeListener {
+public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuItemClickListener, ViewPagerEx.OnPageChangeListener, OnLikeListener {
 
-    SessionManager session;
+    public static final int RESULT_OK = -1;
+    private static final int PLACE_PICKER_REQUEST = 3;
     public static HashMap<String, Double> currency;
-    private Context context;
-    public Currency curr;
-    Double rate;
-    private ProductAdapter adapter;
-    private GridLayoutManager layoutManager;
-    private int pageToDownload;
+    final int GALLERY_REQUEST = 22131;
+  /*  private GridLayoutManager layoutManager;*/
+/*    private int pageToDownload;
     private static final int TOTAL_PAGES = 999;
     private int viewType;
 
     private boolean isLoading;
-    private boolean isLoadingLocked;
+    private boolean isLoadingLocked;*/
+
+    /*
+
+        View loadingMore;
+
+        SwipeRefreshLayout swipeRefreshLayout;
+
+        RecyclerView recyclerView;
 
 
-    View loadingMore;
-
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    RecyclerView recyclerView;
-
-
-    ArrayList<Comments> commentslist = new ArrayList<>();
-
-
-    private String id, sellerid;
-    private Product product;
-    private User seller;
+        ArrayList<Comments> commentslist = new ArrayList<>();
+    */
+    SessionManager session;
+    Double rate;
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     // Toolbar
     Toolbar toolbar;
-
     View toolbarTextHolder;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -150,19 +131,15 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     TextView tvproductdate;
     @BindView(R.id.price)
     TextView tvprice;
-
 //    @BindView(R.id.username)
 //    TextView tvusername;
-
+/*
     View progressCircle;
-    View errorMessage;
+    View errorMessage;*/
     NestedScrollView productHolder;
-
     CircleImageView posterImage;
-
     @BindView(R.id.product_name)
     TextView productTitle;
-
     @BindView(R.id.ratingDetail)
     SimpleRatingBar ratingDetail;
     //    @BindView(R.id.ratingBar)
@@ -171,7 +148,6 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     TextView txtrate;
     @BindView(R.id.txtratecount)
     TextView txtratecount;
-
     //    @BindView(R.id.thumb_button)
 //    LikeButton thumbButton;
     int height, width;
@@ -184,21 +160,23 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     Rate ratee;
     Unbinder unbinder;
     String rate1 = "0", point1 = "0";
-    private ArrayList<Image> images = new ArrayList<>();
-    private int REQUEST_CODE_PICKER = 2000;
     String selectedPhoto;
-    public static final int RESULT_OK = -1;
-    final int GALLERY_REQUEST = 22131;
     GalleryPhoto galleryPhoto;
     String userimage;
     Bitmap bitmap;
     ImageButton editbutton;
     String newname, newphone, newaddress;
-    private static final int PLACE_PICKER_REQUEST = 3;
     EditText edt3;
     String add;
     @BindView(R.id.myaddress)
     TextView myaddress;
+    private ProductAdapter adapter;
+    private String id, sellerid;
+    private Product product;
+    private User seller;
+    private ArrayList<Image> images = new ArrayList<>();
+    private int REQUEST_CODE_PICKER = 2000;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -212,13 +190,10 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        errorMessage = v.findViewById(R.id.error_message);
-        progressCircle = v.findViewById(R.id.progress_circle);
-        loadingMore = v.findViewById(R.id.loading_more);
         productHolder = (NestedScrollView) v.findViewById(R.id.product_detail_holder);
         toolbarTextHolder = v.findViewById(R.id.toolbar_text_holder);
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);
+/*        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
+        recyclerView = (RecyclerView) v.findViewById(R.id.product_grid);*/
         posterImage = (CircleImageView) v.findViewById(R.id.poster_image);
         editbutton = (ImageButton) v.findViewById(R.id.editbutton);
         unbinder = ButterKnife.bind(this, v);
@@ -247,11 +222,11 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 //        thumbButton.setOnLikeListener(this);
 
         currency = new HashMap<>();
-        context = getContext();
+
         unbinder = ButterKnife.bind(this, v);
         // Initialize variables
 
-        pageToDownload = 1;
+     /*   pageToDownload = 1;
         viewType = getArguments().getInt(ViMarket.VIEW_TYPE);
 
         // Setup RecyclerView
@@ -277,7 +252,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                     }
                 }
             }
-        });
+        });*/
         posterImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -299,7 +274,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         //        });
         // Setup swipe refresh
         //Toast.makeText(getActivity(),ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
+     /*   swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -314,7 +289,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 adapter = null;
                 downloadproductsList();
             }
-        });
+        });*/
         // Get the products list
         if (savedInstanceState == null || !(savedInstanceState.containsKey(ViMarket.product_ID)
                 && savedInstanceState.containsKey(ViMarket.product_OBJECT) && savedInstanceState.containsKey(ViMarket.seller_DETAIL))) {
@@ -323,7 +298,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
             rate = getArguments().getDouble(ViMarket.currency_RATE);
             if (TextUtils.isNullOrEmpty(id)) {
-                progressCircle.setVisibility(View.GONE);
+             /*   progressCircle.setVisibility(View.GONE);*/
                 toolbarTextHolder.setVisibility(View.GONE);
                 toolbar.setTitle("");
             } else {
@@ -343,17 +318,17 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
         if (savedInstanceState == null || !savedInstanceState.containsKey(ViMarket.product_LIST)) {
 
-            downloadproductsList();
+          /*  downloadproductsList();*/
             downloadRate();
 
         } else {
-            adapter.productList = savedInstanceState.getParcelableArrayList(ViMarket.product_LIST);
-            pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
+           /* adapter.productList = savedInstanceState.getParcelableArrayList(ViMarket.product_LIST);*/
+          /*  pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
             isLoadingLocked = savedInstanceState.getBoolean(ViMarket.IS_LOCKED);
-            isLoading = savedInstanceState.getBoolean(ViMarket.IS_LOADING);
+            isLoading = savedInstanceState.getBoolean(ViMarket.IS_LOADING);*/
 
             // Download again if stopped, else show list
-            if (isLoading) {
+          /*  if (isLoading) {
                 if (pageToDownload == 1) {
                     progressCircle.setVisibility(View.VISIBLE);
                     loadingMore.setVisibility(View.GONE);
@@ -367,11 +342,12 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                 }
 
                 downloadproductsList();
-                downloadRate();
+
 
             } else {
                 onDownloadSuccessful();
-            }
+            }*/
+            downloadRate();
         }
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,12 +455,12 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (product != null && id != null) {
-            outState.putString(ViMarket.product_ID, id);
+           /* outState.putString(ViMarket.product_ID, id);*/
             outState.putParcelable("rate", ratee);
             outState.putString("point", point);
             outState.putString("favorite", favorite);
-            outState.putParcelable(ViMarket.product_OBJECT, product);
-            outState.putParcelable(ViMarket.seller_DETAIL, seller);
+    /*        outState.putParcelable(ViMarket.product_OBJECT, product);
+            outState.putParcelable(ViMarket.seller_DETAIL, seller);*/
         }
     }
 
@@ -559,6 +535,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
                     Log.e("RATEOK", "rate: " + rate1 + " " + "point: " + point1);
                     onDownloadRateSuccessful();
+                    onDownloadSuccessful();
                 } catch (Exception ex) {
                     // JSON parsing error
                     ex.printStackTrace();
@@ -752,7 +729,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
         tvproductdate.setText(session.getLoginEmail());
         myaddress.setText(session.getLoginAddress());
-        isLoading = false;
+    /*    isLoading = false;
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.GONE);
         loadingMore.setVisibility(View.GONE);
@@ -762,17 +739,52 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         swipeRefreshLayout.setEnabled(true);
         adapter.notifyDataSetChanged();
 
-        refreshLayout();
+        refreshLayout();*/
     }
 
+    @OnClick(R.id.product_sell)
+    public void onProduct() {
+    /*    Intent i = new Intent(getActivity(), ProfileProduct.class);
+
+
+
+        i.putExtra(ViMarket.seller_ID, seller.userid);
+        i.putExtra(ViMarket.product_LIST, adapter.productList);
+        startActivityForResult(i, 1);*/
+        Intent intent = new Intent(getActivity(), ProfileProduct.class);
+
+        intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
+        //        intent.putExtra(ViMarket.user_name, seller.username);
+        intent.putExtra(ViMarket.seller_ID, session.getLoginId() + "");
+
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.product_sold)
+    public void onProductSold() {
+    /*    Intent i = new Intent(getActivity(), ProfileProduct.class);
+
+
+
+        i.putExtra(ViMarket.seller_ID, seller.userid);
+        i.putExtra(ViMarket.product_LIST, adapter.productList);
+        startActivityForResult(i, 1);*/
+        Intent intent = new Intent(getActivity(), ProfileProductSold.class);
+
+        intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
+        //        intent.putExtra(ViMarket.user_name, seller.username);
+        intent.putExtra(ViMarket.seller_ID, session.getLoginId() + "");
+
+        startActivity(intent);
+    }
 
     private void onDownloadFailed() {
-        errorMessage.setVisibility(View.VISIBLE);
+     /*   errorMessage.setVisibility(View.VISIBLE);
         progressCircle.setVisibility(View.GONE);
-        productHolder.setVisibility(View.GONE);
+        productHolder.setVisibility(View.GONE);*/
         toolbarTextHolder.setVisibility(View.GONE);
         toolbar.setTitle("");
-        isLoading = false;
+     /*   isLoading = false;
         if (pageToDownload == 1) {
             progressCircle.setVisibility(View.GONE);
             loadingMore.setVisibility(View.GONE);
@@ -789,18 +801,18 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
             swipeRefreshLayout.setRefreshing(false);
             swipeRefreshLayout.setEnabled(true);
             isLoadingLocked = true;
-        }
+        }*/
     }
 
-    public void refreshLayout() {
+ /*   public void refreshLayout() {
         Parcelable state = layoutManager.onSaveInstanceState();
         layoutManager = new GridLayoutManager(getContext(), getNumberOfColumns());
         recyclerView.setLayoutManager(layoutManager);
         layoutManager.onRestoreInstanceState(state);
     }
 
-
-    private void downloadproductsList() {
+*/
+ /*   private void downloadproductsList() {
         if (adapter == null) {
             adapter = new ProductAdapter(context, this);
             recyclerView.setAdapter(adapter);
@@ -859,9 +871,9 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                         );
                     }
                     // Load detail fragment if in tablet mode
-                  /*  if (isTablet && pageToDownload == 1 && adapter.productList.size() > 0) {
+                  *//*  if (isTablet && pageToDownload == 1 && adapter.productList.size() > 0) {
                         ((ProductActivity) getActivity()).loadDetailFragmentWith(adapter.productList.get(0).productid + "",String.valueOf(adapter.productList.get(0).userid));
-                    }*/
+                    }*//*
                     pageToDownload++;
                     onDownloadSuccessful();
                 } catch (Exception ex) {
@@ -890,14 +902,14 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         VolleySingleton.getInstance(getActivity()).requestQueue.add(Listreq);
         //Toast.makeText(getActivity(),pageToDownload + " " +ProductDrawerFragment.userobj.userid+"",Toast.LENGTH_SHORT).show();
 
-    }
+    }*/
 
-    @OnClick(R.id.try_again)
+  /*  @OnClick(R.id.try_again)
     public void onTryAgainClicked() {
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.VISIBLE);
     }
-
+*/
 
     @Override
     public void onDestroy() {
@@ -974,7 +986,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
 
 //        Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
-        if (bitmap != null) {
+        if (data != null) {
             assert bitmap != null;
             String encodedImage = ImageBase64.encode(bitmap);
 
@@ -1064,6 +1076,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
             });
 
         }
+
     }
 
     private void locationPlacesIntent() {
@@ -1076,7 +1089,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
     }
 
-    public int getNumberOfColumns() {
+  /*  public int getNumberOfColumns() {
         // Get screen width
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float widthPx = displayMetrics.widthPixels;
@@ -1094,7 +1107,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
             int columns = Math.round(widthPx / desiredPx);
             return columns > 1 ? columns : 1;
         }
-    }
+    }*/
 
     @Override
     public void onStop() {
@@ -1116,7 +1129,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     public void onPageScrollStateChanged(int state) {
     }
 
-    @Override
+ /*   @Override
     public void onproductClicked(int position) {
         if (isTablet) {
             //                Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
@@ -1131,7 +1144,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
             startActivity(intent);
         }
-    }
+    }*/
 
     @Override
     public void liked(LikeButton likeButton) {

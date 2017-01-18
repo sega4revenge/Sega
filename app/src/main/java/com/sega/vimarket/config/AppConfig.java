@@ -4,6 +4,12 @@ package com.sega.vimarket.config;
  * Created by Sega on 8/1/2016.
  */
 public class AppConfig {
+    public static final String SHARED_PREF = "mynotificationapp";
+    //To store boolean in shared preferences for if the device is registered to not
+    public static final String REGISTERED = "registered";
+    //To store the firebase id in shared preferences
+    public static final String UNIQUE_ID = "uniqueid";
+    public static final String USERID_ID = "userid";
     // Server user login url
     public static String URL_LOGIN = "http://freemarkets.ga/login.php";
     public static String API_MESSENGERGET = "http://freemarkets.ga/messengerget.php";
@@ -30,21 +36,13 @@ public class AppConfig {
     public static String URL_ADDNOTIFICATION = "http://freemarkets.ga/addNotification.php";
     public static String URL_RATEDETAILPROFILE = "http://freemarkets.ga/ratedetailprofile.php";
     public static String URL_EDITAVATAR = "http://freemarkets.ga/editavatar.php";
-
+    public static String URL_CHANGESTATUS = "http://freemarkets.ga/sold.php";
     public static String URL_PRODUCTCATE1 = "http://freemarkets.ga/productcate1.php";
     public static String URL_PRODUCTSEARCH = "http://freemarkets.ga/productsearch.php";
     public static String URL_RATE = "http://freemarkets.ga/ratinguser.php";
     public static String URL_FAVORITE = "http://freemarkets.ga/favorite.php";
     public static String URL_VERIFY = "http://freemarkets.ga/verify_otp.php";
     public static String URL_GETUSER = "http://freemarkets.ga/getuser.php";
-
-
-    public static final String SHARED_PREF = "mynotificationapp";
-    //To store boolean in shared preferences for if the device is registered to not
-    public static final String REGISTERED = "registered";
-    //To store the firebase id in shared preferences
-    public static final String UNIQUE_ID = "uniqueid";
-    public static final String USERID_ID = "userid";
 
 
 }

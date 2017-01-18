@@ -525,7 +525,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
                 productaddress = addressEdit.getText().toString();
-                productstatus = "Đang bán";
+                productstatus = "1";
                 description = des.getText().toString();
                 final String latlot = productaddress + " " + areaproduct;
                 requestQueue = Volley.newRequestQueue(getApplicationContext());

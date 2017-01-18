@@ -65,22 +65,20 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 public class ChatActivity extends CActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ClickListenerChatFirebase {
 
+    static final String TAG = ChatActivity.class.getSimpleName();
     private static final int IMAGE_GALLERY_REQUEST = 1;
     private static final int IMAGE_CAMERA_REQUEST = 2;
     private static final int PLACE_PICKER_REQUEST = 3;
-
-    static final String TAG = ChatActivity.class.getSimpleName();
-
-
-
     SessionManager session;
-
-    private DatabaseReference mFirebaseDatabaseReference;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     ChatFirebaseAdapter firebaseAdapter;
+    String urlPhotoUser, nameUser;
+    Toolbar toolbar;
+    String room;
+    int sellerid;
+    private DatabaseReference mFirebaseDatabaseReference;
     //CLass Model
     private UserModel userModel;
-    String urlPhotoUser,nameUser;
     //Views UI
     private RecyclerView rvListMessage;
     private LinearLayoutManager mLinearLayoutManager;
@@ -88,11 +86,9 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     //File
     private File filePathImageCamera;
-    Toolbar toolbar;
-    String room;
     private ImageView ivUser;
     private TextView tvUser;
-    int sellerid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -335,10 +331,6 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
         mFirebaseDatabaseReference.child(room).push().setValue(model);
         edMessage.setText(null);
         firebaseAdapter.notifyDataSetChanged();
-
-
-
-
     }
 
     /**

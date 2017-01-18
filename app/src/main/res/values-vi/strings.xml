@@ -294,7 +294,7 @@
     <string name="search_content_description">Nội dung mô tả</string>
     <string name="title_folder">Thư mục</string>
     <string name="title_select_image">Nhấn để chọn hình ảnh</string>
-    <string name="About">Free Market là ứng dụng hỗ trợ mua bán, cho phép người mua và người bán kết nối và giao dịch an toàn, dễ dàng, nhanh chóng và tiện lợi. Đăng tin rao bán hoàn toàn miễn phí. Ứng dụng hỗ trợ tìm kiếm nhanh các sản phẩm rao bán vô cùng nhanh chóng ở tất cả các danh mục khác nhau từ bất động sản, điện thoại, xe máy, vật nuôi.... Ở Free Market bạn có thể mua bán hàng thật phong phú, đa dạng và độc đáo. Hãy đến với Free Market để cảm nhận sự khác biệt khi mua bán hàng hóa online.</string>
+    <string name="About">\tFree Market là ứng dụng hỗ trợ mua bán, cho phép người mua và người bán kết nối và giao dịch an toàn, dễ dàng, nhanh chóng và tiện lợi. Đăng tin rao bán hoàn toàn miễn phí.\n Ứng dụng hỗ trợ tìm kiếm nhanh các sản phẩm rao bán vô cùng nhanh chóng ở tất cả các danh mục khác nhau từ bất động sản, điện thoại, xe máy, vật nuôi.... Ở Free Market bạn có thể mua bán hàng thật phong phú, đa dạng và độc đáo. Hãy đến với Free Market để cảm nhận sự khác biệt khi mua bán hàng hóa online.</string>
     <string name="about_version">Phiên bản 1.0</string>
     <string name="registersusscess">Đăng ký thành công</string>
     <string name="toast_hinh">Vui lòng chọn đủ hình ảnh</string>
@@ -310,5 +310,9 @@
     <string name="field">Trường đang trống</string>
     <string name="productsell">Đang bán</string>
     <string name="productsold">Đã bán</string>
-    <string name="favorites">Lượt yêu thích</string>
+    <string name="favorites">Thích</string>
+    <string name="addrate">Vui lòng đánh giá và để lại một phản hồi</string>
+    <string name="submit">XÁC NHẬN</string>
+    <string name="notnow">KHÔNG PHẢI BÂY GIỜ</string>
+    <string name="fab_buy">Mua</string>
 </resources>

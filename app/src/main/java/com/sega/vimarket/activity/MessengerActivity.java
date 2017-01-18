@@ -2,9 +2,12 @@ package com.sega.vimarket.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -49,13 +52,14 @@ import okhttp3.RequestBody;
 
 public class MessengerActivity extends CActivity implements MessengerAdapter.OnMessengerClickListener {
 
-
+    Toolbar toolbar;
     ArrayList<Room> roomlist = new ArrayList<>();
     String sellername, sellerpic, message, timestamp;
     SessionManager session;
     boolean load = false;
     ArrayList<String> pic = new ArrayList<>();
     ArrayList<String> name = new ArrayList<>();
+    ArrayList<String> id = new ArrayList<>();
     private MessengerAdapter arrayAdapter;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     ValueEventListener listener = new ValueEventListener() {
@@ -64,7 +68,8 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
 
             for (DataSnapshot o : dataSnapshot.getChildren()) {
                 searchroom(o.getKey());
-                System.out.println("loi");
+                System.out.println(o.getKey());
+
             }
 
 
@@ -82,7 +87,15 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_messenger);
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.action_home));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        toolbar.setTitle(R.string.inbox);
         session = new SessionManager(this);
         RecyclerView recycleView = (RecyclerView) findViewById(R.id.messenger_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MessengerActivity.this);
@@ -110,15 +123,9 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     @Override
     public void onMessengerClicked(int position) {
 
-        String[] temp = roomlist.get(position).room.split("-");
-        Intent i = new Intent(MessengerActivity.this, ChatActivity.class);
-        if (temp[0].trim().equals(session.getLoginId() + "")) {
-            i.putExtra(ViMarket.seller_ID, Integer.parseInt(temp[1]));
-        }
-        else {
-            i.putExtra(ViMarket.seller_ID, Integer.parseInt(temp[0]));
-        }
 
+        Intent i = new Intent(MessengerActivity.this, ChatActivity.class);
+        i.putExtra(ViMarket.seller_ID, Integer.parseInt(id.get(position)));
         i.putExtra(ViMarket.user_ID, session.getLoginId());
         i.putExtra(ViMarket.seller_name, name.get(position));
         i.putExtra("sellerpic", pic.get(position));
@@ -128,7 +135,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     }
 
     public void getroom(final String id) {
-        roomlist.clear();
+
         final String TAG = MessengerActivity.class.getSimpleName();
         // Hide all views
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -144,7 +151,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         final JSONObject feedObj = (JSONObject) jsonArray.get(i);
                         //add product to list products
                         roomlist.add(new Room(feedObj.getString("room"), feedObj.getString("roomname"), feedObj.getString("roompic")));
-
+                        System.out.println(feedObj.getString("room"));
                         //add product to sqlite
                     }
 
@@ -273,22 +280,27 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         Iterator it = dataSnapshot.getChildren().iterator();
                         try {
                             ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
-                            System.out.println("loi23");
+
                             message = a.getMessage();
                             timestamp = a.getTimeStamp();
+
                             String[] temp = key.split("-");
                             if (temp[0].equals(session.getLoginId() + "")) {
                                 Messenger tempmes = messenger(temp[1]);
-                                if (!arrayAdapter.MessengerList.contains(tempmes)) {
-                                    arrayAdapter.MessengerList.add(tempmes);
-                                }
+
+                                arrayAdapter.MessengerList.add(tempmes);
+
+                                id.add(temp[1]);
+
 
                             }
                             else if (temp[1].equals(session.getLoginId() + "")) {
                                 Messenger tempmes = messenger(temp[0]);
-                                if (!arrayAdapter.MessengerList.contains(tempmes)) {
-                                    arrayAdapter.MessengerList.add(tempmes);
-                                }
+
+                                arrayAdapter.MessengerList.add(tempmes);
+
+                                id.add(temp[0]);
+
 
                             }
 
@@ -301,7 +313,6 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         }
 
                         arrayAdapter.notifyDataSetChanged();
-                        load = true;
                         root.removeEventListener(listener);
                     }
 

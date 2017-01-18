@@ -262,6 +262,7 @@
     <string name="inbox">inbox</string>
     <string name="toast_error"></string>
     <string name="productsell"></string>
+    <string name="favorites">Like</string>
 
 </resources>
 

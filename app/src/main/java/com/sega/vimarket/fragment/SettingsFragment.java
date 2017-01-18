@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.sega.vimarket.R;
+import com.sega.vimarket.activity.AboutActivity;
 import com.sega.vimarket.activity.IntroActivity;
 import com.sega.vimarket.color.ColorPickerDialog;
 import com.sega.vimarket.color.Colorful;
@@ -18,9 +19,9 @@ import com.sega.vimarket.config.SessionManager;
 
 
 public  class SettingsFragment extends PreferenceFragment {
-    boolean isTablet;
     //preferences
     static Preference first,second,third;
+    boolean isTablet;
     SessionManager session;
     ColorPickerDialog dialog;
     private SharedPreferences.OnSharedPreferenceChangeListener mListenerOptions;
@@ -89,7 +90,7 @@ public  class SettingsFragment extends PreferenceFragment {
 
 
                 //associate dialog with selected preference
-                Intent i = new Intent (getActivity(), IntroActivity.class);
+                Intent i = new Intent(getActivity(), IntroActivity.class);
                 getActivity().startActivity(i);
                 return false;
             }
@@ -99,7 +100,8 @@ public  class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-
+                Intent i = new Intent(getActivity(), AboutActivity.class);
+                getActivity().startActivity(i);
 
                 //associate dialog with selected preference
 

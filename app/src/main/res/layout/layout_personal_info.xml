@@ -123,12 +123,8 @@
                 android:text="@string/rate"
                 android:textColor="#3E3E3E"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <com.like.LikeButton
+            <com.like.LikeButton
                     android:id="@+id/thumb_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -141,15 +137,10 @@
                     app:like_drawable="@drawable/like"
                     app:unlike_drawable="@drawable/unlike"/>
 
-
-            </FrameLayout>
-
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="70dp"
                 android:fontFamily="sans-serif-condensed"
                 android:text="3.5K"
                 android:textColor="#3E3E3E"

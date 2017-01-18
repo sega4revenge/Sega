@@ -84,11 +84,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     ArrayList<Comments> commentslist = new ArrayList<>();
     SessionManager session;
     DecimalFormat formatprice;
-
-
-    private String id, userid;
-    private Product product;
-    private User seller;
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     // Toolbar
@@ -106,7 +101,6 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     TextView tvdistance;
     @BindView(R.id.toolbar_subtitle)
     TextView toolbarSubtitle;
-
     @BindView(R.id.progress_circle)
     View progressCircle;
     @BindView(R.id.error_message)
@@ -115,16 +109,13 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
     NestedScrollView productHolder;
     @BindView(R.id.fab_menu)
     FloatingActionMenu floatingActionsMenu;
-
     @BindView(R.id.product_overview_value)
     TextView productoverview;
     // Basic info
     @BindView(R.id.product_name)
     TextView productTitle;
-
     @BindView(R.id.product_sharecount)
     TextView productsharecount;
-
     @BindView(R.id.sellername)
     RobotoLightTextView sellername;
     @BindView(R.id.selleremail)
@@ -154,22 +145,23 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         List<TextView> usercommentrate;*/
     @BindView(R.id.ratingDetail)
     SimpleRatingBar ratingDetail;
-
     @BindView(R.id.txtrate)
     TextView txtrate;
     @BindView(R.id.txtratecount)
     TextView txtratecount;
-    private NumberFormat format;
-    private Double rate;
     int height, width;
-
-    private SliderLayout mDemoSlider;
     AsyncTask<Void, Void, String> asyncTask;
     String point;
     Rate ratee;
     @BindView(R.id.chart)
     HorizontalBarChart chart;
     LinearLayout maps;
+    private String id, userid;
+    private Product product;
+    private User seller;
+    private NumberFormat format;
+    private Double rate;
+    private SliderLayout mDemoSlider;
     private Unbinder unbinder;
     private String formatString;
 
@@ -697,9 +689,39 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
         System.out.println(seller.userpic+" asdsb");
         startActivity(intent);
         mDemoSlider.stopAutoCycle();
-
-
     }
+
+    @OnClick(R.id.fab_buy)
+    public void onToBuyButtonClicked() {
+        //        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        //        intent.putExtra(ViMarket.user_ID, session.getLoginId());
+        //        intent.putExtra(ViMarket.seller_ID, product.userid);
+        //        intent.putExtra(ViMarket.user_name, session.getLoginName());
+        //        intent.putExtra(ViMarket.seller_name, product.username);
+        //        intent.putExtra("sellerpic", seller.userpic);
+        //        System.out.println(seller.userpic+" asdsb");
+        //        startActivity(intent);
+        //        mDemoSlider.stopAutoCycle();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("productid", product.productid + "")
+                .build();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(AppConfig.URL_CHANGESTATUS)
+                .post(body)
+                .build();
+
+        try {
+            String responsestring = client.newCall(request).execute().body().string();
+            Log.d("ok", "Sold: " + responsestring);
+            Toast.makeText(getActivity(), "Buy :" + responsestring, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            error = true;
+        }
+    }
+
 
     @OnClick(R.id.personal_page)
     public void onPersonalPage() {

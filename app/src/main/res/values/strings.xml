@@ -271,7 +271,7 @@
     <string name="btn_edit">Save</string>
     <string name="btn_delete">Delete</string>
     <string name="add_product_name">Product Name</string>
-    <string name="add_price">Product  Price</string>
+    <string name="add_price">Price</string>
     <string name="add_address">Address</string>
     <string name="add_description">Description</string>
     <string name="btn_sell">Sell</string>
@@ -296,7 +296,7 @@
     <string name="ratetextcomplete">You have already rated this seller</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
-    <string name="About">Free Market is supporting your sales,allowing buyers and sellers to connect and transaction safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . The application supports to search sale products extremely quickly in all the different categories such as Vehicles, Furnitures, Fashions, Second hands .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \"</string>
+    <string name="About">\tFree Market is supporting your sales,allowing buyers and sellers to connect and transaction safety, easily, quickly and conveniently. Here we can  post  sale news free easily and quickly . \n The application supports to search sale products extremely quickly in all the different categories such as Vehicles, Furnitures, Fashions, Second hands .... In the Free Market you can exchange goods  diverse , rich and unique. Let participate in Free Market to feel the difference when purchase diversity online goods. \</string>
     <string name="about_version">Version 1.0</string>
     <string name="registersusscess">Successfully</string>
     <string name="toast_hinh">Please select enough image</string>
@@ -312,5 +312,14 @@
     <string name="field">Fields are empty !</string>
     <string name="productsell">Selling</string>
     <string name="productsold">Sold</string>
-    <string name="favorites">Favorites</string>
+    <string name="favorites">Like</string>
+    <string name="addrate">Please rate and leave a feedback!</string>
+    <string name="notnow">NOT NOW</string>
+    <string name="submit">SUBMIT</string>
+    <string name="fab_buy">Buy</string>
+    <string name="about_contact_us">Contact us</string>
+    <string name="about_facebook">Like us on Facebook</string>
+    <string name="about_play_store">Rate us on the Play Store</string>
+    <string name="about_youtube">Watch us on Youtube</string>
+    <string name="about_website">Visit our website</string>
 </resources>

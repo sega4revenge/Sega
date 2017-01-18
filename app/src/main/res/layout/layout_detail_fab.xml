@@ -42,4 +42,14 @@
         app:fab_label="Messenger"
         app:fab_size="mini" />
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/buy"
+        app:fab_colorNormal="@color/material_pink300"
+        app:fab_colorPressed="@color/material_pink700"
+        app:fab_label="@string/fab_buy"
+        app:fab_size="mini"/>
+
 </com.github.clans.fab.FloatingActionMenu>
