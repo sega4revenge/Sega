@@ -51,7 +51,7 @@ import okhttp3.RequestBody;
 
 
 public class MessengerActivity extends CActivity implements MessengerAdapter.OnMessengerClickListener {
-
+    ValueEventListener listener2;
     Toolbar toolbar;
     ArrayList<Room> roomlist = new ArrayList<>();
     String sellername, sellerpic, message, timestamp;
@@ -62,7 +62,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     ArrayList<String> id = new ArrayList<>();
     private MessengerAdapter arrayAdapter;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
-    ValueEventListener listener = new ValueEventListener() {
+   /* ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -81,7 +81,8 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
         public void onCancelled(DatabaseError databaseError) {
 
         }
-    };
+    };*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +131,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
         i.putExtra(ViMarket.seller_name, name.get(position));
         i.putExtra("sellerpic", pic.get(position));
         load = true;
+
         startActivity(i);
 
     }
@@ -151,7 +153,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         final JSONObject feedObj = (JSONObject) jsonArray.get(i);
                         //add product to list products
                         roomlist.add(new Room(feedObj.getString("room"), feedObj.getString("roomname"), feedObj.getString("roompic")));
-                        System.out.println(feedObj.getString("room"));
+                        searchroom(feedObj.getString("room"));
                         //add product to sqlite
                     }
 
@@ -217,7 +219,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
             });*/
 
 
-        root.orderByKey().addValueEventListener(listener);
+    /*    root.orderByKey().addValueEventListener(listener);*/
 
  /*   root.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
@@ -268,62 +270,62 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     }
 
     private void searchroom(final String key) {
-
-        String[] temp = key.split("-");
-        if (temp[0].equals(session.getLoginId() + "") || (temp[1].equals(session.getLoginId() + ""))) {
-            root.child(key).limitToLast(1).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (!load) {
+        listener2 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                        Iterator it = dataSnapshot.getChildren().iterator();
-                        try {
-                            ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
+                Iterator it = dataSnapshot.getChildren().iterator();
+                try {
+                    ChatModel a = ((DataSnapshot) it.next()).getValue(ChatModel.class);
 
-                            message = a.getMessage();
-                            timestamp = a.getTimeStamp();
+                    message = a.getMessage();
+                    timestamp = a.getTimeStamp();
 
-                            String[] temp = key.split("-");
-                            if (temp[0].equals(session.getLoginId() + "")) {
-                                Messenger tempmes = messenger(temp[1]);
+                    String[] temp = key.split("-");
+                    if (temp[0].equals(session.getLoginId() + "")) {
+                        Messenger tempmes = messenger(temp[1]);
+                        if (!arrayAdapter.MessengerList.contains(tempmes)) {
+                            arrayAdapter.MessengerList.add(tempmes);
 
-                                arrayAdapter.MessengerList.add(tempmes);
-
-                                id.add(temp[1]);
-
-
-                            }
-                            else if (temp[1].equals(session.getLoginId() + "")) {
-                                Messenger tempmes = messenger(temp[0]);
-
-                                arrayAdapter.MessengerList.add(tempmes);
-
-                                id.add(temp[0]);
+                            id.add(temp[1]);
+                        }
 
 
-                            }
+                    }
+                    else if (temp[1].equals(session.getLoginId() + "")) {
+                        Messenger tempmes = messenger(temp[0]);
+                        if (!arrayAdapter.MessengerList.contains(tempmes)) {
+                            arrayAdapter.MessengerList.add(tempmes);
+
+                            id.add(temp[0]);
+                        }
+
+
+                    }
 
                       /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());
                         arrayAdapter.MessengerList.add(temp2);*/
 
 
-                        } catch (NoSuchElementException e) {
-                            Toast.makeText(getApplicationContext(), "no chat", Toast.LENGTH_SHORT).show();
-                        }
-
-                        arrayAdapter.notifyDataSetChanged();
-                        root.removeEventListener(listener);
-                    }
-
-
+                } catch (NoSuchElementException e) {
+                    Toast.makeText(getApplicationContext(), "no chat", Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                arrayAdapter.notifyDataSetChanged();
+                 /*   root.removeEventListener(listener);*/
 
-                }
-            });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        String[] temp = key.split("-");
+        if (temp[0].equals(session.getLoginId() + "") || (temp[1].equals(session.getLoginId() + ""))) {
+            root.child(key).limitToLast(1).addValueEventListener(listener2);
         }
 
     }
