@@ -173,7 +173,7 @@ CollapsingToolbarLayout  toolbar2;
       List<TextView> usercommentrate;
     MaterialStyledDialog.Builder dialogHeader_4;
     View customView;
-    String favoritecount;
+    String favoritecount = "0";
     private Context context;
     private ProductAdapter adapter;
     private GridLayoutManager layoutManager;
@@ -202,7 +202,7 @@ CollapsingToolbarLayout  toolbar2;
         unbinder = ButterKnife.bind(this, v);
      /*  errorMessage = v.findViewById(R.id.error_message);*/
 
-
+        unbinder = ButterKnife.bind(this, v);
 
         toolbar.setOnMenuItemClickListener(this);
         if (!isTablet) {
@@ -312,7 +312,7 @@ CollapsingToolbarLayout  toolbar2;
 
         currency = new HashMap<>();
 
-        unbinder = ButterKnife.bind(this, v);
+
         // Initialize variables
 
         pageToDownload = 1;
@@ -536,6 +536,7 @@ CollapsingToolbarLayout  toolbar2;
                         commentslist.add(comment);
                     }
                     onDownloadRateSuccessful();
+
                 } catch (Exception ex) {
                     // JSON parsing error
                     ex.printStackTrace();
@@ -798,7 +799,7 @@ CollapsingToolbarLayout  toolbar2;
 
             toolbar.setTitle("");
             toolbarTextHolder.setVisibility(View.VISIBLE);
-            toolbarTitle.setText(getString(R.string.personalpage) + " " + product.username);
+        toolbarTitle.setText(product.username);
             //            toolbarSubtitle.setText(seller.email);
 
 

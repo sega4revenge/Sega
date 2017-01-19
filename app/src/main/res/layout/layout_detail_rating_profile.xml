@@ -59,63 +59,89 @@
         <!--app:srb_fillColor="@color/primary"-->
         <!--app:srb_borderColor="@color/foreground"-->
         android:layout_gravity="center"/>
+        <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="16dp"-->
+        <!--android:paddingRight="16dp">-->
+        <!--<TextView-->
+        <!--android:id="@+id/txtfavorites"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:text="@string/favorites"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:textColor="@color/material_black"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/favorites"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:paddingLeft="50dp"-->
+        <!--android:text="50"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:textColor="@color/material_black"/>-->
+
+        <!--</LinearLayout>-->
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:padding="16dp"         >
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/txtrate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="5.0"
-                    android:id="@+id/txtrate"
-                    android:textSize="50sp"
-                    android:gravity="center|start"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:textColor="@color/material_black"/>
+                    android:gravity="center|start"
+                    android:text="5.0"
+                    android:textColor="@color/material_black"
+                    android:textSize="50sp"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <com.sega.vimarket.widget.SimpleRatingBar
                         android:id="@+id/ratingDetail"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        app:srb_fillColor="@color/primary"
-                        app:srb_borderColor="@color/primary"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
-                        app:srb_isIndicator="true"
-                        android:layout_width="80dp" />
+                        android:layout_marginTop="10dp"
+                        app:srb_borderColor="@color/primary"
+                        app:srb_fillColor="@color/primary"
+                        app:srb_isIndicator="true"/>
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/txtratecount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
-                            android:id="@+id/txtratecount"
                             android:layout_marginLeft="10dp"
+                            android:text="Large Text"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@color/material_black"/>
 
                         <ImageView
+                            android:id="@+id/imageView"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:id="@+id/imageView"
-                            android:src="@drawable/ic_group_black_24dp"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/ic_group_black_24dp"/>
 
                     </LinearLayout>
                 </LinearLayout>

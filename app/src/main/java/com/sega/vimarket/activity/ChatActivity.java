@@ -94,32 +94,37 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         session = new SessionManager(this);
-        if (!Utils.verificaConexao(this)){
-            Utils.initToast(this,"Você não tem conexão com internet");
+        if (!Utils.verificaConexao(this)) {
+            Utils.initToast(this, "Você não tem conexão com internet");
             finish();
-        }else{
+        }
+        else {
             bindViews();
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ivUser = (ImageView)toolbar.findViewById(R.id.avatar);
-            tvUser = (TextView)toolbar.findViewById(R.id.title);
-            int userid =  getIntent().getIntExtra(ViMarket.user_ID,-1);
-           sellerid =  getIntent().getIntExtra(ViMarket.seller_ID,-1);
+            ivUser = (ImageView) toolbar.findViewById(R.id.avatar);
+            tvUser = (TextView) toolbar.findViewById(R.id.title);
+            int userid = getIntent().getIntExtra(ViMarket.user_ID, -1);
+            sellerid = getIntent().getIntExtra(ViMarket.seller_ID, -1);
             urlPhotoUser = getIntent().getStringExtra("sellerpic");
             nameUser = getIntent().getStringExtra(ViMarket.seller_name);
-            if(userid<sellerid)
-                room = userid+"-"+sellerid;
-            else
-                room = sellerid+"-"+userid;
-             root.orderByKey().equalTo(room).addValueEventListener(new ValueEventListener() {
+            if (userid < sellerid) {
+                room = userid + "-" + sellerid;
+            }
+            else {
+                room = sellerid + "-" + userid;
+            }
+            System.out.println(sellerid);
+            System.out.println(userid);
+            root.orderByKey().equalTo(room).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.getChildrenCount()==0){
-                        Map<String,Object> map = new HashMap<>();
-                        map.put(room,"");
+                    if (dataSnapshot.getChildrenCount() == 0) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put(room, "");
                         root.updateChildren(map);
                     }
 
@@ -135,8 +140,6 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
             verificaUsuarioLogado();
 
 
-
-
         }
     }
 
@@ -145,27 +148,29 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
 
         StorageReference storageRef = storage.getReferenceFromUrl(Utils.URL_STORAGE_REFERENCE).child(Utils.FOLDER_STORAGE_IMG);
 
-        if (requestCode == IMAGE_GALLERY_REQUEST){
-            if (resultCode == RESULT_OK){
+        if (requestCode == IMAGE_GALLERY_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 Uri selectedImageUri = data.getData();
-                if (selectedImageUri != null){
-                    sendFileFirebase(storageRef,selectedImageUri);
+                if (selectedImageUri != null) {
+                    sendFileFirebase(storageRef, selectedImageUri);
                 }
             }
-        }else if (requestCode == IMAGE_CAMERA_REQUEST){
-            if (resultCode == RESULT_OK){
-                if (filePathImageCamera != null && filePathImageCamera.exists()){
-                    StorageReference imageCameraRef = storageRef.child(filePathImageCamera.getName()+"_camera");
-                    sendFileFirebase(imageCameraRef,filePathImageCamera);
+        }
+        else if (requestCode == IMAGE_CAMERA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                if (filePathImageCamera != null && filePathImageCamera.exists()) {
+                    StorageReference imageCameraRef = storageRef.child(filePathImageCamera.getName() + "_camera");
+                    sendFileFirebase(imageCameraRef, filePathImageCamera);
                 }
             }
-        }else if (requestCode == PLACE_PICKER_REQUEST){
+        }
+        else if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                if (place!=null){
+                if (place != null) {
                     LatLng latLng = place.getLatLng();
-                    MapModel mapModel = new MapModel(latLng.latitude+"", latLng.longitude+"");
-                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime()+"", mapModel);
+                    MapModel mapModel = new MapModel(latLng.latitude + "", latLng.longitude + "");
+                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime() + "", mapModel);
                     mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
                 }
             }
@@ -183,7 +188,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -204,13 +209,13 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Utils.initToast(this,"Google Play Services error.");
+        Utils.initToast(this, "Google Play Services error.");
     }
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.buttonMessage:
                 sendMessageFirebase();
                 break;
@@ -219,17 +224,18 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
 
 
     @Override
-    public void clickImageChat(View view, int position,String nameUser,String urlPhotoUser,String urlPhotoClick) {
-        Intent intent = new Intent(this,FullScreenImageActivity.class);
-        intent.putExtra("nameUser",nameUser);
-        intent.putExtra("urlPhotoUser",urlPhotoUser);
-        intent.putExtra("urlPhotoClick",urlPhotoClick);
+    public void clickImageChat(View view, int position, String nameUser, String urlPhotoUser,
+                               String urlPhotoClick) {
+        Intent intent = new Intent(this, FullScreenImageActivity.class);
+        intent.putExtra("nameUser", nameUser);
+        intent.putExtra("urlPhotoUser", urlPhotoUser);
+        intent.putExtra("urlPhotoClick", urlPhotoClick);
         startActivity(intent);
     }
 
     @Override
-    public void clickImageMapChat(View view, int position,String latitude,String longitude) {
-        String uri = String.format("geo:%s,%s?z=17&q=%s,%s", latitude,longitude,latitude,longitude);
+    public void clickImageMapChat(View view, int position, String latitude, String longitude) {
+        String uri = String.format("geo:%s,%s?z=17&q=%s,%s", latitude, longitude, latitude, longitude);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(intent);
     }
@@ -238,24 +244,24 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Envia o arvquivo para o firebase
      */
-    private void sendFileFirebase(StorageReference storageReference, final Uri file){
-        if (storageReference != null){
+    private void sendFileFirebase(StorageReference storageReference, final Uri file) {
+        if (storageReference != null) {
             final String name = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
-            StorageReference imageGalleryRef = storageReference.child(name+"_gallery");
+            StorageReference imageGalleryRef = storageReference.child(name + "_gallery");
             UploadTask uploadTask = imageGalleryRef.putFile(file);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG,"onFailure sendFileFirebase "+e.getMessage());
+                    Log.e(TAG, "onFailure sendFileFirebase " + e.getMessage());
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i(TAG,"onSuccess sendFileFirebase");
+                    Log.i(TAG, "onSuccess sendFileFirebase");
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     assert downloadUrl != null;
                     FileModel fileModel = new FileModel(downloadUrl.toString());
-                    ChatModel chatModel = new ChatModel(userModel,"",Calendar.getInstance().getTime().getTime()+"",fileModel);
+                    ChatModel chatModel = new ChatModel(userModel, "", Calendar.getInstance().getTime().getTime() + "", fileModel);
                     mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
                 }
             });
@@ -266,22 +272,22 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Envia o arvquivo para o firebase
      */
-    private void sendFileFirebase(StorageReference storageReference, final File file){
-        if (storageReference != null){
+    private void sendFileFirebase(StorageReference storageReference, final File file) {
+        if (storageReference != null) {
             UploadTask uploadTask = storageReference.putFile(Uri.fromFile(file));
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG,"onFailure sendFileFirebase "+e.getMessage());
+                    Log.e(TAG, "onFailure sendFileFirebase " + e.getMessage());
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i(TAG,"onSuccess sendFileFirebase");
+                    Log.i(TAG, "onSuccess sendFileFirebase");
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     assert downloadUrl != null;
                     FileModel fileModel = new FileModel(downloadUrl.toString());
-                    ChatModel chatModel = new ChatModel(userModel,"",Calendar.getInstance().getTime().getTime()+"",fileModel);
+                    ChatModel chatModel = new ChatModel(userModel, "", Calendar.getInstance().getTime().getTime() + "", fileModel);
                     mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
                 }
             });
@@ -292,7 +298,7 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Obter local do usuario
      */
-    private void locationPlacesIntent(){
+    private void locationPlacesIntent() {
 
         try {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -305,18 +311,18 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Enviar foto tirada pela camera
      */
-    private void photoCameraIntent(){
+    private void photoCameraIntent() {
         String nomeFoto = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
-        filePathImageCamera = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), nomeFoto+"camera.jpg");
+        filePathImageCamera = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), nomeFoto + "camera.jpg");
         Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        it.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(filePathImageCamera));
+        it.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePathImageCamera));
         startActivityForResult(it, IMAGE_CAMERA_REQUEST);
     }
 
     /**
      * Enviar foto pela galeria
      */
-    private void photoGalleryIntent(){
+    private void photoGalleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -326,8 +332,8 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Enviar msg de texto simples para chat
      */
-    private void sendMessageFirebase(){
-        ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
+    private void sendMessageFirebase() {
+        ChatModel model = new ChatModel(userModel, edMessage.getText().toString(), Calendar.getInstance().getTime().getTime() + "", null);
         mFirebaseDatabaseReference.child(room).push().setValue(model);
         edMessage.setText(null);
         firebaseAdapter.notifyDataSetChanged();
@@ -336,10 +342,10 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Ler collections chatmodel Firebase
      */
-    private void lerMessagensFirebase(String model){
+    private void lerMessagensFirebase(String model) {
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        firebaseAdapter = new ChatFirebaseAdapter(mFirebaseDatabaseReference.child(model),userModel.getName(),this);
+        firebaseAdapter = new ChatFirebaseAdapter(mFirebaseDatabaseReference.child(model), userModel.getName(), this);
         firebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -361,10 +367,10 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Verificar se usuario está logado
      */
-    private void verificaUsuarioLogado(){
+    private void verificaUsuarioLogado() {
 
-            userModel = new UserModel(session.getLoginName(),session.getLoginPic(), "12");
-            lerMessagensFirebase(room);
+        userModel = new UserModel(session.getLoginName(), session.getLoginPic(), "12");
+        lerMessagensFirebase(room);
 
         //========================================================
         final String TAG = ChatActivity.class.getSimpleName();
@@ -388,12 +394,12 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
                 params.put("userid", session.getLoginId() + "");
-                params.put("useridchat",sellerid+"");
-                params.put("room",room);
-                params.put("roomname",nameUser);
-                params.put("roompic",urlPhotoUser);
+                params.put("useridchat", sellerid + "");
+                params.put("room", room);
+                params.put("roomname", nameUser);
+                params.put("roompic", urlPhotoUser);
                 System.out.println(session.getLoginId());
-                System.out.println(sellerid+"");
+                System.out.println(sellerid + "");
                 System.out.println(room);
                 System.out.println(nameUser);
                 System.out.println(urlPhotoUser);
@@ -411,15 +417,15 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Vincular views com Java API
      */
-    private void bindViews(){
+    private void bindViews() {
         View contentRoot = findViewById(R.id.contentRoot);
-        edMessage = (EmojiconEditText)findViewById(R.id.editTextMessage);
+        edMessage = (EmojiconEditText) findViewById(R.id.editTextMessage);
         ImageView btSendMessage = (ImageView) findViewById(R.id.buttonMessage);
         btSendMessage.setOnClickListener(this);
         ImageView btEmoji = (ImageView) findViewById(R.id.buttonEmoji);
         EmojIconActions emojIcon = new EmojIconActions(this, contentRoot, edMessage, btEmoji);
         emojIcon.ShowEmojIcon();
-        rvListMessage = (RecyclerView)findViewById(R.id.messageRecyclerView);
+        rvListMessage = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
 
@@ -428,9 +434,9 @@ public class ChatActivity extends CActivity implements GoogleApiClient.OnConnect
     /**
      * Sign Out no login
      */
-    private void setValues(){
+    private void setValues() {
 
-        Log.i("TAG", "imagem recebida "+urlPhotoUser);
+        Log.i("TAG", "imagem recebida " + urlPhotoUser);
         tvUser.setText(nameUser); // Name
         Glide.with(this).load(urlPhotoUser).centerCrop().transform(new CircleTransform(this)).override(40, 40).into(ivUser);
 

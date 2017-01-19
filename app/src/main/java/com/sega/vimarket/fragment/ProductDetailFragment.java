@@ -333,7 +333,7 @@ public class ProductDetailFragment extends Fragment implements OnMenuItemClickLi
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, product.productname);
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n" +
                                        getResources().getString(R.string.add_product_name) +": "+ product.productname +
                                                "\n" + getResources().getString(R.string.sellername) +": "+ product.username +
                                                "\n" + getResources().getString(R.string.add_price) + ": " +formatprice.format(product.price)+formatString +

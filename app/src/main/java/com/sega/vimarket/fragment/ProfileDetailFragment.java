@@ -131,8 +131,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     TextView tvproductdate;
     @BindView(R.id.price)
     TextView tvprice;
-//    @BindView(R.id.username)
-//    TextView tvusername;
+    //    @BindView(R.id.username)
+    //    TextView tvusername;
 /*
     View progressCircle;
     View errorMessage;*/
@@ -149,7 +149,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     @BindView(R.id.txtratecount)
     TextView txtratecount;
     //    @BindView(R.id.thumb_button)
-//    LikeButton thumbButton;
+    //    LikeButton thumbButton;
     int height, width;
     @BindView(R.id.toolbar2)
     CollapsingToolbarLayout toolbar2;
@@ -168,6 +168,9 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
     String newname, newphone, newaddress;
     EditText edt3;
     String add;
+
+    TextView txtcountfavorites;
+    String countfavorites = "0";
     @BindView(R.id.myaddress)
     TextView myaddress;
     private ProductAdapter adapter;
@@ -197,7 +200,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         posterImage = (CircleImageView) v.findViewById(R.id.poster_image);
         editbutton = (ImageButton) v.findViewById(R.id.editbutton);
         unbinder = ButterKnife.bind(this, v);
-
+        txtcountfavorites = (TextView) v.findViewById(R.id.txtcountfavorites);
         toolbar.setOnMenuItemClickListener(this);
         if (!isTablet) {
             toolbar.setNavigationIcon(ContextCompat.getDrawable(getActivity(), R.drawable.action_home));
@@ -211,7 +214,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         }
         if (session.getColor() == -1) {
             toolbar2.setContentScrimColor(getResources().getColor(R.color.primary));
-        } else {
+        }
+        else {
             toolbar2.setContentScrimColor((session.getColor()));
         }
 
@@ -219,7 +223,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         // Download product details if new instance, else restore from saved instance
 
         // Setup FAB
-//        thumbButton.setOnLikeListener(this);
+        //        thumbButton.setOnLikeListener(this);
 
         currency = new HashMap<>();
 
@@ -301,11 +305,13 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
              /*   progressCircle.setVisibility(View.GONE);*/
                 toolbarTextHolder.setVisibility(View.GONE);
                 toolbar.setTitle("");
-            } else {
+            }
+            else {
                 //                downloadproductDetails(id);
                 downloadRate();
             }
-        } else {
+        }
+        else {
             id = savedInstanceState.getString(ViMarket.product_ID);
             product = savedInstanceState.getParcelable(ViMarket.product_OBJECT);
             seller = savedInstanceState.getParcelable(ViMarket.seller_DETAIL);
@@ -321,7 +327,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
           /*  downloadproductsList();*/
             downloadRate();
 
-        } else {
+        }
+        else {
            /* adapter.productList = savedInstanceState.getParcelableArrayList(ViMarket.product_LIST);*/
           /*  pageToDownload = savedInstanceState.getInt(ViMarket.PAGE_TO_DOWNLOAD);
             isLoadingLocked = savedInstanceState.getBoolean(ViMarket.IS_LOCKED);
@@ -392,6 +399,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                                 Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                                 session.setNameUser(newname);
                                 session.setAddressUser(newaddress);
+                                productTitle.setText(newname);
+                                myaddress.setText(newaddress);
 
                             }
                         }, new Response.ErrorListener() {
@@ -494,7 +503,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
     private void downloadRate() {
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_RATEDETAILPROFILE, new Response.Listener<String>() {
+                                                 AppConfig.URL_RATEDETAILPROFILE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -530,10 +539,10 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
                         }
 
                     }
-
+                    Log.e("favorites", response);
                     rate1 = jObj.getString("rate1");
                     point1 = jObj.getString("count");
-
+                    countfavorites = jObj.getString("countfavorites");
                     Log.e("RATEOK", "rate: " + rate1 + " " + "point: " + point1);
                     onDownloadRateSuccessful();
                     onDownloadSuccessful();
@@ -599,10 +608,12 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
 
         leftAxis.setDrawLabels(true);
         DecimalFormat numberFormat = new DecimalFormat("#.0");
-        txtrate.setText(numberFormat.format(Float.parseFloat(rate1)));
+        txtrate.setText(Float.parseFloat(rate1) + "");
 
         ratingDetail.setRating(Float.parseFloat(rate1));
         txtratecount.setText(point1);
+        txtcountfavorites.setText(countfavorites + " " + getResources().getString(R.string.favorites));
+
     }
 
     private ArrayList<String> getXAxisValues() {
@@ -725,7 +736,8 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         Glide.with(getContext()).load(session.getLoginPic().replaceAll("\\\\", "")).placeholder(R.drawable.empty_photo).dontAnimate().override(100, 100).into(posterImage);
 
         productTitle.setText(session.getLoginName());
-//        tvusername.setText(session.getLoginName());
+        //        tvusername.setText(session.getLoginName());
+        Log.e("SDT", session.getLoginName() + " " + session.getLoginPhone());
         tvprice.setText(session.getLoginPhone());
 
         tvproductdate.setText(session.getLoginEmail());
@@ -958,14 +970,14 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
             for (int i = 0, l = images.size(); i < l; i++) {
                 if (i == 0) {
                     selectedPhoto = images.get(0).getPath();
-//                    Log.e("link",selectedPhoto);
+                    //                    Log.e("link",selectedPhoto);
                     bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
-//                    posterImage.setImageBitmap(bitmap);
+                    //                    posterImage.setImageBitmap(bitmap);
                     Glide.with(getActivity())
                             .load(new File(selectedPhoto)) // Uri of the picture
 
                             .into(posterImage);
-//                    posterImage.setImage
+                    //                    posterImage.setImage
                 }
             }
 

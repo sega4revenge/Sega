@@ -77,12 +77,12 @@ import static android.R.drawable.ic_menu_camera;
  */
 
 
-public class AddProductActivity extends CActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class AddProductActivity extends CActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int PLACE_PICKER_REQUEST = 3;
-    private static final String TAG = "MAIN_ACTIVITY";
+
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -93,26 +93,26 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
     //////////////////////////////////////////////////
-//    AddressResultReceiver mResultReceiver;
+    //    AddressResultReceiver mResultReceiver;
     final int GALLERY_REQUEST4 = 23314;
     ImageView ivImage, ivImage2, ivImage3, ivImage4;
     LinearLayout ivGallery;
     GalleryPhoto galleryPhoto;
     String selectedPhoto, selectedPhoto2, selectedPhoto3, selectedPhoto4;
-    EditText ten,gia,addressEdit,des,edtcategory,edtarea;
-    AlertDialog.Builder Categorybuilder,Areabuilder;
-    AlertDialog CategoryDialog,AreaDialog ;
+    EditText ten, gia, addressEdit, des, edtcategory, edtarea;
+    AlertDialog.Builder Categorybuilder, Areabuilder;
+    AlertDialog CategoryDialog, AreaDialog;
     RequestQueue requestQueue;
     String productname;
     String price;
-    String userid ;
+    String userid;
     String categoryid;
-    String productaddress ;
+    String productaddress;
     String areaproduct;
-    String productstatus ;
+    String productstatus;
     String description;
     String[] productimage;
-    String lat,lot,add;
+    String lat, lot, add;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     SliderLayout slide;
@@ -159,20 +159,20 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         setContentView(R.layout.addproduct);
         ButterKnife.bind(this);
         session = new SessionManager(this);
-        ivImage = (ImageView)findViewById(R.id.ivImage);
-        ivImage2 = (ImageView)findViewById(R.id.ivImage2);
-        ivImage3 = (ImageView)findViewById(R.id.ivImage3);
-        ivImage4 = (ImageView)findViewById(R.id.ivImage4);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
+        ivImage2 = (ImageView) findViewById(R.id.ivImage2);
+        ivImage3 = (ImageView) findViewById(R.id.ivImage3);
+        ivImage4 = (ImageView) findViewById(R.id.ivImage4);
 
-        ivGallery = (LinearLayout)findViewById(R.id.ivGallery);
+        ivGallery = (LinearLayout) findViewById(R.id.ivGallery);
         //        ivGallery2 = (ImageView)findViewById(R.id.ivGallery2);
         //        ivGallery3 = (ImageView)findViewById(R.id.ivGallery3);
         //        ivGallery4 = (ImageView)findViewById(R.id.ivGallery4);
         ten = (EditText) findViewById(R.id.productname);
         gia = (EditText) findViewById(R.id.price);
         //        user = (EditText) findViewById(R.id.userid);
-        edtcategory = (EditText) findViewById(  R.id.categoryid);
-        slide = (SliderLayout)findViewById(R.id.slider);
+        edtcategory = (EditText) findViewById(R.id.categoryid);
+        slide = (SliderLayout) findViewById(R.id.slider);
 
 
         addressEdit = (EditText) findViewById(R.id.addressEdit);
@@ -188,7 +188,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
         verifyStoragePermissions(this);
-        Button button = (Button)findViewById(R.id.button12345);
+        Button button = (Button) findViewById(R.id.button12345);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,12 +211,8 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 .start(REQUEST_CODE_PICKER); // start image picker activity with request code
     }
 
-    public void init(){
+    public void init() {
         galleryPhoto = new GalleryPhoto(this);
-
-
-
-
 
 
         ivGallery.setOnClickListener(new View.OnClickListener() {
@@ -226,8 +222,6 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             }
         });
         ////////////////////////////////////////////////////////////////////////////
-
-
 
 
         final CharSequence[] itemscategory = getResources().getStringArray(R.array.danhmuc);
@@ -285,7 +279,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                     }
                 });
         AreaDialog = Areabuilder.create();
-        edtcategory.setOnTouchListener(new View.OnTouchListener(){
+        edtcategory.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int inType = edtcategory.getInputType(); // backup the input type
@@ -303,20 +297,20 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 locationPlacesIntent();
             }
         });
-//        addressEdit.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                int inType = addressEdit.getInputType(); // backup the input type
-//                addressEdit.setInputType(InputType.TYPE_NULL); // disable soft input
-//                addressEdit.onTouchEvent(motionEvent); // call native handler
-//                addressEdit.setInputType(inType); // restore input type
-//                locationPlacesIntent();
-//
-//                return true;
-//            }
-//        });
+        //        addressEdit.setOnTouchListener(new View.OnTouchListener() {
+        //            @Override
+        //            public boolean onTouch(View view, MotionEvent motionEvent) {
+        //                int inType = addressEdit.getInputType(); // backup the input type
+        //                addressEdit.setInputType(InputType.TYPE_NULL); // disable soft input
+        //                addressEdit.onTouchEvent(motionEvent); // call native handler
+        //                addressEdit.setInputType(inType); // restore input type
+        //                locationPlacesIntent();
+        //
+        //                return true;
+        //            }
+        //        });
         edtarea = (EditText) findViewById(R.id.productarea);
-        edtarea.setOnTouchListener(new View.OnTouchListener(){
+        edtarea.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int inType = edtarea.getInputType(); // backup the input type
@@ -329,18 +323,18 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             }
         });
 
-        TextView currency = (TextView)findViewById(R.id.currency);
+        TextView currency = (TextView) findViewById(R.id.currency);
         currency.setText("VND");
 
         des = (EditText) findViewById(R.id.description);
 
 
-//        mResultReceiver = new AddressResultReceiver(null);
+        //        mResultReceiver = new AddressResultReceiver(null);
 
-//        fetchAddress = false;
-//        fetchType = Constants.USE_ADDRESS_NAME;
-//        addressEdit.setFocusable(true);
-//        addressEdit.setFocusableInTouchMode(true);
+        //        fetchAddress = false;
+        //        fetchType = Constants.USE_ADDRESS_NAME;
+        //        addressEdit.setFocusable(true);
+        //        addressEdit.setFocusableInTouchMode(true);
 
 
     }
@@ -475,22 +469,23 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         //        else {
         //        }
         ///////////////////////////////////////IMAGE/////////////////////////////////
-        if      (selectedPhoto == null || selectedPhoto.equals("")
+        if (selectedPhoto == null || selectedPhoto.equals("")
                 || selectedPhoto2 == null || selectedPhoto2.equals("")
                 || selectedPhoto3 == null || selectedPhoto3.equals("")
-                || selectedPhoto4 == null || selectedPhoto4.equals("")){
-            Toast.makeText(getApplicationContext(),R.string.toast_hinh, Toast.LENGTH_SHORT).show();
-            return;}
-        else if (productname.equals("") || price.equals("") || productaddress.equals("") || description.equals("")){
-            Toast.makeText(getApplicationContext(),R.string.toast_thongtin, Toast.LENGTH_SHORT).show();
+                || selectedPhoto4 == null || selectedPhoto4.equals("")) {
+            Toast.makeText(getApplicationContext(), R.string.toast_hinh, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (productname.equals("") || price.equals("") || productaddress.equals("") || description.equals("")) {
+            Toast.makeText(getApplicationContext(), R.string.toast_thongtin, Toast.LENGTH_SHORT).show();
             return;
         }
 
 
         Bitmap bitmap = getReducedBitmap(selectedPhoto, 1024, 600000);
-        Bitmap bitmap2 = getReducedBitmap(selectedPhoto2,1024,600000);
-        Bitmap bitmap3 = getReducedBitmap(selectedPhoto3,1024,600000);
-        Bitmap bitmap4 = getReducedBitmap(selectedPhoto4,1024,600000);
+        Bitmap bitmap2 = getReducedBitmap(selectedPhoto2, 1024, 600000);
+        Bitmap bitmap3 = getReducedBitmap(selectedPhoto3, 1024, 600000);
+        Bitmap bitmap4 = getReducedBitmap(selectedPhoto4, 1024, 600000);
 
         assert bitmap != null;
         String encodedImage = ImageBase64.encode(bitmap);
@@ -524,24 +519,24 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 //                    Log.d(TAG,productimage[1] + " va " + productimage[3]);
                 productname = ten.getText().toString();
                 price = gia.getText().toString();
-                userid = session.getLoginId()+"";
+                userid = session.getLoginId() + "";
                 // cateid = category.getSelectedItem().toString();
 
 
                 productaddress = addressEdit.getText().toString();
                 productstatus = "1";
                 description = des.getText().toString();
-                final String latlot = productaddress + " " + areaproduct;
+
                 requestQueue = Volley.newRequestQueue(getApplicationContext());
-//                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
-//                intent.putExtra(Constants.RECEIVER, mResultReceiver);
-//                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
-//                if (fetchType == Constants.USE_ADDRESS_NAME) {
-//                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
-//                }
-//
-//                Log.e(TAG, "Starting Service");
-//                startService(intent);
+                //                Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
+                //                intent.putExtra(Constants.RECEIVER, mResultReceiver);
+                //                intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
+                //                if (fetchType == Constants.USE_ADDRESS_NAME) {
+                //                    intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, latlot);
+                //                }
+                //
+                //                Log.e(TAG, "Starting Service");
+                //                startService(intent);
                 //                    Log.e(TAG, productname + " " + price + " " + userid + " " + categoryid + " " + productaddress + " " + areaproduct + " " +
                 //                            producttype + " " + productstatus + " " + productimage[0] + " "+ productimage[1] +" "+ description + " " + latitude + " " + longitude);
                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
@@ -571,9 +566,9 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.toast_error, Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> param = new HashMap<>();
@@ -584,13 +579,13 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                         param.put("categoryid", categoryid);
                         param.put("productaddress", productaddress);
                         param.put("areaproduct", areaproduct);
-                        param.put("productstatus",productstatus);
-                        param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
-                        param.put("description",description);
-                        param.put("lot",lat+"");
-                        param.put("lat",lot+"");
+                        param.put("productstatus", productstatus);
+                        param.put("productimage", productimage[1] + "," + productimage[3] + "," + productimage[5] + "," + productimage[7]);
+                        param.put("description", description);
+                        param.put("lot", lat + "");
+                        param.put("lat", lot + "");
 
-                        return  param;
+                        return param;
 
                     }
 
@@ -605,26 +600,26 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         task.setEachExceptionsHandler(new EachExceptionsHandler() {
             @Override
             public void handleIOException(IOException e) {
-                Toast.makeText(getApplicationContext(),R.string.connect,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.connect,
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleMalformedURLException(MalformedURLException e) {
                 Toast.makeText(getApplicationContext(), "URL Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleProtocolException(ProtocolException e) {
                 Toast.makeText(getApplicationContext(), "Protocol Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
                 Toast.makeText(getApplicationContext(), "Encoding Error.",
-                        Toast.LENGTH_SHORT).show();
+                               Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -632,26 +627,24 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
         /////////////////////////////////////////////////////////////////////////////////
 
 
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST){
+        if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                if (place!=null){
+                if (place != null) {
                     LatLng latLng = place.getLatLng();
                     lot = String.valueOf(latLng.latitude);
                     lat = String.valueOf(latLng.longitude);
                     add = (String) place.getAddress();
                     addressEdit.setText(add);
-//                    MapModel mapModel = new MapModel(latLng.latitude+"", latLng.longitude+"");
-                    Log.e("LatLng",lat + " " + lot +" "+add);
+                    //                    MapModel mapModel = new MapModel(latLng.latitude+"", latLng.longitude+"");
+                    Log.e("LatLng", lat + " " + lot + " " + add);
 
-//                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime()+"", mapModel);
-//                    mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
+                    //                    ChatModel chatModel = new ChatModel(userModel, Calendar.getInstance().getTime().getTime()+"", mapModel);
+                    //                    mFirebaseDatabaseReference.child(room).push().setValue(chatModel);
                 }
             }
         }
@@ -659,30 +652,30 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
             images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
 
             for (int i = 0, l = images.size(); i < l; i++) {
-                if(i==0)
-                {
+                if (i == 0) {
                     selectedPhoto = images.get(0).getPath();
-                    Bitmap bitmap = getReducedBitmap(selectedPhoto,256,200000);
+                    Bitmap bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
                     ivImage.setImageBitmap(bitmap);
                     ivImage2.setImageResource(ic_menu_camera);
                     ivImage3.setImageResource(ic_menu_camera);
                     ivImage4.setImageResource(ic_menu_camera);
                 }
-                else if(i==1){
+                else if (i == 1) {
                     selectedPhoto2 = images.get(1).getPath();
-                    Bitmap bitmap = getReducedBitmap(selectedPhoto2,256,200000);
+                    Bitmap bitmap = getReducedBitmap(selectedPhoto2, 256, 200000);
                     ivImage2.setImageBitmap(bitmap);
                     ivImage3.setImageResource(ic_menu_camera);
                     ivImage4.setImageResource(ic_menu_camera);
-                }   else if(i==2){
+                }
+                else if (i == 2) {
                     selectedPhoto3 = images.get(2).getPath();
-                    Bitmap bitmap = getReducedBitmap(selectedPhoto3,256,200000);
+                    Bitmap bitmap = getReducedBitmap(selectedPhoto3, 256, 200000);
                     ivImage3.setImageBitmap(bitmap);
                     ivImage4.setImageResource(ic_menu_camera);
                 }
-                else if(i==3){
+                else if (i == 3) {
                     selectedPhoto4 = images.get(3).getPath();
-                    Bitmap bitmap = getReducedBitmap(selectedPhoto4,256,200000);
+                    Bitmap bitmap = getReducedBitmap(selectedPhoto4, 256, 200000);
                     ivImage4.setImageBitmap(bitmap);
                 }
 
@@ -690,47 +683,44 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
 
 
         }
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQUEST){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST) {
                 Uri uri = data != null ? data.getData() : null;
 
                 galleryPhoto.setPhotoUri(uri);
                 String photoPath = galleryPhoto.getPath();
                 selectedPhoto = photoPath;
-                Bitmap bitmap = getReducedBitmap(photoPath,256,200000);
+                Bitmap bitmap = getReducedBitmap(photoPath, 256, 200000);
                 ivImage.setImageBitmap(bitmap);
             }
-            else if(requestCode == GALLERY_REQUEST2)
-            {
+            else if (requestCode == GALLERY_REQUEST2) {
                 assert data != null;
                 Uri uri = data.getData();
 
                 galleryPhoto.setPhotoUri(uri);
                 String photoPath2 = galleryPhoto.getPath();
                 selectedPhoto2 = photoPath2;
-                Bitmap bitmap2 =getReducedBitmap(photoPath2,256,200000);
+                Bitmap bitmap2 = getReducedBitmap(photoPath2, 256, 200000);
                 ivImage2.setImageBitmap(bitmap2);
             }
-            else if(requestCode == GALLERY_REQUEST3)
-            {
+            else if (requestCode == GALLERY_REQUEST3) {
                 assert data != null;
                 Uri uri = data.getData();
 
                 galleryPhoto.setPhotoUri(uri);
                 String photoPath3 = galleryPhoto.getPath();
                 selectedPhoto3 = photoPath3;
-                Bitmap bitmap3 = getReducedBitmap(photoPath3,256,200000);
+                Bitmap bitmap3 = getReducedBitmap(photoPath3, 256, 200000);
                 ivImage3.setImageBitmap(bitmap3);
             }
-            else if(requestCode == GALLERY_REQUEST4)
-            {
+            else if (requestCode == GALLERY_REQUEST4) {
                 assert data != null;
                 Uri uri = data.getData();
 
                 galleryPhoto.setPhotoUri(uri);
                 String photoPath4 = galleryPhoto.getPath();
-                selectedPhoto4= photoPath4;
-                Bitmap bitmap4 = getReducedBitmap(photoPath4,256,200000);
+                selectedPhoto4 = photoPath4;
+                Bitmap bitmap4 = getReducedBitmap(photoPath4, 256, 200000);
                 ivImage4.setImageBitmap(bitmap4);
             }
         }
@@ -783,7 +773,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     }
 
     ///////////////////////////////////////////
-    private void locationPlacesIntent(){
+    private void locationPlacesIntent() {
 
         try {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -794,83 +784,83 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
     }
 
     //    @SuppressLint("ParcelCreator")
-//    class AddressResultReceiver extends ResultReceiver {
-//        AddressResultReceiver(Handler handler) {
-//            super(handler);
-//        }
-//
-//        @Override
-//        protected void onReceiveResult(int resultCode, final Bundle resultData) {
-//            if (resultCode == Constants.SUCCESS_RESULT) {
-//                final Address address = resultData.getParcelable(Constants.RESULT_ADDRESS);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        assert address != null;
-//                        latitude = address.getLatitude();
-//                        longitude = address.getLongitude();
-//                        //Toast.makeText(getApplicationContext(), latitude + " " + longitude ,Toast.LENGTH_SHORT).show();
-//
-////                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
-////                            @Override
-////                            public void onResponse(String response) {
-////                                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-////                                finish();
-////                            }
-////                        }, new Response.ErrorListener() {
-////                            @Override
-////                            public void onErrorResponse(VolleyError error) {
-////                                Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
-////                            }
-////                        }){
-////                            @Override
-////                            protected Map<String, String> getParams() throws AuthFailureError {
-////                                Map<String, String> param = new HashMap<>();
-////
-////                                param.put("productname", productname);
-////                                param.put("price", price);
-////                                param.put("userid", userid);
-////                                param.put("categoryid", categoryid);
-////                                param.put("productaddress", productaddress);
-////                                param.put("areaproduct", areaproduct);
-////                                param.put("productstatus",productstatus);
-////                                param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
-////                                param.put("description",description);
-////                                param.put("lot",lat+"");
-////                                param.put("lat",lot+"");
-////
-////                                return  param;
-////
-////                            }
-////
-////                        };
-////
-////                        requestQueue.add(request);
-//
-//                    }
-//                });
-//            }
-//            else {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
-//                        intent.putExtra(Constants.RECEIVER, mResultReceiver);
-//                        intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
-//                        if (fetchType == Constants.USE_ADDRESS_NAME) {
-//                            intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, areaproduct);
-//                        }
-//
-//                        Log.e(TAG, "Starting Service");
-//                        startService(intent);
-//                        //                        Toast.makeText(getApplicationContext(),resultData.getString(Constants.RESULT_DATA_KEY), Toast.LENGTH_SHORT).show();
-//                        //                        infoText.setText(resultData.getString(Constants.RESULT_DATA_KEY));
-//
-//                    }
-//                });
-//            }
-//        }
-//    }
+    //    class AddressResultReceiver extends ResultReceiver {
+    //        AddressResultReceiver(Handler handler) {
+    //            super(handler);
+    //        }
+    //
+    //        @Override
+    //        protected void onReceiveResult(int resultCode, final Bundle resultData) {
+    //            if (resultCode == Constants.SUCCESS_RESULT) {
+    //                final Address address = resultData.getParcelable(Constants.RESULT_ADDRESS);
+    //                runOnUiThread(new Runnable() {
+    //                    @Override
+    //                    public void run() {
+    //                        assert address != null;
+    //                        latitude = address.getLatitude();
+    //                        longitude = address.getLongitude();
+    //                        //Toast.makeText(getApplicationContext(), latitude + " " + longitude ,Toast.LENGTH_SHORT).show();
+    //
+    ////                        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.URL_ADDPRODUCT, new Response.Listener<String>() {
+    ////                            @Override
+    ////                            public void onResponse(String response) {
+    ////                                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+    ////                                finish();
+    ////                            }
+    ////                        }, new Response.ErrorListener() {
+    ////                            @Override
+    ////                            public void onErrorResponse(VolleyError error) {
+    ////                                Toast.makeText(getApplicationContext(),"Đã xảy ra lỗi, vui lòng thử lại sau!",Toast.LENGTH_LONG).show();
+    ////                            }
+    ////                        }){
+    ////                            @Override
+    ////                            protected Map<String, String> getParams() throws AuthFailureError {
+    ////                                Map<String, String> param = new HashMap<>();
+    ////
+    ////                                param.put("productname", productname);
+    ////                                param.put("price", price);
+    ////                                param.put("userid", userid);
+    ////                                param.put("categoryid", categoryid);
+    ////                                param.put("productaddress", productaddress);
+    ////                                param.put("areaproduct", areaproduct);
+    ////                                param.put("productstatus",productstatus);
+    ////                                param.put("productimage",productimage[1]+","+productimage[3]+","+productimage[5]+","+productimage[7]);
+    ////                                param.put("description",description);
+    ////                                param.put("lot",lat+"");
+    ////                                param.put("lat",lot+"");
+    ////
+    ////                                return  param;
+    ////
+    ////                            }
+    ////
+    ////                        };
+    ////
+    ////                        requestQueue.add(request);
+    //
+    //                    }
+    //                });
+    //            }
+    //            else {
+    //                runOnUiThread(new Runnable() {
+    //                    @Override
+    //                    public void run() {
+    //                        Intent intent = new Intent(getApplicationContext(), GeocodeAddressIntentService.class);
+    //                        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+    //                        intent.putExtra(Constants.FETCH_TYPE_EXTRA, fetchType);
+    //                        if (fetchType == Constants.USE_ADDRESS_NAME) {
+    //                            intent.putExtra(Constants.LOCATION_NAME_DATA_EXTRA, areaproduct);
+    //                        }
+    //
+    //                        Log.e(TAG, "Starting Service");
+    //                        startService(intent);
+    //                        //                        Toast.makeText(getApplicationContext(),resultData.getString(Constants.RESULT_DATA_KEY), Toast.LENGTH_SHORT).show();
+    //                        //                        infoText.setText(resultData.getString(Constants.RESULT_DATA_KEY));
+    //
+    //                    }
+    //                });
+    //            }
+    //        }
+    //    }
     public void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -883,8 +873,7 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-        else
-        {
+        else {
             init();
         }
     }

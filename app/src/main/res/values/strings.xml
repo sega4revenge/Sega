@@ -292,7 +292,7 @@
     <string name="verifytextforgot">\"A verification code has been send to your phone number \"</string>
     <string name="forgottext">"Please input your phone number "</string>
     <string name="addcomment">Write your comments here</string>
-    <string name="ratetext">Rate this seller:</string>
+    <string name="ratetext">Rate this seller</string>
     <string name="ratetextcomplete">You have already rated this seller</string>
     <string name="myaccount">Profile</string>
     <string name="linkshare">Click here to more detail :</string>
@@ -310,7 +310,7 @@
     <string name="pass2">Password must have 6 characters</string>
     <string name="code">Code cannot be empty</string>
     <string name="field">Fields are empty !</string>
-    <string name="productsell">Selling</string>
+    <string name="productsell">On sale</string>
     <string name="productsold">Sold</string>
     <string name="favorites">Like</string>
     <string name="addrate">Please rate and leave a feedback!</string>

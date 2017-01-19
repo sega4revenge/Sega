@@ -24,23 +24,24 @@ import com.sega.vimarket.widget.TouchImageView;
 
 import java.util.ArrayList;
 
-/**a
+/**
+ * a
  * Created by Sega on 09/08/2016.
  */
 public class Fullscreen extends Activity implements View.OnTouchListener {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
     // We can be in one of these 3 states
     public static final int NONE = 0;
     public static final int DRAG = 1;
     public static final int ZOOM = 2;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final String TAG = "Touch";
     public static PointF mid = new PointF();
     public static int mode = NONE;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
     // These matrices will be used to move and zoom image
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
@@ -58,9 +59,11 @@ public class Fullscreen extends Activity implements View.OnTouchListener {
 
 
     }
-    public void backscreen(View view){
+
+    public void backscreen(View view) {
         finish();
     }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -123,6 +126,48 @@ public class Fullscreen extends Activity implements View.OnTouchListener {
         point.set(x / 2, y / 2);
     }
 
+    public void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+        else {
+            init();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS:
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    init();
+                }
+        }
+    }
+
+    public void init() {
+        ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
+        Bundle extras = getIntent().getExtras();
+        pos = extras.getInt("pos");
+        System.out.println(pos + "ok");
+        listimage = extras.getStringArrayList("data");
+        assert listimage != null;
+        System.out.println(listimage.get(pos));
+        mViewPager.setAdapter(new TouchImageAdapter());
+        mViewPager.setCurrentItem(pos);
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+    }
+
     class TouchImageAdapter extends PagerAdapter {
         @Override
         public int getCount() {
@@ -151,49 +196,6 @@ public class Fullscreen extends Activity implements View.OnTouchListener {
 
             return view == object;
         }
-    }
-
-
-
-    public void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-        else
-        {
-          init();
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_ID_MULTIPLE_PERMISSIONS:
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                init();
-                }
-        }
-    }
-    public void init(){
-        ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
-        Bundle extras = getIntent().getExtras();
-        pos = extras.getInt("pos");
-        System.out.println(pos + "ok");
-        listimage = extras.getStringArrayList("data");
-        assert listimage != null;
-        System.out.println(listimage.get(pos));
-        mViewPager.setAdapter(new TouchImageAdapter());
-        mViewPager.setCurrentItem(pos);
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK,returnIntent);
     }
 
 }

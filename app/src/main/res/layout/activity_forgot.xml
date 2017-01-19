@@ -48,7 +48,7 @@
                     android:ems="10"
 
                     android:hint="@string/edtphone"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:padding="10dp"
                     android:paddingLeft="0dp"
                     android:textColor="#FFF"

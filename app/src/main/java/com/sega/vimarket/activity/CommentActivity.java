@@ -13,7 +13,8 @@ import com.sega.vimarket.fragment.CommentFragment;
 import butterknife.BindBool;
 import butterknife.ButterKnife;
 
-/**a
+/**
+ * a
  * Created by Sega on 8/4/2016.
  */
 public class CommentActivity extends CActivity {
@@ -29,10 +30,10 @@ public class CommentActivity extends CActivity {
             CommentFragment fragment = new CommentFragment();
             Bundle args = new Bundle();
             Bundle extras = getIntent().getExtras();
-            if(extras != null) {
+            if (extras != null) {
                 extras.getFloat("totalamount"); // use the type of data in place of String
             }
-            args.putInt(ViMarket.COMMENT_TYPE, extras.getInt(ViMarket.COMMENT_TYPE,0));
+            args.putInt(ViMarket.COMMENT_TYPE, extras.getInt(ViMarket.COMMENT_TYPE, 0));
             args.putInt(ViMarket.user_ID, getIntent().getIntExtra(ViMarket.user_ID, 0));
             args.putString(ViMarket.user_name, getIntent().getStringExtra(ViMarket.user_name));
             args.putParcelableArrayList(ViMarket.COMMENT_LIST, getIntent().getParcelableArrayListExtra(ViMarket.COMMENT_LIST));
@@ -44,6 +45,6 @@ public class CommentActivity extends CActivity {
         }
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, returnIntent);
-        
+
     }
 }

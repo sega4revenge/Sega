@@ -57,6 +57,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
     String sellername, sellerpic, message, timestamp;
     SessionManager session;
     boolean load = false;
+    int listsize = 0;
     ArrayList<String> pic = new ArrayList<>();
     ArrayList<String> name = new ArrayList<>();
     ArrayList<String> id = new ArrayList<>();
@@ -157,7 +158,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         //add product to sqlite
                     }
 
-
+                    root.removeEventListener(listener2);
                     // Load detail fragment if in tablet mode
 
                    /* getRoomDetail();*/
@@ -287,7 +288,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         Messenger tempmes = messenger(temp[1]);
                         if (!arrayAdapter.MessengerList.contains(tempmes)) {
                             arrayAdapter.MessengerList.add(tempmes);
-
+                            listsize++;
                             id.add(temp[1]);
                         }
 
@@ -297,13 +298,18 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         Messenger tempmes = messenger(temp[0]);
                         if (!arrayAdapter.MessengerList.contains(tempmes)) {
                             arrayAdapter.MessengerList.add(tempmes);
-
+                            listsize++;
                             id.add(temp[0]);
                         }
 
 
                     }
+                    if (listsize == roomlist.size()) {
+                        for (int z = 0; z < roomlist.size(); z++) {
+                            root.child(roomlist.get(z).room).limitToLast(1).removeEventListener(listener2);
+                        }
 
+                    }
                       /*  temp2 = new Messenger(a.getUserModel().getName(), a.getTimeStamp(), a.getMessage(), a.getUserModel().getPhoto_profile());
                         arrayAdapter.MessengerList.add(temp2);*/
 
@@ -327,6 +333,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
         if (temp[0].equals(session.getLoginId() + "") || (temp[1].equals(session.getLoginId() + ""))) {
             root.child(key).limitToLast(1).addValueEventListener(listener2);
         }
+
 
     }
 

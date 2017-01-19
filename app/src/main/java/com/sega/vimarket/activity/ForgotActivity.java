@@ -30,43 +30,41 @@ import java.util.Map;
 
 
 public class ForgotActivity extends AppCompatActivity {
-    TextView verifytext,forgottext;
-    EditText et_code,et_email,et_password,et_repassword;
-    Button confirm,cancel,forgot,cancelcode;
+    TextView verifytext, forgottext;
+    EditText et_code, et_email, et_password, et_repassword;
+    Button confirm, cancel, forgot, cancelcode;
     String email;
     ProgressBar progress;
     LinearLayout linear;
     TextInputLayout layoutemail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot);
-        et_code = (EditText)findViewById(R.id.code);
-        et_email = (EditText)findViewById(R.id.email);
-        progress = (ProgressBar)findViewById(R.id.progress);
-        et_password = (EditText)findViewById(R.id.pass);
-        forgottext = (TextView)findViewById(R.id.forgottext);
-        layoutemail = (TextInputLayout)findViewById(R.id.layoutemail);
-        et_repassword = (EditText)findViewById(R.id.repass);
-        confirm = (Button)findViewById(R.id.buttonconfirm);
-        cancel = (Button)findViewById(R.id.btcancel);
-        linear = (LinearLayout)findViewById(R.id.layoutverification);
-        forgot = (Button)findViewById(R.id.button);
-        cancelcode = (Button)findViewById(R.id.btcancelcode);
-        verifytext = (TextView)findViewById(R.id.verifytext);
+        et_code = (EditText) findViewById(R.id.code);
+        et_email = (EditText) findViewById(R.id.email);
+        progress = (ProgressBar) findViewById(R.id.progress);
+        et_password = (EditText) findViewById(R.id.pass);
+        forgottext = (TextView) findViewById(R.id.forgottext);
+        layoutemail = (TextInputLayout) findViewById(R.id.layoutemail);
+        et_repassword = (EditText) findViewById(R.id.repass);
+        confirm = (Button) findViewById(R.id.buttonconfirm);
+        cancel = (Button) findViewById(R.id.btcancel);
+        linear = (LinearLayout) findViewById(R.id.layoutverification);
+        forgot = (Button) findViewById(R.id.button);
+        cancelcode = (Button) findViewById(R.id.btcancelcode);
+        verifytext = (TextView) findViewById(R.id.verifytext);
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               email = et_email.getText().toString().trim();
+                email = et_email.getText().toString().trim();
 
                 // Check for empty data in the form
 
-                    progress.setVisibility(View.VISIBLE);
+                progress.setVisibility(View.VISIBLE);
 
-                    initiateResetPasswordProcess(email);
-
-
-
+                initiateResetPasswordProcess(email);
 
 
             }
@@ -87,12 +85,13 @@ public class ForgotActivity extends AppCompatActivity {
                 if (code.isEmpty()) {
                     et_code.setError(getResources().getString(R.string.code));
                 }
-                if (!code.isEmpty() && !password.isEmpty()&&password.length() >= 6 && password.equals(repassword)) {
+                if (!code.isEmpty() && !password.isEmpty() && password.length() >= 6 && password.equals(repassword)) {
 
                     finishResetPasswordProcess(email, code, password);
-                } else {
+                }
+                else {
 
-                    Snackbar.make(findViewById(R.id.base),R.string.field, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.base), R.string.field, Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -111,6 +110,7 @@ public class ForgotActivity extends AppCompatActivity {
 
 
     }
+
     private void initiateResetPasswordProcess(final String email) {
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -132,9 +132,10 @@ public class ForgotActivity extends AppCompatActivity {
                         forgot.setVisibility(View.GONE);
                         forgottext.setVisibility(View.GONE);
                         linear.setVisibility(View.VISIBLE);
-                        verifytext.setText(getResources().getText(R.string.verifytextforgot)+"" + email);
+                        verifytext.setText(getResources().getText(R.string.verifytextforgot) + "" + email);
 
-                    } else {
+                    }
+                    else {
 
                         Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
 
@@ -182,7 +183,8 @@ public class ForgotActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
                     if (result.equals(ViMarket.SUCCESS)) {
                         Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
-                    } else {
+                    }
+                    else {
 
                         Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
 

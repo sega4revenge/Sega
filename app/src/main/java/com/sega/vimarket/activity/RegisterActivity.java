@@ -297,6 +297,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String username = user.getString("username");
                         String email = user.getString("email");
                         String phonenumber = user.getString("phone");
+
                         String address = user.getString("address");
                         String area = user.getString("area");
                         String userpic = user.getString("userpic");

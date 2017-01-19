@@ -11,6 +11,7 @@ import com.sega.vimarket.color.CActivity;
 
 public class AboutActivity extends CActivity {
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
