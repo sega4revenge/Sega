@@ -324,4 +324,5 @@
     <string name="about_website">Visit our website</string>
     <string name="success">Successfully</string>
     <string name="failed">Failed</string>
+    <string name="changepass">Successfuly.</string>
 </resources>

@@ -157,7 +157,7 @@ public class MessengerActivity extends CActivity implements MessengerAdapter.OnM
                         searchroom(feedObj.getString("room"));
                         //add product to sqlite
                     }
-
+                    if (listener2 != null)
                     root.removeEventListener(listener2);
                     // Load detail fragment if in tablet mode
 

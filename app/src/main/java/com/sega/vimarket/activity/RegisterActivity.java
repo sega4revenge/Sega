@@ -129,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
+
                                             name = edtuser.getText().toString().trim();
                                              email = edtemail.getText().toString().trim();
                                              password = edtpassword.getText().toString().trim();
@@ -162,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     if (password.length() >= 6 && password.equals(repass)) {
                                                         if (phone.length() >= 10 && phone.length() <= 15) {
 
-
+                                                            Log.e("Click", "OK");
                                                             registerUser(name, email, password, phone, address, area);
 
                                                         }
@@ -183,7 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
                               final String area) {
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
-
+        register.setClickable(false);
 
         //Getting the unique id generated at firebase
         final String uniqueId = FirebaseInstanceId.getInstance().getToken();
@@ -194,6 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                  AppConfig.URL_REGISTER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
 
                 Log.d(TAG, "Register Response: " + response);
                 try {
@@ -244,6 +246,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.e(TAG, "Registration Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                                error.getMessage(), Toast.LENGTH_LONG).show();
+                register.setClickable(true);
             }
         }) {
             @Override

@@ -257,6 +257,8 @@ CollapsingToolbarLayout  toolbar2;
                                     public void onResponse(String response) {
                                         System.out.println(response);
                                         //                        Toast.makeText(getContext(),response.toString(), Toast.LENGTH_SHORT).show();
+                                        downloadproductDetails(id);
+                                        downloadRate();
 
                                     }
                                 }, new Response.ErrorListener() {
@@ -279,8 +281,6 @@ CollapsingToolbarLayout  toolbar2;
                                 };
                                 request.setTag(this.getClass().getName());
                                 VolleySingleton.getInstance(getActivity()).requestQueue.add(request);
-                                downloadproductDetails(id);
-                                downloadRate();
 
 
                             }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -178,6 +179,7 @@ public class ForgotActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
+                    System.out.println(response);
                     JSONObject json = new JSONObject(response);
                     String result = json.getString("result");
                     Snackbar.make(findViewById(R.id.base), json.getString("message"), Snackbar.LENGTH_LONG).show();
@@ -190,6 +192,7 @@ public class ForgotActivity extends AppCompatActivity {
 
                     }
                     progress.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ForgotActivity.this, R.string.changepass, Toast.LENGTH_SHORT).show();
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

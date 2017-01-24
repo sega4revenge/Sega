@@ -317,4 +317,5 @@
     <string name="fab_buy">Mua</string>
     <string name="success">Đăng bán thành công</string>
     <string name="failed">Thất bại!</string>
+    <string name="changepass">Thành công</string>
 </resources>

@@ -70,8 +70,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.drawable.ic_menu_camera;
-
 /**
  * Created by Sega on 09/01/2017.
  */
@@ -656,22 +654,22 @@ public class AddProductActivity extends CActivity implements BaseSliderView.OnSl
                     selectedPhoto = images.get(0).getPath();
                     Bitmap bitmap = getReducedBitmap(selectedPhoto, 256, 200000);
                     ivImage.setImageBitmap(bitmap);
-                    ivImage2.setImageResource(ic_menu_camera);
-                    ivImage3.setImageResource(ic_menu_camera);
-                    ivImage4.setImageResource(ic_menu_camera);
+                    ivImage2.setImageResource(R.drawable.add_images);
+                    ivImage3.setImageResource(R.drawable.add_images);
+                    ivImage4.setImageResource(R.drawable.add_images);
                 }
                 else if (i == 1) {
                     selectedPhoto2 = images.get(1).getPath();
                     Bitmap bitmap = getReducedBitmap(selectedPhoto2, 256, 200000);
                     ivImage2.setImageBitmap(bitmap);
-                    ivImage3.setImageResource(ic_menu_camera);
-                    ivImage4.setImageResource(ic_menu_camera);
+                    ivImage3.setImageResource(R.drawable.add_images);
+                    ivImage4.setImageResource(R.drawable.add_images);
                 }
                 else if (i == 2) {
                     selectedPhoto3 = images.get(2).getPath();
                     Bitmap bitmap = getReducedBitmap(selectedPhoto3, 256, 200000);
                     ivImage3.setImageBitmap(bitmap);
-                    ivImage4.setImageResource(ic_menu_camera);
+                    ivImage4.setImageResource(R.drawable.add_images);
                 }
                 else if (i == 3) {
                     selectedPhoto4 = images.get(3).getPath();

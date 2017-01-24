@@ -54,8 +54,8 @@ import com.sega.vimarket.Tricks.ViewPagerEx;
 import com.sega.vimarket.ViMarket;
 import com.sega.vimarket.activity.ImagePicker;
 import com.sega.vimarket.activity.ImagePickerActivity;
-import com.sega.vimarket.activity.ProfileProduct;
-import com.sega.vimarket.activity.ProfileProductSold;
+import com.sega.vimarket.activity.PersonalProduct;
+import com.sega.vimarket.activity.PersonalProductSold;
 import com.sega.vimarket.adapter.ProductAdapter;
 import com.sega.vimarket.config.AppConfig;
 import com.sega.vimarket.config.SessionManager;
@@ -764,7 +764,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         i.putExtra(ViMarket.seller_ID, seller.userid);
         i.putExtra(ViMarket.product_LIST, adapter.productList);
         startActivityForResult(i, 1);*/
-        Intent intent = new Intent(getActivity(), ProfileProduct.class);
+        Intent intent = new Intent(getActivity(), PersonalProduct.class);
 
         intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
         //        intent.putExtra(ViMarket.user_name, seller.username);
@@ -782,7 +782,7 @@ public class ProfileDetailFragment extends Fragment implements Toolbar.OnMenuIte
         i.putExtra(ViMarket.seller_ID, seller.userid);
         i.putExtra(ViMarket.product_LIST, adapter.productList);
         startActivityForResult(i, 1);*/
-        Intent intent = new Intent(getActivity(), ProfileProductSold.class);
+        Intent intent = new Intent(getActivity(), PersonalProductSold.class);
 
         intent.putExtra(ViMarket.COMMENT_TYPE, ViMarket.COMMENT_TYPE_CAST);
         //        intent.putExtra(ViMarket.user_name, seller.username);

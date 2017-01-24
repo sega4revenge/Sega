@@ -170,7 +170,15 @@
             android:theme="@style/AppDetail">
         </activity>
         <activity
+            android:name=".activity.PersonalProduct"
+            android:theme="@style/AppDetail">
+        </activity>
+        <activity
             android:name=".activity.ProfileProductSold"
+            android:theme="@style/AppDetail">
+        </activity>
+        <activity
+            android:name=".activity.PersonalProductSold"
             android:theme="@style/AppDetail">
         </activity>
         <activity android:name=".activity.IntroActivity">
