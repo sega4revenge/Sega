@@ -3,12 +3,13 @@ package com.sega.vimarket.color;
 import android.app.ActivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.sega.vimarket.model.Utils;
+
+import org.jetbrains.annotations.Nullable;
 
 public abstract class CActivity extends AppCompatActivity {
     private String themeString;
